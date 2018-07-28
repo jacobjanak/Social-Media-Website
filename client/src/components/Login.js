@@ -28,15 +28,12 @@ class Login extends Component {
         const { user } = res.data;
         this.props.history.replace(`/profile/${user._id}`)
       })
-      .catch(err => {
-        console.log(err);
-        alert(err.response.data.message)
-      })
+      .catch(err => alert(err.response.data.message))
     }
   }
 
   handleChange = event => {
-    const {name, value} = event.target;
+    const { name, value } = event.target;
     this.setState({ [name]: value })
   };
 
