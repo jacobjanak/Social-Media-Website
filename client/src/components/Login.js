@@ -1,11 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import AuthService from './AuthService';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
+    this.state = {
+      email: '',
+      password: ''
+    };
   }
 
   componentWillMount() {
@@ -16,54 +20,70 @@ class Login extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
+    const { email, password } = this.state;
 
-    this.Auth.login(this.state.email, this.state.password)
+    if (email && password) {
+      this.Auth.login(email, password)
       .then(res => {
-        // once user is logged in
-        // take them to their profile page
-        this.props.history.replace(`/profile/${res.data.user._id}`);
+        const { user } = res.data;
+        this.props.history.replace(`/profile/${user._id}`)
       })
       .catch(err => {
-        console.log(err.response);
+        console.log(err);
         alert(err.response.data.message)
-      });
-  };
+      })
+    }
+  }
 
   handleChange = event => {
     const {name, value} = event.target;
-    this.setState({
-        [name]: value
-    });
+    this.setState({ [name]: value })
   };
 
   render() {
     return (
       <div className="container">
-        <h1>Login</h1>
-        <form onSubmit={this.handleFormSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email address:</label>
-            <input className="form-control"
-                   placeholder="Email goes here..."
-                   name="email"
-                   type="email"
-                   id="email"
-                   onChange={this.handleChange}/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="pwd">Password:</label>
-            <input className="form-control"
-                   placeholder="Password goes here..."
-                   name="password"
-                   type="password"
-                   id="pwd"
-                   onChange={this.handleChange}/>
-          </div>
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
-        <p><Link to="/signup">Go to Signup</Link></p>
+        <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mt-4">
+          <form
+            data-parsley-validate=""
+            noValidate=""
+            onSubmit={this.handleFormSubmit}
+          >
+             <div className="panel panel-default">
+                <div className="panel-heading">
+                   <div className="panel-title">Login</div>
+                </div>
+                <div className="panel-body">
+                   <div className="form-group">
+                      <label className="control-label">Email Address *</label>
+                      <input
+                        type="text"
+                        name="email"
+                        className="form-control"
+                        required
+                        onChange={this.handleChange}
+                      />
+                   </div>
+                   <div className="form-group">
+                      <label className="control-label">Password *</label>
+                      <input
+                        type="password"
+                        name="password"
+                        className="form-control"
+                        required
+                        onChange={this.handleChange}
+                      />
+                   </div>
+                   <div className="required">* Required fields</div>
+                </div>
+                <div className="panel-footer">
+                   <button type="submit" className="btn btn-primary">Login</button>
+                   <Link to="/signup" className="ml-4">Don't have an account?</Link>
+                </div>
+             </div>
+          </form>
+        </div>
       </div>
-
     );
   }
 }
