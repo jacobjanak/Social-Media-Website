@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // db
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/appDB')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/innovations')
 
 // middleware
 app.use(bodyParser.json())
