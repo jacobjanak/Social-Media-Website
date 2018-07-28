@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
-import AuthService from './components/AuthService';
-import withAuth from './components/withAuth';
+import AuthService from './AuthService';
+
 const Auth = new AuthService();
 
-class App extends Component {
-
+class Home extends Component {
   state = {
-    userId: this.props.user.id,
+    userID: this.props.user.id,
     profileLink: ""
   };
 
   componentDidMount() {
-    const profileLinkURL = `/profile/${this.state.userId}`;
-    this.setState({
-      profileLink: profileLinkURL
-    });
+    const profileLinkURL = `/profile/${this.state.userID}`;
+    this.setState({ profileLink: profileLinkURL });
   }
 
   handleLogout = () => {
@@ -27,7 +24,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(process.env.REACT_APP_SECRET_CODE);
     return (
       <div className="App" style={{ textAlign: 'center' }}>
         <h2>Welcome {this.props.user.email}</h2>
@@ -40,4 +36,4 @@ class App extends Component {
   }
 }
 
-export default withAuth(App);
+export default Home;

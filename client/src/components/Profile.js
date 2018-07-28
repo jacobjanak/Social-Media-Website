@@ -11,7 +11,8 @@ class Profile extends Component {
   };
 
   componentDidMount() {
-    API.getUser(this.props.user.id).then(res => {
+    API.getUser(this.props.user.id)
+    .then(res => {
       this.setState({
         username: res.data.username,
         email: res.data.email

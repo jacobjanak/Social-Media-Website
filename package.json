@@ -7,11 +7,11 @@
     "server": "node server.js",
     "client": "cd client && npm run start",
     "start": "concurrently \"nodemon server.js\" \"npm run client\"",
+    "prod": "cd client && yarn build && cd .. && NODE_ENV=production npm run server",
     "build": "cd client && npm run build",
-    "deploy": "yarn build && git add . && git commit -m \"Building for production\" && git push heroku master",
     "test": "echo \"Error: no test specified\" && exit 1",
     "install-deps": "npm install && cd client && yarn install",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && yarn install && yarn run build"
   },
   "author": "",
   "license": "ISC",
