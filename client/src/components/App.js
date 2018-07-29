@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import withAuth from './withAuth';
 import axios from 'axios';
+import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
 
 // pages
 import Home from './Home';
@@ -14,22 +16,34 @@ if (localStorage.getItem('id_token')) {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('id_token')}`;
 }
 
+const styles = theme => ({
+  root: {
+    marginTop: 2 * theme.spacing.unit,
+  }
+});
+
 class App extends Component {
   render() {
+    const { classes } = this.props;
+
     return (
       <React.Fragment>
         <CssBaseline />
         <Router>
-          <div>
+          <Grid
+            className={classes.root}
+            justify={'center'}
+            container
+          >
             <Route exact path="/" component={withAuth(Home)} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/profile/:id" component={withAuth(Profile)} />
-          </div>
+          </Grid>
         </Router>
       </React.Fragment>
     );
   }
 }
 
-export default App;
+export default withStyles(styles)(App);

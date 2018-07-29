@@ -1,6 +1,28 @@
 import React, { Component } from 'react';
-import AuthService from './AuthService';
 import { Link } from 'react-router-dom';
+import AuthService from './AuthService';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
+const styles = theme => ({
+  root: {
+    marginTop: 2 * theme.spacing.unit
+  },
+  card: {
+    width: '100%'
+  },
+  button: {
+    marginTop: 2 * theme.spacing.unit,
+  },
+  link: {
+    textTransform: 'none'
+  }
+});
 
 class Login extends Component {
   constructor() {
@@ -18,7 +40,7 @@ class Login extends Component {
     }
   }
 
-  handleFormSubmit = event => {
+  handleSubmit = event => {
     event.preventDefault();
     const { email, password } = this.state;
 
@@ -38,51 +60,54 @@ class Login extends Component {
   };
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <div className="container">
-        <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mt-4">
-          <form
-            data-parsley-validate=""
-            noValidate=""
-            onSubmit={this.handleFormSubmit}
-          >
-             <div className="panel panel-default">
-                <div className="panel-heading">
-                   <div className="panel-title">Login</div>
-                </div>
-                <div className="panel-body">
-                   <div className="form-group">
-                      <label className="control-label">Email Address *</label>
-                      <input
-                        type="text"
-                        name="email"
-                        className="form-control"
-                        required
-                        onChange={this.handleChange}
-                      />
-                   </div>
-                   <div className="form-group">
-                      <label className="control-label">Password *</label>
-                      <input
-                        type="password"
-                        name="password"
-                        className="form-control"
-                        required
-                        onChange={this.handleChange}
-                      />
-                   </div>
-                   <div className="required">* Required fields</div>
-                </div>
-                <div className="panel-footer">
-                   <button type="submit" className="btn btn-primary">Login</button>
-                   <Link to="/signup" className="ml-4">Don't have an account?</Link>
-                </div>
-             </div>
+      <Grid item sm={8} md={6} lg={4}>
+        <Card className={classes.card}>
+          <form noValidate onSubmit={this.handleSubmit}>
+            <CardContent>
+              <Typography variant="display1">
+                Login
+              </Typography>
+              <TextField
+                className={classes.textField}
+                label="Email"
+                name="email"
+                margin="normal"
+                fullWidth
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+              <TextField
+                className={classes.textField}
+                label="Password"
+                name="password"
+                type="password"
+                margin="normal"
+                fullWidth
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+              <Button
+                className={classes.button}
+                variant="contained"
+                type="submit"
+                color="primary"
+              >
+                Login
+              </Button>
+              <Link to="/signup">
+                <Button className={classes.button + ' ' + classes.link}>
+                  Don't have an account?
+                </Button>
+              </Link>
+            </CardContent>
           </form>
-        </div>
-      </div>
+        </Card>
+      </Grid>
     );
   }
 }
 
-export default Login;
+export default withStyles(styles)(Login);

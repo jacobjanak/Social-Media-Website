@@ -1,7 +1,29 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AuthService from './AuthService';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import API from '../utils/API';
+
+const styles = theme => ({
+  root: {
+    marginTop: 2 * theme.spacing.unit
+  },
+  card: {
+    width: '100%'
+  },
+  button: {
+    marginTop: 2 * theme.spacing.unit,
+  },
+  link: {
+    textTransform: 'none'
+  }
+});
 
 class Signup extends Component {
   constructor() {
@@ -9,7 +31,6 @@ class Signup extends Component {
     this.Auth = new AuthService();
     this.state = {
       email: '',
-      username: '',
       password: '',
       confirmPassword: ''
     };
@@ -21,14 +42,13 @@ class Signup extends Component {
     }
   }
 
-  handleFormSubmit = event => {
+  handleSubmit = event => {
     event.preventDefault();
-    const { email, username, password, confirmPassword } = this.state;
+    const { email, password, confirmPassword } = this.state;
 
-    console.log('FRIG')
-
-    if (email && username && password && password === confirmPassword) {
-      API.signUpUser(username, email, password)
+    if (email && password && password === confirmPassword) {
+      console.log('poo')
+      API.signUpUser('temp username', email, password)
       .then(res => this.props.history.replace('/login'))
       .catch(err => alert(err.response.data.message))
     }
@@ -44,73 +64,64 @@ class Signup extends Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <div className="container">
-        <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mt-4">
-          <form
-            data-parsley-validate=""
-            noValidate=""
-            onSubmit={this.handleFormSubmit}
-          >
-            <div className="panel panel-default">
-              <div className="panel-heading">
-                <div className="panel-title">Register</div>
-              </div>
-              <div className="panel-body">
-                <div className="form-group">
-                  <label className="control-label">Email Address *</label>
-                  <input
-                    type="text"
-                    name="email"
-                    required
-                    className="form-control"
-                    onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                  <label className="control-label">Username *</label>
-                  <input
-                    type="text"
-                    name="username"
-                    required
-                    className="form-control"
-                    onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                  <label className="control-label">Password *</label>
-                  <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    required
-                    className="form-control"
-                    onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                  <label className="control-label">Confirm Password *</label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    required
-                    data-parsley-equalto="#password"
-                    className="form-control"
-                    onChange={this.handleChange}
-                    />
-                </div>
-                <div className="required">* Required fields</div>
-              </div>
-              <div className="panel-footer">
-                <button type="submit" className="btn btn-primary">Register</button>
-                <Link to="/login" className="ml-4">Already have an account?</Link>
-              </div>
-            </div>
+      <Grid item sm={8} md={6} lg={4}>
+        <Card className={classes.card}>
+          <form noValidate onSubmit={this.handleSubmit}>
+            <CardContent>
+              <Typography variant="display1">
+                Sign Up
+              </Typography>
+              <TextField
+                className={classes.textField}
+                label="Email"
+                name="email"
+                margin="normal"
+                fullWidth
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+              <TextField
+                className={classes.textField}
+                label="Password"
+                name="password"
+                type="password"
+                margin="normal"
+                fullWidth
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+              <TextField
+                className={classes.textField}
+                label="Confirm Password"
+                name="confirmPassword"
+                type="password"
+                margin="normal"
+                fullWidth
+                value={this.state.confirmPassword}
+                onChange={this.handleChange}
+              />
+              <Button
+                className={classes.button}
+                variant="contained"
+                type="submit"
+                color="primary"
+              >
+                Sign Up
+              </Button>
+              <Link to="/login">
+                <Button className={classes.button + ' ' + classes.link}>
+                  Already have an account?
+                </Button>
+              </Link>
+            </CardContent>
           </form>
-        </div>
-      </div>
+        </Card>
+      </Grid>
     );
   }
 }
 
-export default Signup;
+export default withStyles(styles)(Signup);
