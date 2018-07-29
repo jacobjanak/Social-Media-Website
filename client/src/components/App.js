@@ -8,12 +8,10 @@ import Grid from '@material-ui/core/Grid';
 
 // components
 import NavBar from './NavBar';
-
-// pages
 import Home from './Home';
 import Login from './Login';
 import Profile from './Profile';
-import Signup from './Signup';
+import SignUp from './SignUp';
 
 if (localStorage.getItem('id_token')) {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('id_token')}`;
@@ -22,6 +20,9 @@ if (localStorage.getItem('id_token')) {
 const styles = theme => ({
   root: {
     marginTop: 4 * theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 0
+    }
   }
 });
 
@@ -32,18 +33,21 @@ class App extends Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <NavBar />
         <Router>
-          <Grid
-            className={classes.root}
-            justify={'center'}
-            container
-          >
-            <Route exact path="/" component={withAuth(Home)} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/profile/:id" component={withAuth(Profile)} />
-          </Grid>
+          <React.Fragment>
+            <NavBar />
+            <Grid
+              id="app"
+              className={classes.root}
+              justify={'center'}
+              container
+            >
+              <Route exact path="/" component={withAuth(Home)} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/profile/:id" component={withAuth(Profile)} />
+            </Grid>
+          </React.Fragment>
         </Router>
       </React.Fragment>
     );

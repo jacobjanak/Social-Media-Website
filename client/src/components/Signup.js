@@ -15,17 +15,21 @@ const styles = theme => ({
     marginTop: 2 * theme.spacing.unit
   },
   card: {
-    width: '100%'
+    [theme.breakpoints.down('xs')]: {
+      borderRadius: 0
+    }
   },
   button: {
-    marginTop: 2 * theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    }
   },
   link: {
     textTransform: 'none'
   }
 });
 
-class Signup extends Component {
+class SignUp extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
@@ -37,7 +41,7 @@ class Signup extends Component {
   }
 
   componentWillMount() {
-    if (this.Auth.loggedIn()) {
+    if (this.Auth.isLoggedIn()) {
       this.props.history.replace('/');
     }
   }
@@ -47,7 +51,6 @@ class Signup extends Component {
     const { email, password, confirmPassword } = this.state;
 
     if (email && password && password === confirmPassword) {
-      console.log('poo')
       API.signUpUser('temp username', email, password)
       .then(res => this.props.history.replace('/login'))
       .catch(err => alert(err.response.data.message))
@@ -67,7 +70,7 @@ class Signup extends Component {
     const { classes } = this.props;
 
     return (
-      <Grid item sm={8} md={6} lg={4}>
+      <Grid item xs={12} sm={8} md={6} lg={4}>
         <Card className={classes.card}>
           <form noValidate onSubmit={this.handleSubmit}>
             <CardContent>
@@ -103,6 +106,8 @@ class Signup extends Component {
                 value={this.state.confirmPassword}
                 onChange={this.handleChange}
               />
+            </CardContent>
+            <CardContent>
               <Button
                 className={classes.button}
                 variant="contained"
@@ -111,11 +116,13 @@ class Signup extends Component {
               >
                 Sign Up
               </Button>
-              <Link to="/login">
-                <Button className={classes.button + ' ' + classes.link}>
-                  Already have an account?
-                </Button>
-              </Link>
+              <Button
+                className={classes.button + ' ' + classes.link}
+                component={Link}
+                to="/login"
+              >
+                Already have an account?
+              </Button>
             </CardContent>
           </form>
         </Card>
@@ -124,4 +131,4 @@ class Signup extends Component {
   }
 }
 
-export default withStyles(styles)(Signup);
+export default withStyles(styles)(SignUp);

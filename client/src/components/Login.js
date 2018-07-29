@@ -14,10 +14,14 @@ const styles = theme => ({
     marginTop: 2 * theme.spacing.unit
   },
   card: {
-    width: '100%'
+    [theme.breakpoints.down('xs')]: {
+      borderRadius: 0
+    }
   },
   button: {
-    marginTop: 2 * theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    }
   },
   link: {
     textTransform: 'none'
@@ -35,7 +39,7 @@ class Login extends Component {
   }
 
   componentWillMount() {
-    if (this.Auth.loggedIn()) {
+    if (this.Auth.isLoggedIn()) {
       this.props.history.replace('/');
     }
   }
@@ -63,7 +67,7 @@ class Login extends Component {
     const { classes } = this.props;
 
     return (
-      <Grid item sm={8} md={6} lg={4}>
+      <Grid item xs={12} sm={8} md={6} lg={4}>
         <Card className={classes.card}>
           <form noValidate onSubmit={this.handleSubmit}>
             <CardContent>
@@ -89,6 +93,8 @@ class Login extends Component {
                 value={this.state.password}
                 onChange={this.handleChange}
               />
+            </CardContent>
+            <CardContent>
               <Button
                 className={classes.button}
                 variant="contained"
@@ -97,11 +103,13 @@ class Login extends Component {
               >
                 Login
               </Button>
-              <Link to="/signup">
-                <Button className={classes.button + ' ' + classes.link}>
-                  Don't have an account?
-                </Button>
-              </Link>
+              <Button
+                className={classes.button + ' ' + classes.link}
+                component={Link}
+                to="/signup"
+              >
+                Don't have an account?
+              </Button>
             </CardContent>
           </form>
         </Card>

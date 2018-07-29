@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import AuthService from './AuthService';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -21,17 +23,17 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+  link: {
+    textTransform: 'none'
+  }
 };
 
 class MenuAppBar extends React.Component {
-  state = {
-    auth: true,
-    anchorEl: null,
-  };
-
-  handleChange = (event, checked) => {
-    this.setState({ auth: checked });
-  };
+  constructor() {
+    super();
+    this.Auth = new AuthService();
+    this.state = { anchorEl: null };
+  }
 
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -43,56 +45,73 @@ class MenuAppBar extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { auth, anchorEl } = this.state;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    const isLoggedIn = this.Auth.isLoggedIn();
 
     return (
       <div className={classes.root}>
-        {/*
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch checked={auth} onChange={this.handleChange} aria-label="LoginSwitch" />
-            }
-            label={auth ? 'Logout' : 'Login'}
-          />
-        </FormGroup>
-        */}
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="title" color="inherit" className={classes.flex}>
+            <Typography
+              className={classes.flex}
+              variant="title"
+              color="inherit"
+              component={Link}
+              to="/"
+            >
               InnovationsCity
             </Typography>
-            <Button href="/login" color="inherit">Login</Button>
-            {auth && (
-              <div>
-                <IconButton
-                  aria-owns={open ? 'menu-appbar' : null}
-                  aria-haspopup="true"
-                  onClick={this.handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={open}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                </Menu>
-              </div>
-            )}
+            {
+              isLoggedIn ? (
+                <div>
+                  <IconButton
+                    aria-owns={open ? 'account-menu' : null}
+                    aria-haspopup="true"
+                    onClick={this.handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                  <Menu
+                    id="account-menu"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={open}
+                    onClose={this.handleClose}
+                  >
+                    <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  </Menu>
+                </div>
+              ) : (
+                <React.Fragment>
+                  <Button
+                    className={classes.link}
+                    component={Link}
+                    to="/login"
+                    color="inherit"
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    className={classes.link}
+                    component={Link}
+                    to="/signup"
+                    color="inherit"
+                  >
+                    Sign Up
+                  </Button>
+                </React.Fragment>
+              )
+            }
           </Toolbar>
         </AppBar>
       </div>
