@@ -33,7 +33,6 @@ class MenuAppBar extends Component {
     super();
     this.Auth = new AuthService();
     this.state = {
-      anchorEl: null,
       open: false
     };
   }
@@ -44,9 +43,12 @@ class MenuAppBar extends Component {
 
   render() {
     const { classes } = this.props;
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
-    const isLoggedIn = this.Auth.isLoggedIn();
+    const { open } = this.state;
+
+    // must be in render or it won't update
+    const user = this.Auth.user();
+
+    console.log(user)
 
     return (
       <div className={classes.root}>
@@ -62,23 +64,23 @@ class MenuAppBar extends Component {
               InnovationsCity
             </Typography>
             {
-              isLoggedIn ? (
+              user ? (
                 <div>
                   <IconButton
                     aria-owns={open ? 'account-menu' : null}
                     aria-haspopup="true"
-                    onClick={this.toggleMenu}
+                    onClick={() => this.toggleMenu(true)}
                     color="inherit"
                   >
-                    <AccountCircle />
+                    <Avatar
+                      src={ user.img }
+                      alt="profile picture"
+                    />
                   </IconButton>
-                  <Avatar
-                    alt="Adelle Charles"
-                    src="/static/images/uxceo-128.jpg"
-                  />
+
                   <SwipeableDrawer
                     anchor="right"
-                    open={this.state.open}
+                    open={open}
                     onClose={() => this.toggleMenu(false)}
                     onOpen={() => this.toggleMenu(true)}
                   >
@@ -88,7 +90,7 @@ class MenuAppBar extends Component {
                       onClick={() => this.toggleMenu(false)}
                       onKeyDown={() => this.toggleMenu(false)}
                     >
-                      <AccountMenu />
+                      <AccountMenu user={user} />
                     </div>
                   </SwipeableDrawer>
                 </div>

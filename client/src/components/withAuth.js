@@ -5,29 +5,32 @@ function withAuth(AuthComponent) {
   const Auth = new AuthService();
 
   return class AuthWrapped extends Component {
-    constructor() {
-      super();
-      this.state = { user: null };
-    }
+    state = { user: false };
 
     componentWillMount() {
-      if (!Auth.isLoggedIn()) {
-        this.props.history.replace('/signup');
+      const user = Auth.user();
+      if (user) {
+        this.setState({ user })
       } else {
-        try {
-          const profile = Auth.getProfile();
-          this.setState({ user: profile });
-        }
-        catch (err) {
-          Auth.logout();
-          this.props.history.replace('/signup');
-        }
+        this.props.history.replace('/signup');
       }
     }
 
     render() {
-      if (this.state.user) {
-        return <AuthComponent history={this.props.history} user={this.state.user} />;
+      const { history } = this.props;
+      const { user } = this.state;
+
+      //NOTE: seems like this could replace all the state stuff?
+      // const user = Auth.user();
+      // if (user) {
+      //   return <AuthComponent history={history} user={user} />;
+      // } else {
+      //   this.props.history.replace('/signup');
+      //   return null;
+      // }
+
+      if (user) {
+        return <AuthComponent history={history} user={user} />;
       } else {
         return null;
       }

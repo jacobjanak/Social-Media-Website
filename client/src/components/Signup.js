@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import AuthService from './AuthService';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import API from '../utils/API';
 
 const styles = theme => ({
   root: {
@@ -31,6 +31,7 @@ const styles = theme => ({
 class SignUp extends Component {
   constructor() {
     super();
+    this.Auth = new AuthService();
     this.state = {
       firstName: '',
       lastName: '',
@@ -45,7 +46,7 @@ class SignUp extends Component {
     const { email, password, confirmPassword, firstName, lastName } = this.state;
 
     if (email && password && password === confirmPassword) {
-      API.signUpUser(email, password, firstName, lastName)
+      this.Auth.signUp(email, password, firstName, lastName)
       .then(res => this.props.history.replace('/login'))
       .catch(err => alert(err.response.data.message))
     }

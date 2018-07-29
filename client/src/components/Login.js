@@ -44,8 +44,7 @@ class Login extends Component {
 
     if (email && password) {
       this.Auth.login(email, password)
-      .then(res => {
-        const { user } = res.data;
+      .then(user => {
         this.props.history.replace(`/profile/${user._id}`)
       })
       .catch(err => alert(err.response.data.message))

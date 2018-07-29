@@ -18,8 +18,8 @@ const styles = {
 
 class AccountMenu extends Component {
   render() {
-    const { classes } = this.props;
-    
+    const { classes, user } = this.props;
+
     return (
       <div className={classes.list}>
         <List component="nav">

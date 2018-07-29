@@ -6,13 +6,14 @@ function withoutAuth(NoAuthComponent) {
 
   return class AuthWrapped extends Component {
     componentWillMount() {
-      if (Auth.isLoggedIn()) {
+      if (Auth.user()) {
         this.props.history.replace('/');
       }
     }
 
     render() {
-      return <NoAuthComponent history={this.props.history} />;
+      const { history } = this.props;
+      return <NoAuthComponent history={history} />;
     }
   };
 }

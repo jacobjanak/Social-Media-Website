@@ -2,44 +2,49 @@ import decode from 'jwt-decode';
 import axios from 'axios';
 
 class AuthService {
-  getToken = () => localStorage.getItem('id_token');
-
-  getProfile = () => decode(this.getToken());
-
-  isLoggedIn = () => {
-    const token = this.getToken();
-    return Boolean(token) && !this.isTokenExpired(token)
+  user = () => {
+    const token = localStorage.getItem('id_token');
+    return token ? decode(token) : false;
   };
 
-  isTokenExpired = token => {
-    try {
-      const decoded = decode(token);
-      if (decoded.exp < Date.now() / 1000) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    catch (err) {
-      return false;
-    }
-  };
+  //NOTE: I will impliment expiring tokens later
+  // isTokenExpired = token => {
+  //   try {
+  //     const decoded = decode(token);
+  //     if (decoded.exp < Date.now() / 1000) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   }
+  //   catch (err) {
+  //     return false;
+  //   }
+  // };
 
-  setToken = idToken => {
-    // saves user token to localStorage
-    axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
-    localStorage.setItem('id_token', idToken);
+  signUp = (email, password, firstName, lastName) => {
+    return axios.post('api/signup', {
+      email: email,
+      password: password,
+      firstName: firstName,
+      lastName: lastName
+    });
   };
 
   login = (email, password) => {
-    // get token
-    return axios.post('api/login', {
-      email: email,
-      password: password
-    })
-    .then(res => {
-      this.setToken(res.data.token);
-      return res;
+    return new Promise((resolve, reject) => {
+      // get token
+      axios.post('api/login', {
+        email: email,
+        password: password
+      })
+      .then(res => {
+        const { token } = res.data;
+        localStorage.setItem('id_token', token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        resolve(res.data.user)
+      })
+      .catch(err => reject(err))
     })
   };
 
