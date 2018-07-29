@@ -3,10 +3,12 @@ import axios from 'axios';
 const API = {
   getUser: id => axios.get(`/api/user/${id}`),
 
-  signUpUser: (username, email, password) => {
+  signUpUser: (email, password, firstName, lastName) => {
     return axios.post('api/signup', {
-      username: username,
-      email: email, password: password
+      email: email,
+      password: password,
+      firstName: firstName,
+      lastName: lastName
     });
   }
 };

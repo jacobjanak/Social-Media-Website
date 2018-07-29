@@ -5,7 +5,16 @@ const db = require('../models');
 
 const isAuthenticated = exjwt({ secret: 'swag' });
 
-// LOGIN ROUTE
+router.post('/api/signup', (req, res) => {
+  console.log(req.body)
+  db.User.create(req.body)
+  .then(data => res.json(data))
+  .catch(err => {
+    console.log(err)
+    res.status(400).json(err)
+  });
+})
+
 router.post('/api/login', (req, res) => {
   db.User.findOne({ email: req.body.email })
   .then(user => {
@@ -37,13 +46,6 @@ router.post('/api/login', (req, res) => {
     message: "User not found",
     error: err
   }))
-})
-
-router.post('/api/signup', (req, res) => {
-  console.log(req.body)
-  db.User.create(req.body)
-  .then(data => res.json(data))
-  .catch(err => res.status(400).json(err));
 })
 
 router.get('/api/user/:id', isAuthenticated, (req, res) => {

@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AuthService from './AuthService';
+import AccountMenu from './AccountMenu';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
+import Avatar from '@material-ui/core/Avatar';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const styles = {
@@ -28,19 +28,18 @@ const styles = {
   }
 };
 
-class MenuAppBar extends React.Component {
+class MenuAppBar extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
-    this.state = { anchorEl: null };
+    this.state = {
+      anchorEl: null,
+      open: false
+    };
   }
 
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
+  toggleMenu = bool => {
+    this.setState({ open: bool })
   };
 
   render() {
@@ -68,28 +67,30 @@ class MenuAppBar extends React.Component {
                   <IconButton
                     aria-owns={open ? 'account-menu' : null}
                     aria-haspopup="true"
-                    onClick={this.handleMenu}
+                    onClick={this.toggleMenu}
                     color="inherit"
                   >
                     <AccountCircle />
                   </IconButton>
-                  <Menu
-                    id="account-menu"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={this.handleClose}
+                  <Avatar
+                    alt="Adelle Charles"
+                    src="/static/images/uxceo-128.jpg"
+                  />
+                  <SwipeableDrawer
+                    anchor="right"
+                    open={this.state.open}
+                    onClose={() => this.toggleMenu(false)}
+                    onOpen={() => this.toggleMenu(true)}
                   >
-                    <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                  </Menu>
+                    <div
+                      tabIndex={0}
+                      role="button"
+                      onClick={() => this.toggleMenu(false)}
+                      onKeyDown={() => this.toggleMenu(false)}
+                    >
+                      <AccountMenu />
+                    </div>
+                  </SwipeableDrawer>
                 </div>
               ) : (
                 <React.Fragment>

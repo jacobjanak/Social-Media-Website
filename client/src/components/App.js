@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import withAuth from './withAuth';
+import withoutAuth from './withoutAuth';
 import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,6 +20,7 @@ if (localStorage.getItem('id_token')) {
 
 const styles = theme => ({
   root: {
+    flexGrow: 1,
     marginTop: 4 * theme.spacing.unit,
     [theme.breakpoints.down('xs')]: {
       marginTop: 0
@@ -43,8 +45,8 @@ class App extends Component {
               container
             >
               <Route exact path="/" component={withAuth(Home)} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/login" component={withoutAuth(Login)} />
+              <Route exact path="/signup" component={withoutAuth(SignUp)} />
               <Route exact path="/profile/:id" component={withAuth(Profile)} />
             </Grid>
           </React.Fragment>

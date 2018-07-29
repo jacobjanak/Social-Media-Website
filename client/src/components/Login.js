@@ -38,12 +38,6 @@ class Login extends Component {
     };
   }
 
-  componentWillMount() {
-    if (this.Auth.isLoggedIn()) {
-      this.props.history.replace('/');
-    }
-  }
-
   handleSubmit = event => {
     event.preventDefault();
     const { email, password } = this.state;

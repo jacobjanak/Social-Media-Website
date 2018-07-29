@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import AuthService from './AuthService';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -32,26 +31,21 @@ const styles = theme => ({
 class SignUp extends Component {
   constructor() {
     super();
-    this.Auth = new AuthService();
     this.state = {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPassword: ''
     };
   }
 
-  componentWillMount() {
-    if (this.Auth.isLoggedIn()) {
-      this.props.history.replace('/');
-    }
-  }
-
   handleSubmit = event => {
     event.preventDefault();
-    const { email, password, confirmPassword } = this.state;
+    const { email, password, confirmPassword, firstName, lastName } = this.state;
 
     if (email && password && password === confirmPassword) {
-      API.signUpUser('temp username', email, password)
+      API.signUpUser(email, password, firstName, lastName)
       .then(res => this.props.history.replace('/login'))
       .catch(err => alert(err.response.data.message))
     }
@@ -77,6 +71,30 @@ class SignUp extends Component {
               <Typography variant="display1">
                 Sign Up
               </Typography>
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    className={classes.textField}
+                    label="First name"
+                    name="firstName"
+                    margin="normal"
+                    fullWidth
+                    value={this.state.firstName}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    className={classes.textField}
+                    label="Last name"
+                    name="lastName"
+                    margin="normal"
+                    fullWidth
+                    value={this.state.lastName}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+              </Grid>
               <TextField
                 className={classes.textField}
                 label="Email"
@@ -98,7 +116,7 @@ class SignUp extends Component {
               />
               <TextField
                 className={classes.textField}
-                label="Confirm Password"
+                label="Confirm password"
                 name="confirmPassword"
                 type="password"
                 margin="normal"
