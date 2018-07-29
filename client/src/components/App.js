@@ -6,6 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 
+// components
+import NavBar from './NavBar';
+
 // pages
 import Home from './Home';
 import Login from './Login';
@@ -18,7 +21,7 @@ if (localStorage.getItem('id_token')) {
 
 const styles = theme => ({
   root: {
-    marginTop: 2 * theme.spacing.unit,
+    marginTop: 4 * theme.spacing.unit,
   }
 });
 
@@ -29,6 +32,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <CssBaseline />
+        <NavBar />
         <Router>
           <Grid
             className={classes.root}
