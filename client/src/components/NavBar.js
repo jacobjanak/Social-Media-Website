@@ -63,6 +63,22 @@ class MenuAppBar extends Component {
             >
               InnovationsCity
             </Typography>
+            <Button
+              className={classes.link}
+              component={Link}
+              to="/entrepreneurs"
+              color="inherit"
+            >
+              Entrepreneurs
+            </Button>
+            <Button
+              className={classes.link}
+              component={Link}
+              to="/investors"
+              color="inherit"
+            >
+              Investors
+            </Button>
             {
               user ? (
                 <div>
@@ -73,7 +89,7 @@ class MenuAppBar extends Component {
                     color="inherit"
                   >
                     <Avatar
-                      src={ user.img }
+                      src={window.location.origin + '/' + user.img}
                       alt="profile picture"
                     />
                   </IconButton>
@@ -85,8 +101,8 @@ class MenuAppBar extends Component {
                     onOpen={() => this.toggleMenu(true)}
                   >
                     <div
-                      tabIndex={0}
                       role="button"
+                      tabIndex={0}
                       onClick={() => this.toggleMenu(false)}
                       onKeyDown={() => this.toggleMenu(false)}
                     >

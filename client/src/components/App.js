@@ -41,7 +41,7 @@ class App extends Component {
             <Grid
               id="app"
               className={classes.root}
-              justify={'center'}
+              justify="center"
               container
             >
               <Route exact path="/" component={withAuth(Home)} />
