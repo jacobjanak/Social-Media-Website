@@ -31,22 +31,30 @@ const UserSchema = new Schema({
     type: String,
     default: 'img/user/06.jpg'
   },
+  role: {
+    entrepreneur: {
+      type: Boolean,
+      default: false
+    },
+    investor: {
+      type: Boolean,
+      default: false
+    }
+  },
   createdAt: {
     type: Date,
     default: Date.now
   }
 });
 
-// Execute before each user.save() call
+// execute before each user.save() call
 UserSchema.pre('save', function(callback) {
   const user = this;
-
-  // break out if password hasn't changed
   if (!user.isModified('password')) {
     return callback()
   }
 
-  // password changed so we need to hash it
+  // if password changed we need to hash it
   bcrypt.genSalt(5, function(err, salt) {
     if (err) return callback(err);
 

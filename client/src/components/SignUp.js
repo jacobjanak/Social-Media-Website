@@ -48,10 +48,19 @@ class SignUp extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { email, password, confirmPassword, firstName, lastName } = this.state;
+    const { email, password, confirmPassword } = this.state;
 
     if (email && password && password === confirmPassword) {
-      this.Auth.signUp(email, password, firstName, lastName)
+      this.Auth.signUp(
+        email,
+        password,
+        this.state.firstName,
+        this.state.lastName,
+        {
+          entrepreneur: this.state.entrepreneur,
+          investor: this.state.investor
+        }
+      )
       .then(user => this.props.history.replace('/profile/' + user._id))
       .catch(err => alert(err.response.data.message))
     }
@@ -146,7 +155,7 @@ class SignUp extends Component {
 
                 >
                   <FormLabel component="legend">
-                    Select all that apply...
+                    Select all that apply
                   </FormLabel>
                   <FormGroup>
                     <FormControlLabel
@@ -157,7 +166,7 @@ class SignUp extends Component {
                           name="investor"
                         />
                       }
-                      label="Investor"
+                      label="I am an investor"
                     />
                     <FormControlLabel
                       control={
@@ -167,7 +176,7 @@ class SignUp extends Component {
                           name="entrepreneur"
                         />
                       }
-                      label="Entrepreneur"
+                      label="I am an entrepreneur"
                     />
                   </FormGroup>
                 </FormControl>

@@ -21,7 +21,6 @@ router.get('/api/user/:id', isAuthenticated, (req, res) => {
 })
 
 router.post('/api/signup', (req, res) => {
-  console.log(req.body)
   db.User.create(req.body)
   .then(data => res.json(data))
   .catch(err => {
@@ -35,7 +34,7 @@ router.post('/api/login', (req, res) => {
   .then(user => {
     user.verifyPassword(req.body.password, (err, isMatch) => {
       if (isMatch && !err) {
-        
+
         // must pass a simple object as first arg of sign()
         const token = jwt.sign({
           id: user._id,

@@ -22,13 +22,14 @@ class AuthService {
   //   }
   // };
 
-  signUp = (email, password, firstName, lastName) => {
+  signUp = (email, password, firstName, lastName, role) => {
     return new Promise((resolve, reject) => {
       axios.post('api/signup', {
         email: email,
         password: password,
         firstName: firstName,
-        lastName: lastName
+        lastName: lastName,
+        role: role
       })
       .then(() => this.login(email, password))
       .then(user => resolve(user))
