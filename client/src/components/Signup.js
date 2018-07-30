@@ -47,12 +47,13 @@ class SignUp extends Component {
 
     if (email && password && password === confirmPassword) {
       this.Auth.signUp(email, password, firstName, lastName)
-      .then(res => this.props.history.replace('/login'))
+      .then(user => this.props.history.replace('/profile/' + user.id))
       .catch(err => alert(err.response.data.message))
     }
   }
 
   handleCheck = event => {
+    // for when a checkbox is checked
     this.setState({ [event.target.name]: event.checked });
   }
 
@@ -95,36 +96,42 @@ class SignUp extends Component {
                     onChange={this.handleChange}
                   />
                 </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.textField}
+                    label="Email"
+                    name="email"
+                    margin="normal"
+                    fullWidth
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.textField}
+                    label="Password"
+                    name="password"
+                    type="password"
+                    margin="normal"
+                    fullWidth
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.textField}
+                    label="Confirm password"
+                    name="confirmPassword"
+                    type="password"
+                    margin="normal"
+                    fullWidth
+                    value={this.state.confirmPassword}
+                    onChange={this.handleChange}
+                  />
+                </Grid>
               </Grid>
-              <TextField
-                className={classes.textField}
-                label="Email"
-                name="email"
-                margin="normal"
-                fullWidth
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-              <TextField
-                className={classes.textField}
-                label="Password"
-                name="password"
-                type="password"
-                margin="normal"
-                fullWidth
-                value={this.state.password}
-                onChange={this.handleChange}
-              />
-              <TextField
-                className={classes.textField}
-                label="Confirm password"
-                name="confirmPassword"
-                type="password"
-                margin="normal"
-                fullWidth
-                value={this.state.confirmPassword}
-                onChange={this.handleChange}
-              />
             </CardContent>
             <CardContent>
               <Button

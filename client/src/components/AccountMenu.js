@@ -84,7 +84,7 @@ class AccountMenu extends Component {
             button
           >
             <ListItemIcon>
-              <Badge className={classes.margin} badgeContent={4} color="primary">
+              <Badge className={classes.margin} badgeContent={4} color="secondary">
                 <EmailIcon />
               </Badge>
             </ListItemIcon>
