@@ -41,6 +41,16 @@ const styles = {
   },
   statistic: {
     display: 'block'
+  },
+  verticalDivider: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    height: '100%',
+    width: 1
+  },
+  divideContainer: {
+    position: 'relative'
   }
 };
 
@@ -80,7 +90,7 @@ class AccountMenu extends Component {
           }
           <Divider />
           <Grid container>
-            <Grid item xs={6}>
+            <Grid className={classes.divideContainer} item xs={6}>
               <ListItem
                 component={Link}
                 to="/connections"
@@ -100,6 +110,7 @@ class AccountMenu extends Component {
                   <Typography variant="body1">Connections</Typography>
                 </ListItemText>
               </ListItem>
+              <Divider className={classes.verticalDivider} />
             </Grid>
             <Grid item xs={6}>
               <ListItem
