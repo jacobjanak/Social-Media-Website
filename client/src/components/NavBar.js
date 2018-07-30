@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
@@ -26,7 +26,7 @@ const styles = {
   link: {
     textTransform: 'none'
   }
-};
+});
 
 class MenuAppBar extends Component {
   constructor() {
@@ -36,6 +36,12 @@ class MenuAppBar extends Component {
       open: false
     };
   }
+
+  logout = () => {
+    this.Auth.logout()
+    // reloade window to redirect only if on a protected route
+    window.location.reload()
+  };
 
   toggleMenu = bool => {
     this.setState({ open: bool })
@@ -47,8 +53,6 @@ class MenuAppBar extends Component {
 
     // must be in render or it won't update
     const user = this.Auth.user();
-
-    console.log(user)
 
     return (
       <div className={classes.root}>
@@ -106,7 +110,10 @@ class MenuAppBar extends Component {
                       onClick={() => this.toggleMenu(false)}
                       onKeyDown={() => this.toggleMenu(false)}
                     >
-                      <AccountMenu user={user} />
+                      <AccountMenu
+                        user={user}
+                        logout={this.logout}
+                      />
                     </div>
                   </SwipeableDrawer>
                 </div>
@@ -116,7 +123,12 @@ class MenuAppBar extends Component {
                     className={classes.link}
                     component={Link}
                     to="/login"
+                    variant="outlined"
                     color="inherit"
+                    style={{
+                      borderTopRightRadius: 0,
+                      borderBottomRightRadius: 0,
+                    }}
                   >
                     Login
                   </Button>
@@ -124,7 +136,12 @@ class MenuAppBar extends Component {
                     className={classes.link}
                     component={Link}
                     to="/signup"
-                    color="inherit"
+                    variant="contained"
+                    color="secondary"
+                    style={{
+                      borderTopLeftRadius: 0,
+                      borderBottomLeftRadius: 0,
+                    }}
                   >
                     Sign Up
                   </Button>

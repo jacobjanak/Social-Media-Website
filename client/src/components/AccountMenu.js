@@ -19,14 +19,15 @@ import PeopleIcon from '@material-ui/icons/People';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CancelIcon from '@material-ui/icons/Cancel';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const styles = {
   list: {
-    width: 250
+    width: 250,
   },
   avatar: {
-    maxWidth: 120,
-    width: '100%',
+    maxWidth: '100%',
+    width: 90,
     height: 'auto'
   },
   bio: {
@@ -37,21 +38,26 @@ const styles = {
     top: 20,
     right: 20,
     fontSize: 30
+  },
+  statistic: {
+    display: 'block'
   }
 };
 
 class AccountMenu extends Component {
   render() {
-    const { classes, user } = this.props;
+    const { classes, user, logout } = this.props;
     user.bio = "I am a graduate of Harvard Business School class of 2030";
 
-    const avatarContainerStyle = user.bio ? { paddingBottom: 0 } : {};
+    const liProps = {
+      variant: 'body1'
+    };
 
     return (
       <div className={classes.list}>
         <List component="nav">
           {/* <CancelIcon className={classes.close} /> */}
-          <ListItem style={avatarContainerStyle}>
+          <ListItem style={user.bio ? { padding: 0 } : {}}>
             <Grid container justify="center">
               <Link to={'/profile/' + user.id}>
                 <Avatar
@@ -64,10 +70,60 @@ class AccountMenu extends Component {
           </ListItem>
           {
             user.bio &&
-            <ListItem component={Typography} variant="caption" align="center">
+            <ListItem
+              component={Typography}
+              variant="body1"
+              align="center"
+            >
               {user.bio}
             </ListItem>
           }
+          <Divider />
+          <Grid container>
+            <Grid item xs={6}>
+              <ListItem
+                component={Link}
+                to="/connections"
+                button
+                style={{ paddingRight: 0 }}
+              >
+                <ListItemText primaryTypographyProps={{
+                    align: 'center',
+                    ...liProps
+                }}>
+                  <Typography
+                    className={classes.statistic}
+                    variant="display1"
+                  >
+                    92
+                  </Typography>
+                  <Typography variant="body1">Connections</Typography>
+                </ListItemText>
+              </ListItem>
+            </Grid>
+            <Grid item xs={6}>
+              <ListItem
+                component={Link}
+                to="/views"
+                button
+                style={{ paddingRight: 0 }}
+              >
+                <ListItemText primaryTypographyProps={{
+                    align: 'center',
+                    ...liProps
+                }}>
+                  <Typography
+                    className={classes.statistic}
+                    variant="display1"
+                  >
+                    223
+                  </Typography>
+                  <Typography variant="body1">Views</Typography>
+                </ListItemText>
+              </ListItem>
+            </Grid>
+          </Grid>
+          <Divider />
           <ListItem
             component={Link}
             to={'/profile/' + user.id}
@@ -76,7 +132,9 @@ class AccountMenu extends Component {
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
-            <ListItemText primary="Your Profile" />
+            <ListItemText primaryTypographyProps={liProps}>
+              Your Profile
+            </ListItemText>
           </ListItem>
           <ListItem
             component={Link}
@@ -88,7 +146,9 @@ class AccountMenu extends Component {
                 <EmailIcon />
               </Badge>
             </ListItemIcon>
-            <ListItemText primary="Messages" />
+            <ListItemText primaryTypographyProps={liProps}>
+              Messages
+            </ListItemText>
           </ListItem>
           <ListItem
             component={Link}
@@ -98,10 +158,31 @@ class AccountMenu extends Component {
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary="Settings" />
+            <ListItemText primaryTypographyProps={liProps}>
+              Settings
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            button
+            onClick={logout}
+          >
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primaryTypographyProps={liProps}>
+              Logout
+            </ListItemText>
+          </ListItem>
+          <Divider />
+          <ListItem button>
+            <Grid container justify="center">
+              <ListItemIcon>
+                <NavigateNextIcon />
+              </ListItemIcon>
+            </Grid>
           </ListItem>
         </List>
-        <Divider />
+        {/*
         <List>
           <ListItem
             component={Link}
@@ -111,7 +192,12 @@ class AccountMenu extends Component {
             <ListItemIcon>
               <PeopleIcon />
             </ListItemIcon>
-            <ListItemText primary="Connections (92)" />
+            <ListItemText
+              inset={true}
+              primaryTypographyProps={liProps}
+            >
+              Connections (92)
+            </ListItemText>
           </ListItem>
           <ListItem
             component={Link}
@@ -121,7 +207,12 @@ class AccountMenu extends Component {
             <ListItemIcon>
               <VisibilityIcon />
             </ListItemIcon>
-            <ListItemText primary="Views (223)" />
+            <ListItemText
+              inset={true}
+              primaryTypographyProps={liProps}
+            >
+              Views (223)
+            </ListItemText>
           </ListItem>
           <ListItem button>
             <Grid container justify="center">
@@ -130,7 +221,9 @@ class AccountMenu extends Component {
               </ListItemIcon>
             </Grid>
           </ListItem>
+
         </List>
+        */}
       </div>
     );
   }

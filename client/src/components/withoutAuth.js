@@ -6,8 +6,9 @@ function withoutAuth(NoAuthComponent) {
 
   return class AuthWrapped extends Component {
     componentWillMount() {
-      if (Auth.user()) {
-        this.props.history.replace('/');
+      const user = Auth.user();
+      if (user) {
+        this.props.history.replace('/profile/' + user.id);
       }
     }
 

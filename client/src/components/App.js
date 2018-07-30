@@ -5,6 +5,8 @@ import withoutAuth from './withoutAuth';
 import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider, getMuiTheme } from '@material-ui/core/styles';
+import theme from '../theme/theme';
 import Grid from '@material-ui/core/Grid';
 
 // components
@@ -35,6 +37,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <CssBaseline />
+        <MuiThemeProvider theme={theme}>
         <Router>
           <React.Fragment>
             <NavBar />
@@ -44,13 +47,14 @@ class App extends Component {
               justify="center"
               container
             >
-              <Route exact path="/" component={withAuth(Home)} />
+              <Route exact path="/" component={Home} />
               <Route exact path="/login" component={withoutAuth(Login)} />
               <Route exact path="/signup" component={withoutAuth(SignUp)} />
               <Route exact path="/profile/:id" component={withAuth(Profile)} />
             </Grid>
           </React.Fragment>
         </Router>
+      </MuiThemeProvider>
       </React.Fragment>
     );
   }

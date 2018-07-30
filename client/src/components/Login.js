@@ -10,9 +10,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
-  root: {
-    marginTop: 2 * theme.spacing.unit
-  },
   card: {
     [theme.breakpoints.down('xs')]: {
       borderRadius: 0
@@ -64,7 +61,7 @@ class Login extends Component {
         <Card className={classes.card}>
           <form noValidate onSubmit={this.handleSubmit}>
             <CardContent>
-              <Typography variant="display1">
+              <Typography variant="display1" color="primary">
                 Login
               </Typography>
               <TextField
