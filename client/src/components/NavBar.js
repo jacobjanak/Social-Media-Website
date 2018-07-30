@@ -70,25 +70,25 @@ class MenuAppBar extends Component {
             >
               InnovationsCity
             </Typography>
-            <Button
-              className={classes.link}
-              component={Link}
-              to="/entrepreneurs"
-              color="inherit"
-            >
-              Entrepreneurs
-            </Button>
-            <Button
-              className={classes.link}
-              component={Link}
-              to="/investors"
-              color="inherit"
-            >
-              Investors
-            </Button>
             {
               user ? (
                 <div>
+                  <Button
+                    className={classes.link}
+                    component={Link}
+                    to="/entrepreneurs"
+                    color="inherit"
+                  >
+                    Entrepreneurs
+                  </Button>
+                  <Button
+                    className={classes.link}
+                    component={Link}
+                    to="/investors"
+                    color="inherit"
+                  >
+                    Investors
+                  </Button>
                   <IconButton
                     className={classes.avatar}
                     aria-owns={open ? 'account-menu' : null}

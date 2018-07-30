@@ -52,7 +52,7 @@ class SignUp extends Component {
 
     if (email && password && password === confirmPassword) {
       this.Auth.signUp(email, password, firstName, lastName)
-      .then(user => this.props.history.replace('/profile/' + user.id))
+      .then(user => this.props.history.replace('/profile/' + user._id))
       .catch(err => alert(err.response.data.message))
     }
   }
