@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AuthService from './AuthService';
+import Toggle from './Toggle';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const styles = theme => ({
   card: {
@@ -34,7 +40,9 @@ class SignUp extends Component {
       lastName: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      entrepreneur: false,
+      investor: false
     };
   }
 
@@ -51,7 +59,7 @@ class SignUp extends Component {
 
   handleCheck = event => {
     // for when a checkbox is checked
-    this.setState({ [event.target.name]: event.checked });
+    this.setState({ [event.target.name]: event.target.checked });
   }
 
   handleChange = event => {
@@ -128,6 +136,41 @@ class SignUp extends Component {
                     onChange={this.handleChange}
                   />
                 </Grid>
+              </Grid>
+            </CardContent>
+            <CardContent>
+              <Grid item xs={12}>
+                <FormControl
+                  className={classes.formControl}
+                  component="fieldset"
+
+                >
+                  <FormLabel component="legend">
+                    Select all that apply...
+                  </FormLabel>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.investor}
+                          onChange={this.handleCheck}
+                          name="investor"
+                        />
+                      }
+                      label="Investor"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={this.state.entrepreneur}
+                          onChange={this.handleCheck}
+                          name="entrepreneur"
+                        />
+                      }
+                      label="Entrepreneur"
+                    />
+                  </FormGroup>
+                </FormControl>
               </Grid>
             </CardContent>
             <CardContent>

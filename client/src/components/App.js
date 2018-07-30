@@ -24,6 +24,7 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     marginTop: 4 * theme.spacing.unit,
+    marginBottom: 4 * theme.spacing.unit,
     [theme.breakpoints.down('xs')]: {
       marginTop: 0
     }

@@ -133,7 +133,7 @@ class AccountMenu extends Component {
               <PersonIcon />
             </ListItemIcon>
             <ListItemText primaryTypographyProps={liProps}>
-              Your Profile
+              My Profile
             </ListItemText>
           </ListItem>
           <ListItem

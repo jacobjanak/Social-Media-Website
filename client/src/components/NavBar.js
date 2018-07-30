@@ -25,6 +25,9 @@ const styles = theme => ({
   },
   link: {
     textTransform: 'none'
+  },
+  avatar: {
+    marginLeft: theme.spacing.unit
   }
 });
 
@@ -87,10 +90,11 @@ class MenuAppBar extends Component {
               user ? (
                 <div>
                   <IconButton
+                    className={classes.avatar}
                     aria-owns={open ? 'account-menu' : null}
                     aria-haspopup="true"
-                    onClick={() => this.toggleMenu(true)}
                     color="inherit"
+                    onClick={() => this.toggleMenu(true)}
                   >
                     <Avatar
                       src={window.location.origin + '/' + user.img}
