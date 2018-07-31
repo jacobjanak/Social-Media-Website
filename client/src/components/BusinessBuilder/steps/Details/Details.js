@@ -8,6 +8,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import Checkbox from '@material-ui/core/Checkbox';
 import SelectIndustry from './SelectIndustry';
 
 const styles = theme => ({
@@ -42,6 +44,11 @@ class Details extends Component {
   handleMultiSelect = value => {
     /* value in an array of objects, not strings */
     this.setState({ industries: value })
+  }
+
+  handleCheck = event => {
+    // for when a checkbox is checked
+    this.setState({ [event.target.name]: event.target.checked })
   }
 
   handleChange = event => {
@@ -86,7 +93,7 @@ class Details extends Component {
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">Fund stage</FormLabel>
+              <FormLabel component="legend">Funding</FormLabel>
               <RadioGroup
                 className={classes.group}
                 aria-label="Fund stage"
@@ -101,7 +108,7 @@ class Details extends Component {
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">Business stage</FormLabel>
+              <FormLabel component="legend">Business</FormLabel>
               <RadioGroup
                 className={classes.group}
                 aria-label="Business stage"
@@ -116,18 +123,70 @@ class Details extends Component {
           </Grid>
 
           {/* Industry */}
-          <Grid item xs={12}>
-            <FormControl className={classes.formControl}>
+          <Grid className={classes.section} item xs={12}>
             <Typography variant="headline" margin="normal">
               Industries
             </Typography>
-              <Grid item margin="normal" xs={12}>
-                <SelectIndustry
-                  handleChange={this.handleMultiSelect}
-                  selected={this.state.industries}
+          </Grid>
+          <Grid item xs={6}>
+            {/* <FormControl> */}
+              {/*
+              <FormLabel component="legend">
+                We profit mainly from
+              </FormLabel>
+              */}
+              {/* <FormGroup> */}
+            <FormControlLabel
+              label="We sell a product"
+              control={
+                <Checkbox
+                  checked={this.state.product}
+                  onChange={this.handleCheck}
+                  name="product"
                 />
-              </Grid>
-            </FormControl>
+              }
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControlLabel
+              label="We provide a service"
+              control={
+                <Checkbox
+                  checked={this.state.service}
+                  onChange={this.handleCheck}
+                  name="service"
+                />
+              }
+            />
+              {/* </FormGroup> */}
+            {/* </FormControl> */}
+          </Grid>
+          <Grid item xs={12}>
+            <SelectIndustry
+              handleChange={this.handleMultiSelect}
+              selected={this.state.industries}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Sub industry"
+              name="subIndustry"
+              margin="normal"
+              fullWidth
+              value={this.state.subIndustry}
+              onChange={this.handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="NAICS number"
+              name="naics"
+              margin="normal"
+              type="number"
+              fullWidth
+              value={this.state.naics}
+              onChange={this.handleChange}
+            />
           </Grid>
 
           {/* Location */}

@@ -147,7 +147,6 @@ class SignUp extends Component {
                 <FormControl
                   className={classes.formControl}
                   component="fieldset"
-
                 >
                   <FormLabel component="legend">
                     Select all that apply
