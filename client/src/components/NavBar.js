@@ -127,25 +127,26 @@ class MenuAppBar extends Component {
                     className={classes.link}
                     component={Link}
                     to="/login"
-                    variant="outlined"
                     color="inherit"
+                  >
+                    Login
+                  </Button>
+                  {/*
                     style={{
                       borderTopRightRadius: 0,
                       borderBottomRightRadius: 0,
                     }}
-                  >
-                    Login
-                  </Button>
+                    style={{
+                      borderTopLeftRadius: 0,
+                      borderBottomLeftRadius: 0,
+                    }}
+                  */}
                   <Button
                     className={classes.link}
                     component={Link}
                     to="/signup"
                     variant="contained"
                     color="secondary"
-                    style={{
-                      borderTopLeftRadius: 0,
-                      borderBottomLeftRadius: 0,
-                    }}
                   >
                     Sign Up
                   </Button>
