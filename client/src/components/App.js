@@ -5,7 +5,7 @@ import withoutAuth from './withoutAuth';
 import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { MuiThemeProvider, getMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../theme/theme';
 import Grid from '@material-ui/core/Grid';
 
@@ -15,6 +15,7 @@ import Home from './Home';
 import Login from './Login';
 import Profile from './Profile';
 import SignUp from './SignUp';
+import BusinessBuilder from './BusinessBuilder'
 
 if (localStorage.getItem('id_token')) {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('id_token')}`;
@@ -52,6 +53,7 @@ class App extends Component {
               <Route exact path="/login" component={withoutAuth(Login)} />
               <Route exact path="/signup" component={withoutAuth(SignUp)} />
               <Route exact path="/profile/:id" component={withAuth(Profile)} />
+              <Route exact path="/entrepreneurs" component={withAuth(BusinessBuilder)} />
             </Grid>
           </React.Fragment>
         </Router>

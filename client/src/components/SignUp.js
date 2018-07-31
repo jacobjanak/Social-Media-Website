@@ -90,7 +90,6 @@ class SignUp extends Component {
               <Grid container>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    className={classes.textField}
                     label="First name"
                     name="firstName"
                     margin="normal"
@@ -101,7 +100,6 @@ class SignUp extends Component {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    className={classes.textField}
                     label="Last name"
                     name="lastName"
                     margin="normal"
@@ -112,7 +110,6 @@ class SignUp extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    className={classes.textField}
                     label="Email"
                     name="email"
                     margin="normal"
@@ -123,7 +120,6 @@ class SignUp extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    className={classes.textField}
                     label="Password"
                     name="password"
                     type="password"
@@ -135,7 +131,6 @@ class SignUp extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    className={classes.textField}
                     label="Confirm password"
                     name="confirmPassword"
                     type="password"

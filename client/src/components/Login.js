@@ -65,7 +65,6 @@ class Login extends Component {
                 Login
               </Typography>
               <TextField
-                className={classes.textField}
                 label="Email"
                 name="email"
                 margin="normal"
@@ -74,7 +73,6 @@ class Login extends Component {
                 onChange={this.handleChange}
               />
               <TextField
-                className={classes.textField}
                 label="Password"
                 name="password"
                 type="password"

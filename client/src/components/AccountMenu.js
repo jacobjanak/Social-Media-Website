@@ -187,7 +187,7 @@ class AccountMenu extends Component {
           <Divider />
           <ListItem button>
             <Grid container justify="center">
-              <ListItemIcon>
+              <ListItemIcon style={{ marginRight: 0 }}>
                 <NavigateNextIcon />
               </ListItemIcon>
             </Grid>
