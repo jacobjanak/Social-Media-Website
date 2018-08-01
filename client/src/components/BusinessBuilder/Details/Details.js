@@ -13,9 +13,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import SelectIndustry from './SelectIndustry';
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
   section: {
     marginTop: 4 * theme.spacing.unit
   },
@@ -26,21 +23,6 @@ const styles = theme => ({
 });
 
 class Details extends Component {
-  constructor(props) {
-    super()
-    const { firstName, lastName } = props.user;
-
-    this.state = {
-      name: `${firstName} ${lastName}'s Company`,
-      fundStage: null,
-      businessStage: null,
-      industries: [],
-      city: '',
-      zip: '',
-      bio: ''
-    };
-  }
-
   handleMultiSelect = value => {
     /* value in an array of objects, not strings */
     this.setState({ industries: value })
@@ -57,7 +39,12 @@ class Details extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      handleChange,
+      handleCheck,
+      handleMultiSelect
+    } = this.props;
 
     return (
       <Grid item xs={12} sm={10} md={8} lg={6}>
@@ -80,8 +67,8 @@ class Details extends Component {
               name="name"
               margin="dense"
               fullWidth
-              value={this.state.name}
-              onChange={this.handleChange}
+              value={this.props.name}
+              onChange={handleChange}
             />
           </Grid>
 
@@ -98,8 +85,8 @@ class Details extends Component {
                 className={classes.group}
                 aria-label="Fund stage"
                 name="fundStage"
-                value={this.state.fundStage}
-                onChange={this.handleChange}
+                value={this.props.fundStage}
+                onChange={handleChange}
               >
                 <FormControlLabel value="seed" control={<Radio />} label="Seed" />
                 <FormControlLabel value="preSeed" control={<Radio />} label="Pre-Seed" />
@@ -113,8 +100,8 @@ class Details extends Component {
                 className={classes.group}
                 aria-label="Business stage"
                 name="businessStage"
-                value={this.state.businessStage}
-                onChange={this.handleChange}
+                value={this.props.businessStage}
+                onChange={handleChange}
               >
                 <FormControlLabel value="existing" control={<Radio />} label="Existing" />
                 <FormControlLabel value="new" control={<Radio />} label="New" />
@@ -140,8 +127,8 @@ class Details extends Component {
               label="We sell a product"
               control={
                 <Checkbox
-                  checked={this.state.product}
-                  onChange={this.handleCheck}
+                  checked={this.props.product}
+                  onChange={handleCheck}
                   name="product"
                 />
               }
@@ -152,8 +139,8 @@ class Details extends Component {
               label="We provide a service"
               control={
                 <Checkbox
-                  checked={this.state.service}
-                  onChange={this.handleCheck}
+                  checked={this.props.service}
+                  onChange={handleCheck}
                   name="service"
                 />
               }
@@ -163,8 +150,8 @@ class Details extends Component {
           </Grid>
           <Grid item xs={12}>
             <SelectIndustry
-              handleChange={this.handleMultiSelect}
-              selected={this.state.industries}
+              handleChange={handleMultiSelect}
+              selected={this.props.industries}
             />
           </Grid>
           <Grid item xs={12}>
@@ -173,8 +160,8 @@ class Details extends Component {
               name="subIndustry"
               margin="normal"
               fullWidth
-              value={this.state.subIndustry}
-              onChange={this.handleChange}
+              value={this.props.subIndustry}
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -184,8 +171,8 @@ class Details extends Component {
               margin="normal"
               type="number"
               fullWidth
-              value={this.state.naics}
-              onChange={this.handleChange}
+              value={this.props.naics}
+              onChange={handleChange}
             />
           </Grid>
 
@@ -201,8 +188,8 @@ class Details extends Component {
               name="city"
               margin="dense"
               fullWidth
-              value={this.state.city}
-              onChange={this.handleChange}
+              value={this.props.city}
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -212,15 +199,15 @@ class Details extends Component {
               margin="dense"
               type="number"
               fullWidth
-              value={this.state.zip}
-              onChange={this.handleChange}
+              value={this.props.zip}
+              onChange={handleChange}
             />
           </Grid>
 
           {/* Bio */}
           <Grid className={classes.section} item xs={12}>
             <Typography variant="headline" margin="normal">
-              Description
+              Bio
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -230,8 +217,8 @@ class Details extends Component {
               rows={4}
               multiline
               fullWidth
-              value={this.state.bio}
-              onChange={this.handleChange}
+              value={this.props.bio}
+              onChange={handleChange}
             />
           </Grid>
 

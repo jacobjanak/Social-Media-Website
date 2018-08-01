@@ -14,13 +14,18 @@ import Typography from '@material-ui/core/Typography';
 
 // steps
 import Details from './Details';
+import Overview from './Overview';
 
 const styles = theme => ({
   root: {
     width: '90%',
   },
-  button: {
+  // if I want spacing between buttons
+  leftButton: {
     marginRight: theme.spacing.unit,
+  },
+  rightButton: {
+    marginLeft: theme.spacing.unit,
   },
   instructions: {
     marginTop: theme.spacing.unit,
@@ -36,19 +41,36 @@ const styles = theme => ({
 });
 
 class BusinessBuilder extends React.Component {
-  state = {
-    activeStep: 0,
-    skipped: new Set(),
-  };
+  constructor(props) {
+    super()
+    const { firstName, lastName } = props.user;
 
-  getStepContent = step => {
-    switch (step) {
-      case 0:
-        return <Details user={this.props.user} />;
-      default:
-        return "Nothing here yet";
-    }
-  };
+    this.state = {
+      activeStep: 0,
+      skipped: new Set(),
+      name: `${firstName || ''} ${lastName || 'User'}'s Company`,
+      fundStage: null,
+      businessStage: null,
+      product: false,
+      service: false,
+      industries: [],
+      city: '',
+      zip: '',
+      bio: '',
+      description: '',
+      problem: '',
+      solution: '',
+      market1: '',
+      market2: '',
+      market3: '',
+      market4: '',
+      competitor1: '',
+      competitor2: '',
+      competitor3: '',
+      competitor4: '',
+      tested: 'no'
+    };
+  }
 
   getSteps = () => ([
     'Details',
@@ -57,6 +79,29 @@ class BusinessBuilder extends React.Component {
     'Timeline',
     'Strategy'
   ]);
+
+  getStepContent = step => {
+    switch (step) {
+      case 0:
+        return (
+          <Details
+            { ...this.state }
+            handleChange={this.handleChange}
+            handleCheck={this.handleCheck}
+            handleMultiSelect={this.handleMultiSelect}
+          />
+        );
+      case 1:
+        return (
+          <Overview
+            { ...this.state }
+            handleChange={this.handleChange}
+          />
+        );
+      default:
+        return "Nothing here yet";
+    }
+  };
 
   isStepOptional = step => false;
 
@@ -99,9 +144,24 @@ class BusinessBuilder extends React.Component {
     this.setState({ activeStep: 0 })
   };
 
-  isStepSkipped = (step) => {
+  isStepSkipped = step => {
     return this.state.skipped.has(step);
   };
+
+  handleMultiSelect = value => {
+    // value is an array of objects, not strings
+    this.setState({ industries: value })
+  }
+
+  handleCheck = event => {
+    // for when a checkbox is checked
+    this.setState({ [event.target.name]: event.target.checked })
+  }
+
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value })
+  }
 
   render() {
     const { classes, user } = this.props;
@@ -158,7 +218,6 @@ class BusinessBuilder extends React.Component {
                   <Button
                     disabled={activeStep === 0}
                     onClick={this.handleBack}
-                    className={classes.button}
                   >
                     Back
                   </Button>
@@ -167,7 +226,6 @@ class BusinessBuilder extends React.Component {
                       variant="contained"
                       color="primary"
                       onClick={this.handleSkip}
-                      className={classes.button}
                     >
                       Skip
                     </Button>
@@ -176,7 +234,6 @@ class BusinessBuilder extends React.Component {
                     variant="contained"
                     color="primary"
                     onClick={this.handleNext}
-                    className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                   </Button>

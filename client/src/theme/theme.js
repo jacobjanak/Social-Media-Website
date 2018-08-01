@@ -1,20 +1,61 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: {
+//       light: '#ffffff',
+//       main: '#fafafa',
+//       dark: '#c7c7c7',
+//       contrastText: '#000',
+//     },
+//     secondary: {
+//       light: '#5472d3',
+//       main: '#0d47a1',
+//       dark: '#002171',
+//       contrastText: '#fff',
+//     }
+//   }
+// });
+
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#707dff',
-      main: '#2151f1',
-      dark: '#0029bd',
+      light: '#5472d3',
+      main: '#0d47a1',
+      dark: '#002171',
       contrastText: '#fff',
     },
     secondary: {
-      light: '#ffffe4',
-      main: '#ffe0b2',
-      dark: '#cbae82',
-      contrastText: '#000',
+      light: '#5472d3',
+      main: '#0d47a1',
+      dark: '#002171',
+      contrastText: '#fff',
     }
+    // secondary: {
+    //   light: '#ffffff',
+    //   main: '#89a0ff',
+    //   dark: '#0d47a1',
+    //   contrastText: '#000',
+    // }
   }
+  // typography: {
+  //   "fontFamily": "Barlow",
+  //   "fontSize": 14,
+  //   "subheading": {
+  //     "fontSize": "14px"
+  //   }
+  // },
+  // "status": {
+  //   "danger": "orange"
+  // },
+  // "overrides": {
+  //   "MuiAppBar": {
+  //     "colorDefault": {
+  //       "backgroundColor": "#FFF",
+  //       "color": "#000"
+  //     }
+  //   }
+  // }
 });
 
 export default theme;
