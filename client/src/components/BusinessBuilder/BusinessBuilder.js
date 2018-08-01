@@ -1,6 +1,6 @@
 /*
   This file is large partly because there is functionality for optional
-  steps that is currently not being utilized but may be usefule in the future.
+  steps that is currently not being utilized but may be useful in the future.
 */
 
 import React from 'react';
@@ -11,10 +11,12 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Spacer from '../Spacer'
 
 // steps
 import Details from './Details';
 import Overview from './Overview';
+import Finances from './Finances';
 
 const styles = theme => ({
   root: {
@@ -68,7 +70,11 @@ class BusinessBuilder extends React.Component {
       competitor2: '',
       competitor3: '',
       competitor4: '',
-      tested: 'no'
+      tested: '',
+      currency: 'USD',
+      forecast: '',
+      salesPlan: '',
+      marketingPlan: ''
     };
   }
 
@@ -76,7 +82,7 @@ class BusinessBuilder extends React.Component {
     'Details',
     'Overview',
     'Finances',
-    'Timeline',
+    'Timeline & Traction',
     'Strategy'
   ]);
 
@@ -94,6 +100,13 @@ class BusinessBuilder extends React.Component {
       case 1:
         return (
           <Overview
+            { ...this.state }
+            handleChange={this.handleChange}
+          />
+        );
+      case 2:
+        return (
+          <Finances
             { ...this.state }
             handleChange={this.handleChange}
           />
@@ -194,53 +207,79 @@ class BusinessBuilder extends React.Component {
             );
           })}
         </Stepper>
-        <div>
-          {activeStep === steps.length ? (
-            <div>
-              <Typography className={classes.instructions}>
-                { "All steps completed - you're finished" }
-              </Typography>
-              <Button className={classes.button} onClick={this.handleReset}>
-                Reset
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <Grid
-                className={classes.step}
-                justify="center"
-                container
-              >
-                {/* each step gets rendered here */}
-                { this.getStepContent(activeStep) }
-              </Grid>
-              <Grid container justify="center">
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={this.handleBack}
-                  >
-                    Back
-                  </Button>
-                  {this.isStepOptional(activeStep) && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleSkip}
-                    >
-                      Skip
-                    </Button>
-                  )}
+
+        <Grid container justify="flex-end" style={{ paddingRight: 24 }}>
+          <Button
+            disabled={activeStep === 0}
+            onClick={this.handleBack}
+          >
+            Back
+          </Button>
+          {this.isStepOptional(activeStep) && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleSkip}
+            >
+              Skip
+            </Button>
+          )}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleNext}
+          >
+            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+          </Button>
+        </Grid>
+
+        {activeStep === steps.length ? (
+          <div>
+            <Typography className={classes.instructions}>
+              { "All steps completed - you're finished" }
+            </Typography>
+            <Button className={classes.button} onClick={this.handleReset}>
+              Reset
+            </Button>
+          </div>
+        ) : (
+          <Grid
+            className={classes.step}
+            justify="center"
+            container
+          >
+            <Grid item xs={12} sm={10} md={8} lg={6}>
+              {/* each step gets rendered here */}
+              { this.getStepContent(activeStep) }
+
+              <Grid container justify="flex-end">
+                <Spacer />
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={this.handleBack}
+                >
+                  Back
+                </Button>
+                {this.isStepOptional(activeStep) && (
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={this.handleNext}
+                    onClick={this.handleSkip}
                   >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    Skip
                   </Button>
+                )}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleNext}
+                >
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                </Button>
               </Grid>
-            </div>
-          )}
-        </div>
+            </Grid>
+          </Grid>
+        )}
       </div>
     );
   }

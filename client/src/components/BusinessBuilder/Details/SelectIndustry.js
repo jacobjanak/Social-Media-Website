@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
-import industries from './data/industries';
+import industries from '../../../data/industries';
 
 const suggestions = industries.map(industry => ({
   value: industry,
