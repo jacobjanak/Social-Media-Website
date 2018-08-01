@@ -112,6 +112,22 @@ class Overview extends Component {
             onChange={handleChange}
           />
         </Grid>
+        <Spacer half={true} />
+        <Grid item xs={12}>
+          <Typography variant="headline" margin="normal">
+            Benefits to Audience
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            name="benefits"
+            margin="dense"
+            placeholder="What benefits are you giving your audience?"
+            fullWidth
+            value={this.props.benefits}
+            onChange={handleChange}
+          />
+        </Grid>
         <Spacer />
 
         {/* Markets and competitors */}

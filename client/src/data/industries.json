@@ -1,4 +1,4 @@
-const industries = [
+[
   "Accounting",
   "Airlines/Aviation",
   "Alternative Dispute Resolution",
@@ -146,6 +146,4 @@ const industries = [
   "Wine and Spirits",
   "Wireless",
   "Writing and Editing"
-];
-
-export default industries;
+]

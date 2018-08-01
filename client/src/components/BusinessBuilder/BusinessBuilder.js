@@ -17,6 +17,8 @@ import Spacer from '../Spacer'
 import Details from './Details';
 import Overview from './Overview';
 import Finances from './Finances';
+import Timeline from './Timeline';
+import Strategy from './Strategy';
 
 const styles = theme => ({
   root: {
@@ -47,10 +49,14 @@ class BusinessBuilder extends React.Component {
     super()
     const { firstName, lastName } = props.user;
 
+    const companyName = firstName && lastName
+      ? `${firstName} ${lastName}'s Company`
+      : '';
+
     this.state = {
       activeStep: 0,
       skipped: new Set(),
-      name: `${firstName || ''} ${lastName || 'User'}'s Company`,
+      name: companyName,
       fundStage: null,
       businessStage: null,
       product: false,
@@ -58,9 +64,14 @@ class BusinessBuilder extends React.Component {
       industries: [],
       city: '',
       zip: '',
+      country: {
+        value: 'United States',
+        label: 'United States',
+      },
       bio: '',
       description: '',
       problem: '',
+      benefits: '',
       solution: '',
       market1: '',
       market2: '',
@@ -74,7 +85,8 @@ class BusinessBuilder extends React.Component {
       currency: 'USD',
       forecast: '',
       salesPlan: '',
-      marketingPlan: ''
+      marketingPlan: '',
+      website: ''
     };
   }
 
@@ -83,7 +95,7 @@ class BusinessBuilder extends React.Component {
     'Overview',
     'Finances',
     'Timeline & Traction',
-    'Strategy'
+    'Final Strategy'
   ]);
 
   getStepContent = step => {
@@ -94,7 +106,8 @@ class BusinessBuilder extends React.Component {
             { ...this.state }
             handleChange={this.handleChange}
             handleCheck={this.handleCheck}
-            handleMultiSelect={this.handleMultiSelect}
+            industrySelect={this.industrySelect}
+            countrySelect={this.countrySelect}
           />
         );
       case 1:
@@ -107,6 +120,20 @@ class BusinessBuilder extends React.Component {
       case 2:
         return (
           <Finances
+            { ...this.state }
+            handleChange={this.handleChange}
+          />
+        );
+      case 3:
+        return (
+          <Timeline
+            { ...this.state }
+            handleChange={this.handleChange}
+          />
+        );
+      case 4:
+        return (
+          <Strategy
             { ...this.state }
             handleChange={this.handleChange}
           />
@@ -161,9 +188,14 @@ class BusinessBuilder extends React.Component {
     return this.state.skipped.has(step);
   };
 
-  handleMultiSelect = value => {
+  industrySelect = value => {
     // value is an array of objects, not strings
     this.setState({ industries: value })
+  }
+
+  countrySelect = value => {
+    // value is an object, not string
+    this.setState({ country: value })
   }
 
   handleCheck = event => {

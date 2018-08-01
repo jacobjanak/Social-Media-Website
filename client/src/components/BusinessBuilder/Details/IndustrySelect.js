@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
-import industries from '../../../data/industries';
+import industries from '../../../data/industries.json';
 
 const suggestions = industries.map(industry => ({
   value: industry,
@@ -139,7 +139,7 @@ const components = {
   ValueContainer,
 };
 
-class IntegrationReactSelect extends React.Component {
+class IndustrySelect extends React.Component {
   render() {
     const { classes, selected, handleChange } = this.props;
 
@@ -160,4 +160,4 @@ class IntegrationReactSelect extends React.Component {
   }
 }
 
-export default withStyles(styles)(IntegrationReactSelect);
+export default withStyles(styles)(IndustrySelect);

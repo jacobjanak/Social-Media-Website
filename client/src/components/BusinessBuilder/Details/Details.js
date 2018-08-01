@@ -11,7 +11,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import Spacer from '../../Spacer';
-import SelectIndustry from './SelectIndustry';
+import IndustrySelect from './IndustrySelect';
+import CountrySelect from './CountrySelect';
 
 const styles = theme => ({
   section: {
@@ -19,6 +20,9 @@ const styles = theme => ({
   },
   formControl: {
     display: 'block',
+    marginTop: 2 * theme.spacing.unit
+  },
+  country: {
     marginTop: 2 * theme.spacing.unit
   }
 });
@@ -29,7 +33,8 @@ class Details extends Component {
       classes,
       handleChange,
       handleCheck,
-      handleMultiSelect
+      industrySelect,
+      countrySelect
     } = this.props;
 
     return (
@@ -41,19 +46,30 @@ class Details extends Component {
         </Grid>
         <Spacer half={true} />
 
-        {/* Company name */}
+        {/* Basic info */}
         <Grid className={classes.section} item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Company Name
+          <Typography variant="headline">
+            Basic Info
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <TextField
-            placeholder="Company name"
+            label="Company name"
             name="name"
-            margin="dense"
+            margin="normal"
             fullWidth
             value={this.props.name}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Bio"
+            name="bio"
+            margin="normal"
+            multiline
+            fullWidth
+            value={this.props.bio}
             onChange={handleChange}
           />
         </Grid>
@@ -67,7 +83,7 @@ class Details extends Component {
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend">Funding</FormLabel>
+            <FormLabel component="legend">Funding stage</FormLabel>
             <RadioGroup
               className={classes.group}
               aria-label="Fund stage"
@@ -76,13 +92,13 @@ class Details extends Component {
               onChange={handleChange}
             >
               <FormControlLabel value="seed" control={<Radio />} label="Seed" />
-              <FormControlLabel value="preSeed" control={<Radio />} label="Pre-Seed" />
+              <FormControlLabel value="preSeed" control={<Radio />} label="Pre-seed" />
             </RadioGroup>
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend">Business</FormLabel>
+            <FormLabel component="legend">Business stage</FormLabel>
             <RadioGroup
               className={classes.group}
               aria-label="Business stage"
@@ -137,9 +153,9 @@ class Details extends Component {
           {/* </FormControl> */}
         </Grid>
         <Grid item xs={12}>
-          <SelectIndustry
-            handleChange={handleMultiSelect}
+          <IndustrySelect
             selected={this.props.industries}
+            handleChange={industrySelect}
           />
         </Grid>
         <Grid item xs={12}>
@@ -171,11 +187,17 @@ class Details extends Component {
             Location
           </Typography>
         </Grid>
+        <Grid item xs={12} className={classes.country}>
+          <CountrySelect
+            country={this.props.country}
+            handleChange={countrySelect}
+          />
+        </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             label="City"
             name="city"
-            margin="dense"
+            margin="normal"
             fullWidth
             value={this.props.city}
             onChange={handleChange}
@@ -185,28 +207,20 @@ class Details extends Component {
           <TextField
             label="Zip code"
             name="zip"
-            margin="dense"
+            margin="normal"
             type="number"
             fullWidth
             value={this.props.zip}
             onChange={handleChange}
           />
         </Grid>
-        <Spacer />
-
-        {/* Bio */}
-        <Grid className={classes.section} item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Short Description
-          </Typography>
-        </Grid>
         <Grid item xs={12}>
           <TextField
-            name="bio"
-            margin="dense"
-            multiline
+            label="Street address"
+            name="street"
+            margin="normal"
             fullWidth
-            value={this.props.bio}
+            value={this.props.street}
             onChange={handleChange}
           />
         </Grid>

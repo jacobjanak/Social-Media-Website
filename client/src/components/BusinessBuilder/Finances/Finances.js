@@ -23,11 +23,6 @@ const styles = theme => ({
 });
 
 class Finances extends Component {
-  handleChange = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value })
-  }
-
   render() {
     const { classes, handleChange } = this.props;
 
@@ -103,7 +98,7 @@ class Finances extends Component {
           <TextField
             label="Sales plan"
             name="salesPlan"
-            margin="dense"
+            margin="normal"
             multiline
             fullWidth
             value={this.props.salesPlan}
@@ -114,7 +109,7 @@ class Finances extends Component {
           <TextField
             label="Marketing plan"
             name="marketingPlan"
-            margin="dense"
+            margin="normal"
             multiline
             fullWidth
             value={this.props.marketingPlan}
