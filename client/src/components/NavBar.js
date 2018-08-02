@@ -76,18 +76,10 @@ class MenuAppBar extends Component {
                   <Button
                     className={classes.link}
                     component={Link}
-                    to="/entrepreneurs"
+                    to="/dashboard"
                     color="inherit"
                   >
-                    Entrepreneurs
-                  </Button>
-                  <Button
-                    className={classes.link}
-                    component={Link}
-                    to="/investors"
-                    color="inherit"
-                  >
-                    Investors
+                    Dashboard
                   </Button>
                   <IconButton
                     className={classes.avatar}

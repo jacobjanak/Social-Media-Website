@@ -27,12 +27,7 @@ class Strategy extends Component {
 
     return (
       <Grid container>
-        <Grid item xs={12}>
-          <Typography variant="display1" align="center">
-            Final Strategy
-          </Typography>
-        </Grid>
-        <Spacer half={true} />
+
       </Grid>
     );
   }

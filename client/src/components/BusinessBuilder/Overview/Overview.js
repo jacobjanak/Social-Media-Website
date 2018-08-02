@@ -44,12 +44,6 @@ class Overview extends Component {
     const { classes, handleChange } = this.props;
     return (
       <Grid container>
-        <Grid item xs={12}>
-          <Typography variant="display1" align="center">
-            Overview
-          </Typography>
-        </Grid>
-        <Spacer half={true} />
 
         {/* Info previous page */}
         <Grid item xs={12}>
@@ -132,7 +126,7 @@ class Overview extends Component {
 
         {/* Markets and competitors */}
         <Grid item xs={12} md={6}>
-          <Paper className={classes.leftPaper} elevation={1}>
+          <Paper className={classes.leftPaper}>
             <Typography variant="headline" align="center">
               Markets
             </Typography>
@@ -159,7 +153,7 @@ class Overview extends Component {
           <Spacer />
         </Hidden>
         <Grid item xs={12} md={6}>
-          <Paper className={classes.rightPaper} elevation={1}>
+          <Paper className={classes.rightPaper}>
             <Typography variant="headline" align="center">
               Competitors
             </Typography>

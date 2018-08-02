@@ -39,12 +39,6 @@ class Details extends Component {
 
     return (
       <Grid container>
-        <Grid item xs={12}>
-          <Typography variant="display1" align="center">
-            Create a Company
-          </Typography>
-        </Grid>
-        <Spacer half={true} />
 
         {/* Basic info */}
         <Grid className={classes.section} item xs={12}>

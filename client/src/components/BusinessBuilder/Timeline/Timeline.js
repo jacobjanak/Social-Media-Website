@@ -27,12 +27,6 @@ class Timeline extends Component {
 
     return (
       <Grid container>
-        <Grid item xs={12}>
-          <Typography variant="display1" align="center">
-            Timeline and Traction
-          </Typography>
-        </Grid>
-        <Spacer half={true} />
 
         {/* Plans */}
         {/* <Grid item xs={12}>

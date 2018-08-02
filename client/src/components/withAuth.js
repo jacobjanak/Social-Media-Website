@@ -17,7 +17,7 @@ function withAuth(AuthComponent) {
     }
 
     render() {
-      const { history } = this.props;
+      const { history, match } = this.props;
       const { user } = this.state;
 
       //NOTE: seems like this could replace all the state stuff?
@@ -30,7 +30,7 @@ function withAuth(AuthComponent) {
       // }
 
       if (user) {
-        return <AuthComponent history={history} user={user} />;
+        return <AuthComponent history={history} match={match} user={user} />;
       } else {
         return null;
       }

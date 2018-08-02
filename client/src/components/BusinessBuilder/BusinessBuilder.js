@@ -90,8 +90,29 @@ class BusinessBuilder extends React.Component {
     };
   }
 
+  componentWillMount() {
+    // example: site.com/business-builder/4 takes user to step 4
+    const { step } = this.props.match.params;
+    const num = Number(step);
+
+    if (num && Number.isInteger(num) && (
+      // validate the size of the number
+      0 < num && num <= this.getSteps().length
+    )) {
+      this.setState({ activeStep: num - 1 })
+    } else {
+      // default to step 1
+      this.updateURL()
+    }
+  }
+
+  updateURL = step => {
+    const url = `/business-builder/${this.state.activeStep + 1}`;
+    this.props.history.push(url)
+  };
+
   getSteps = () => ([
-    'Details',
+    'Company Details',
     'Overview',
     'Finances',
     'Timeline & Traction',
@@ -139,7 +160,7 @@ class BusinessBuilder extends React.Component {
           />
         );
       default:
-        return "Nothing here yet";
+        return null;
     }
   };
 
@@ -154,13 +175,15 @@ class BusinessBuilder extends React.Component {
     }
     this.setState({
       activeStep: activeStep + 1,
-      skipped,
-    });
+      skipped
+    }, this.updateURL)
   };
 
   handleBack = () => {
     const { activeStep } = this.state;
-    this.setState({ activeStep: activeStep - 1 })
+    this.setState({
+      activeStep: activeStep - 1
+    }, this.updateURL)
   };
 
   handleSkip = () => {
@@ -281,6 +304,11 @@ class BusinessBuilder extends React.Component {
             container
           >
             <Grid item xs={12} sm={10} md={8} lg={6}>
+              <Typography variant="display1" align="center" color="primary">
+                {steps[activeStep]}
+              </Typography>
+              <Spacer half={true} />
+
               {/* each step gets rendered here */}
               { this.getStepContent(activeStep) }
 

@@ -28,12 +28,6 @@ class Finances extends Component {
 
     return (
       <Grid container>
-        <Grid item xs={12}>
-          <Typography variant="display1" align="center">
-            Finances
-          </Typography>
-        </Grid>
-        <Spacer half={true} />
 
         {/* Forecast */}
         {/* <Grid item xs={12}>

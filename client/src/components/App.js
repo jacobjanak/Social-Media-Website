@@ -11,10 +11,13 @@ import Grid from '@material-ui/core/Grid';
 
 // components
 import NavBar from './NavBar';
+import ScrollToTop from './ScrollToTop';
 import Home from './Home';
 import Login from './Login';
 import Profile from './Profile';
 import SignUp from './SignUp';
+import Dashboard from './Dashboard'
+import StartBusinessBuilder from './BusinessBuilder/Start'
 import BusinessBuilder from './BusinessBuilder'
 
 if (localStorage.getItem('id_token')) {
@@ -26,9 +29,9 @@ const styles = theme => ({
     flexGrow: 1,
     marginTop: 4 * theme.spacing.unit,
     marginBottom: 4 * theme.spacing.unit,
-    [theme.breakpoints.down('xs')]: {
-      marginTop: 0
-    }
+    // [theme.breakpoints.down('xs')]: {
+    //   marginTop: 0
+    // }
   }
 });
 
@@ -43,18 +46,21 @@ class App extends Component {
         <Router>
           <React.Fragment>
             <NavBar />
-            <Grid
-              id="app"
-              className={classes.root}
-              justify="center"
-              container
-            >
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={withoutAuth(Login)} />
-              <Route exact path="/signup" component={withoutAuth(SignUp)} />
-              <Route exact path="/profile/:id" component={withAuth(Profile)} />
-              <Route exact path="/entrepreneurs" component={withAuth(BusinessBuilder)} />
-            </Grid>
+            <ScrollToTop>
+              <Grid
+                className={classes.root}
+                justify="center"
+                container
+              >
+                <Route exact path="/" component={Home} />
+                <Route exact path="/login" component={withoutAuth(Login)} />
+                <Route exact path="/signup" component={withoutAuth(SignUp)} />
+                <Route exact path="/dashboard" component={withAuth(Dashboard)} />
+                <Route exact path="/profile/:id" component={withAuth(Profile)} />
+                <Route exact path="/business-builder" component={withAuth(StartBusinessBuilder)} />
+                <Route path="/business-builder/:step" component={withAuth(BusinessBuilder)} />
+              </Grid>
+            </ScrollToTop>
           </React.Fragment>
         </Router>
       </MuiThemeProvider>
