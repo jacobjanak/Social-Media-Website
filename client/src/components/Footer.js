@@ -1,18 +1,20 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+// import { Button } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FontAwesome from 'react-fontawesome';
 
 const styles = theme => ({
-  root: {
-    backgroundColor: theme.palette.text.primary
-  },
+  // root: {
+  //   backgroundColor: 'transparent',
+  //   color: 'black'
+  // },
   icon: {
-    color: 'white',
-    padding: '0px 10px'
+    fontSize: 16,
+    color: 'black'
   }
 });
 
@@ -20,22 +22,20 @@ const Footer = props => {
   const { classes } = props;
 
   return (
-    <AppBar className={classes.root} position="static">
-      <Toolbar>
-        <Typography variant="title" color="inherit" noWrap>
-          <small>&copy; 2018 InnovationsCity</small>
-        </Typography>
+    <Toolbar>
+      <Typography variant="subheading" color="inherit" noWrap>
+        {/* &copy; 2018 InnovationsCity */}
+      </Typography>
 
-        <span style={{ flexGrow: 1 }} />
+      <span style={{ flexGrow: 1 }} />
 
-        <Link to="/dashboard">
-          <FontAwesome className={classes.icon} name="facebook" />
-        </Link>
-        <Link to="/dashboard">
-          <FontAwesome className={classes.icon} name="twitter" />
-        </Link>
-      </Toolbar>
-    </AppBar>
+      <IconButton href="https://twitter.com/" target="_blank">
+        <FontAwesome className={classes.icon} name="twitter" />
+      </IconButton>
+      <IconButton href="https://www.facebook.com/" target="_blank">
+        <FontAwesome className={classes.icon} name="facebook" />
+      </IconButton>
+    </Toolbar>
   );
 };
 
