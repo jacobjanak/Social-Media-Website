@@ -6,32 +6,49 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AddCircle from '@material-ui/icons/AddCircle';
+import API from '../../utils/API';
 import './Dashboard.css';
 
-const styles = theme => {
-  console.log(theme)
-  return ({
-    paper: {
-      padding: theme.spacing.unit * 2,
-      width: '100%',
-      height: 160,
-      textAlign: 'center'
-    },
-    icon: {
-      color: theme.palette.text.secondary,
-      fontSize: 48
-    },
-    center: {
-      height: '100%',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }
-  })
-};
+const styles = theme => ({
+  paper: {
+    padding: theme.spacing.unit * 2,
+    width: '100%',
+    height: 160,
+    textAlign: 'center'
+  },
+  button: {
+    padding: theme.spacing.unit * 2,
+    textTransform: 'none'
+  },
+  icon: {
+    color: theme.palette.text.secondary,
+    fontSize: 48
+  },
+  center: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
 
 class Dashboard extends Component {
+  state = {
+    businesses: []
+  };
+
+  componentWillMount() {
+    const { user } = this.props;
+    API.getBusinesses(user.id)
+    .then(res => {
+      const businesses = res.data;
+      this.setState({ businesses: businesses })
+    })
+    .catch(err => console.log(err))
+  }
+
   render() {
     const { classes } = this.props;
+    const { businesses } = this.state;
 
     return (
       <Grid container justify="center">
@@ -40,22 +57,41 @@ class Dashboard extends Component {
             My Businesses
           </Typography>
           <Grid container justify="center" >
-            {[0,0,0].map((el, i) => (
-              <Grid item xs={12} md={4} key={i}>
+
+            {businesses.map(business => (
+              <Grid item xs={12} md={4}>
                 <Button
-                  className="paper-button"
+                  className={'paper-button ' + classes.button}
                   component={Link}
                   to="/business-builder"
                   fullWidth
                 >
-                  <Paper className={classes.paper} elevation={12}>
-                    <Grid className={classes.center} container>
-                      <AddCircle className={classes.icon} />
-                    </Grid>
+                  <Paper className={classes.paper}>
+                    <Typography variant="headline">
+                      {business.name}
+                    </Typography>
+                    <Typography variant="subheading">
+                      {business.bio}
+                    </Typography>
                   </Paper>
                 </Button>
               </Grid>
             ))}
+
+            <Grid item xs={12} md={4}>
+              <Button
+                className={'paper-button ' + classes.button}
+                component={Link}
+                to="/business-builder"
+                fullWidth
+              >
+                <Paper className={classes.paper}>
+                  <Grid className={classes.center} container>
+                    <AddCircle className={classes.icon} />
+                  </Grid>
+                </Paper>
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

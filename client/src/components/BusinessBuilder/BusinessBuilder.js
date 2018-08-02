@@ -12,6 +12,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Spacer from '../Spacer'
+import API from '../../utils/API';
 
 // steps
 import Details from './Details';
@@ -47,13 +48,14 @@ const styles = theme => ({
 class BusinessBuilder extends React.Component {
   constructor(props) {
     super()
-    const { firstName, lastName } = props.user;
+    const { id, firstName, lastName } = props.user;
 
     const companyName = firstName && lastName
       ? `${firstName} ${lastName}'s Company`
       : '';
 
     this.state = {
+      owner: id,
       activeStep: 0,
       skipped: new Set(),
       name: companyName,
@@ -203,8 +205,17 @@ class BusinessBuilder extends React.Component {
     });
   };
 
-  handleReset = () => {
-    this.setState({ activeStep: 0 })
+  handleSubmit = () => {
+    // this.setState({ activeStep: 0 })
+    API.createBusiness({
+      owner: this.state.owner,
+      name: this.state.name,
+      bio: this.state.bio
+    })
+    .then(business => {
+      this.props.history.push('/dashboard')
+    })
+    .catch(err => alert(err.message))
   };
 
   isStepSkipped = step => {
@@ -270,6 +281,8 @@ class BusinessBuilder extends React.Component {
           >
             Back
           </Button>
+
+          {/* Skip button */}
           {this.isStepOptional(activeStep) && (
             <Button
               variant="contained"
@@ -279,13 +292,24 @@ class BusinessBuilder extends React.Component {
               Skip
             </Button>
           )}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.handleNext}
-          >
-            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-          </Button>
+
+          {activeStep !== steps.length - 1 ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleNext}
+            >
+              Next
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleSubmit}
+            >
+              Finish
+            </Button>
+          )}
         </Grid>
 
         {activeStep === steps.length ? (
@@ -293,8 +317,8 @@ class BusinessBuilder extends React.Component {
             <Typography className={classes.instructions}>
               { "All steps completed - you're finished" }
             </Typography>
-            <Button className={classes.button} onClick={this.handleReset}>
-              Reset
+            <Button className={classes.button} onClick={this.handleSubmit}>
+              Submit
             </Button>
           </div>
         ) : (

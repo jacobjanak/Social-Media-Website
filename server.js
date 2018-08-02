@@ -21,6 +21,7 @@ app.use(morgan('dev'))
 
 // routing
 app.use(require('./routes/user-authentication'))
+app.use(require('./routes/business'))
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './client/build/index.html'))
 })
