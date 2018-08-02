@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 
 // components
 import NavBar from './NavBar';
+import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
 import Home from './Home';
 import Login from './Login';
@@ -26,6 +27,11 @@ if (localStorage.getItem('id_token')) {
 
 const styles = theme => ({
   root: {
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  app: {
     flexGrow: 1,
     marginTop: 4 * theme.spacing.unit,
     marginBottom: 4 * theme.spacing.unit,
@@ -44,11 +50,11 @@ class App extends Component {
         <CssBaseline />
         <MuiThemeProvider theme={theme}>
         <Router>
-          <React.Fragment>
+          <div className={classes.root}>
             <NavBar />
             <ScrollToTop>
               <Grid
-                className={classes.root}
+                className={classes.app}
                 justify="center"
                 container
               >
@@ -61,7 +67,9 @@ class App extends Component {
                 <Route path="/business-builder/:step" component={withAuth(BusinessBuilder)} />
               </Grid>
             </ScrollToTop>
-          </React.Fragment>
+            <div style={{ flexGrow: 3 }}></div>
+            <Footer />
+          </div>
         </Router>
       </MuiThemeProvider>
       </React.Fragment>
