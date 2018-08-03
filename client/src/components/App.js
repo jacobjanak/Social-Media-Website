@@ -28,7 +28,6 @@ if (localStorage.getItem('id_token')) {
 
 const styles = theme => ({
   root: {
-    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column'
   },
@@ -67,6 +66,13 @@ class App extends Component {
                   <Route path="/business-builder/:step" component={withAuth(BusinessBuilder)} />
                 </Grid>
               </ScrollToTop>
+
+              {/*
+                I had this in the root styles:
+                minHeight: '100vh',
+                but it made a scrollbar on mobile cuz of
+                the padding for lower nav
+              */}
 
               {/* for footer */}
               <div style={{ flexGrow: 3 }}></div>

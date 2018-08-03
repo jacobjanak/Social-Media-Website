@@ -36,7 +36,11 @@ const styles = theme => ({
   },
   list: {
     paddingTop: 0
-  }
+  },
+  formControl: {
+    display: 'block',
+    marginTop: 2 * theme.spacing.unit
+  },
 });
 
 class Overview extends Component {
@@ -47,10 +51,10 @@ class Overview extends Component {
 
         {/* Info previous page */}
         <Grid item xs={12}>
-          <Typography variant="headline" align="left">
+          <Typography variant="headline">
             { this.props.name }
           </Typography>
-          <Typography variant="subheading" align="left">
+          <Typography variant="subheading">
             { this.props.bio }
           </Typography>
         </Grid>
@@ -179,9 +183,14 @@ class Overview extends Component {
         <Spacer />
 
         {/* Tested */}
-        <Grid container justify="center">
-          <FormControl component="fieldset">
-            <FormLabel component="legend" align="center">Choose one</FormLabel>
+        <Grid item xs={12}>
+          <Typography variant="headline" margin="normal">
+            Testing
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl className={classes.formControl} component="fieldset">
+            <FormLabel component="legend">Choose one</FormLabel>
             <RadioGroup
               className={classes.group}
               aria-label="Have you tested or surveyed?"

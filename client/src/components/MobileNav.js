@@ -29,13 +29,32 @@ const styles = {
 };
 
 class MobileNav extends React.Component {
-  state = {
-    value: 'recents',
-    open: false
-  };
+  constructor() {
+    super()
+
+    // get current path and strip the backslash
+    let path = window.location.pathname;
+    path = path.substring(1);
+    if (path === '') path = 'home'; 
+
+    this.state = {
+      value: path,
+      prevValue: '',
+      open: false
+    }
+  }
 
   handleChange = (event, value) => {
-    this.setState({ value });
+    // 'more' isn't really a page so it shouldn't stay blue
+    if (value === 'more') {
+      this.setState(state => {
+        state.prevValue = state.value;
+        state.value = value;
+        return state;
+      })
+    } else {
+      this.setState({ value })
+    }
   };
 
   handleToggle = () => {
@@ -46,7 +65,11 @@ class MobileNav extends React.Component {
     if (this.anchorEl.contains(event.target)) {
       return;
     }
-    this.setState({ open: false });
+    this.setState(state => {
+      state.open = false;
+      state.value = state.prevValue;
+      return state;
+    })
   };
 
   render() {

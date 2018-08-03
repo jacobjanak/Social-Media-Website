@@ -6,11 +6,15 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import MobileStepper from '@material-ui/core/MobileStepper';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Spacer from '../Spacer'
 import API from '../../utils/API';
 
@@ -43,7 +47,12 @@ const styles = theme => ({
   step: {
     marginTop: 2 * theme.spacing.unit,
     marginBottom: 4 * theme.spacing.unit,
-  }
+  },
+  mobileStepper: {
+    backgroundColor: 'white',
+    // margin: 'auto',
+    // maxWidth: 320,
+  },
 });
 
 class BusinessBuilder extends React.Component {
@@ -259,68 +268,98 @@ class BusinessBuilder extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Stepper
-          className={classes.stepper}
-          activeStep={activeStep}
-        >
-          {steps.map((label, i) => {
-            const props = {};
-            const labelProps = {};
-            if (this.isStepOptional(i)) {
-              labelProps.optional = (
-                <Typography variant="caption">Optional</Typography>
-              );
+        { window.innerWidth >= 960 ? (
+          <React.Fragment>
+            <Stepper
+              className={classes.stepper}
+              activeStep={activeStep}
+            >
+              {steps.map((label, i) => {
+                const props = {};
+                const labelProps = {};
+                if (this.isStepOptional(i)) {
+                  labelProps.optional = (
+                    <Typography variant="caption">Optional</Typography>
+                  );
+                }
+                if (this.isStepSkipped(i)) {
+                  props.completed = false;
+                }
+                return (
+                  <Step key={label} {...props}>
+                    <StepLabel {...labelProps}>
+                      {label}
+                    </StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+
+            <Grid container justify="flex-end" style={{ paddingRight: 24 }}>
+              <Button
+                disabled={activeStep === 0}
+                onClick={this.handleBack}
+              >
+                Back
+              </Button>
+
+              {/* Skip button */}
+              {this.isStepOptional(activeStep) && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleSkip}
+                >
+                  Skip
+                </Button>
+              )}
+
+              {activeStep !== steps.length - 1 ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleNext}
+                >
+                  Next
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleSubmit}
+                >
+                  Finish
+                </Button>
+              )}
+            </Grid>
+          </React.Fragment>
+        ) : (
+          <MobileStepper
+            steps={steps.length}
+            position="top"
+            component={Paper}
+            activeStep={activeStep}
+            className={classes.mobileStepper}
+            nextButton={
+              <Button
+                size="small"
+                onClick={this.handleNext}
+                disabled={activeStep === steps.length - 1}
+              >
+                Next <KeyboardArrowRight />
+              </Button>
             }
-            if (this.isStepSkipped(i)) {
-              props.completed = false;
+            backButton={
+              <Button
+                size="small"
+                onClick={this.handleBack}
+                disabled={activeStep === 0}
+              >
+                <KeyboardArrowLeft /> Back
+              </Button>
             }
-            return (
-              <Step key={label} {...props}>
-                <StepLabel {...labelProps}>
-                  {label}
-                </StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-
-        <Grid container justify="flex-end" style={{ paddingRight: 24 }}>
-          <Button
-            disabled={activeStep === 0}
-            onClick={this.handleBack}
-          >
-            Back
-          </Button>
-
-          {/* Skip button */}
-          {this.isStepOptional(activeStep) && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleSkip}
-            >
-              Skip
-            </Button>
-          )}
-
-          {activeStep !== steps.length - 1 ? (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleNext}
-            >
-              Next
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleSubmit}
-            >
-              Finish
-            </Button>
-          )}
-        </Grid>
+          />
+        )}
 
         {activeStep === steps.length ? (
           <div>

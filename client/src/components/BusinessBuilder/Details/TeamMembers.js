@@ -85,12 +85,16 @@ class TeamMembers extends Component {
               onClick={this.handleOpen}
             >
               <Paper className={classes.paper}>
-                <Typography variant="headline">
-                  {teamMember.firstName} {teamMember.lastName}
-                </Typography>
-                <Typography variant="subheading">
-                  {teamMember.title}
-                </Typography>
+                <Grid style={{ textAlign: 'left' }} container>
+                  <div>
+                    <Typography variant="subheading">
+                      {teamMember.firstName} {teamMember.lastName}
+                    </Typography>
+                    <Typography variant="body1">
+                      {teamMember.title}
+                    </Typography>
+                  </div>
+                </Grid>
               </Paper>
             </Button>
           </Grid>
@@ -107,7 +111,7 @@ class TeamMembers extends Component {
                 <div>
                   <PersonAddIcon className={classes.icon} />
                   <Typography variant="body1">
-                    Add team member
+                    Add team members
                   </Typography>
                 </div>
               </Grid>

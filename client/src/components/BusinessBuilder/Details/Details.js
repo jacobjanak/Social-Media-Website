@@ -193,6 +193,15 @@ class Details extends Component {
         </Grid>
         <Spacer />
 
+        {/* Team */}
+        <Grid item xs={12}>
+          <Typography variant="headline" margin="normal">
+            Team
+          </Typography>
+        </Grid>
+        <TeamMembers team={team} addTeamMember={addTeamMember} />
+        <Spacer />
+
         {/* Location */}
         <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
@@ -236,15 +245,6 @@ class Details extends Component {
             onChange={handleChange}
           />
         </Grid>
-        <Spacer />
-
-        {/* Team */}
-        <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Team
-          </Typography>
-        </Grid>
-        <TeamMembers team={team} addTeamMember={addTeamMember} />
 
       </Grid>
     );
