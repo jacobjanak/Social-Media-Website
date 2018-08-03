@@ -14,7 +14,7 @@ import Badge from '@material-ui/core/Badge';
 // icons
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
-import SettingsIcon from '@material-ui/icons/SettingsApplications';
+import SettingsIcon from '@material-ui/icons/SettingsSharp';
 import PeopleIcon from '@material-ui/icons/People';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import CancelIcon from '@material-ui/icons/Cancel';

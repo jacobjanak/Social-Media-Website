@@ -43,30 +43,9 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  state = {
-    width: 0,
-    height: 0
-  };
-
-  componentDidMount() {
-    this.updateSize();
-    window.addEventListener('resize', this.updateSize);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateSize);
-  }
-
-  updateSize = () => {
-    this.setState({
-      width: window.innerWidth,
-      height: window.innerHeight
-    })
-  };
-
   render() {
     const { classes } = this.props;
-    const mobile = this.state.width < 600;
+    const mobile = window.innerWidth < 600;
 
     return (
       <React.Fragment>

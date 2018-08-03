@@ -8,23 +8,39 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 import Spacer from '../../Spacer';
+import TeamMembers from './TeamMembers';
 import IndustrySelect from './IndustrySelect';
 import CountrySelect from './CountrySelect';
 
 const styles = theme => ({
-  section: {
-    // marginTop: 4 * theme.spacing.unit
-  },
   formControl: {
     display: 'block',
     marginTop: 2 * theme.spacing.unit
   },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    width: '100%',
+    height: 160,
+    textAlign: 'center'
+  },
+  button: {
+    padding: theme.spacing.unit * 2,
+    textTransform: 'none'
+  },
+  icon: {
+    color: theme.palette.text.secondary,
+    fontSize: 48
+  },
+  center: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   country: {
     marginTop: 2 * theme.spacing.unit
-  }
+  },
 });
 
 class Details extends Component {
@@ -34,14 +50,16 @@ class Details extends Component {
       handleChange,
       handleCheck,
       industrySelect,
-      countrySelect
+      countrySelect,
+      addTeamMember,
+      team
     } = this.props;
 
     return (
       <Grid container>
 
         {/* Basic info */}
-        <Grid className={classes.section} item xs={12}>
+        <Grid item xs={12}>
           <Typography variant="headline">
             Basic Info
           </Typography>
@@ -70,7 +88,7 @@ class Details extends Component {
         <Spacer />
 
         {/* Stages */}
-        <Grid className={classes.section} item xs={12}>
+        <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
             Stages
           </Typography>
@@ -108,7 +126,7 @@ class Details extends Component {
         <Spacer />
 
         {/* Industry */}
-        <Grid className={classes.section} item xs={12}>
+        <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
             Industries
           </Typography>
@@ -176,7 +194,7 @@ class Details extends Component {
         <Spacer />
 
         {/* Location */}
-        <Grid className={classes.section} item xs={12}>
+        <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
             Location
           </Typography>
@@ -218,6 +236,15 @@ class Details extends Component {
             onChange={handleChange}
           />
         </Grid>
+        <Spacer />
+
+        {/* Team */}
+        <Grid item xs={12}>
+          <Typography variant="headline" margin="normal">
+            Team
+          </Typography>
+        </Grid>
+        <TeamMembers team={team} addTeamMember={addTeamMember} />
 
       </Grid>
     );

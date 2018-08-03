@@ -89,7 +89,8 @@ class BusinessBuilder extends React.Component {
       forecast: '',
       salesPlan: '',
       marketingPlan: '',
-      website: ''
+      website: '',
+      team: [],
     };
   }
 
@@ -132,6 +133,7 @@ class BusinessBuilder extends React.Component {
             handleCheck={this.handleCheck}
             industrySelect={this.industrySelect}
             countrySelect={this.countrySelect}
+            addTeamMember={this.addTeamMember}
           />
         );
       case 1:
@@ -226,22 +228,29 @@ class BusinessBuilder extends React.Component {
   industrySelect = value => {
     // value is an array of objects, not strings
     this.setState({ industries: value })
-  }
+  };
 
   countrySelect = value => {
     // value is an object, not string
     this.setState({ country: value })
-  }
+  };
+
+  addTeamMember = person => {
+    this.setState(prevState => {
+      prevState.team.push(person)
+      return prevState;
+    })
+  };
 
   handleCheck = event => {
     // for when a checkbox is checked
     this.setState({ [event.target.name]: event.target.checked })
-  }
+  };
 
   handleChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value })
-  }
+  };
 
   render() {
     const { classes, user } = this.props;
