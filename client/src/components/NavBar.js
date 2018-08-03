@@ -13,9 +13,6 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
   flex: {
     flexGrow: 1,
   },
@@ -58,96 +55,96 @@ class MenuAppBar extends Component {
     const user = this.Auth.user();
 
     return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography
-              className={classes.flex}
-              variant="title"
-              color="inherit"
-              component={Link}
-              to="/"
-            >
+      <AppBar position="static">
+        <Toolbar>
+          <Button
+            className={classes.link}
+            component={Link}
+            to="/"
+            color="inherit"
+          >
+            <Typography variant="title" color="inherit">
               InnovationsCity
             </Typography>
-            {
-              user ? (
-                <div>
-                  <Button
-                    className={classes.link}
-                    component={Link}
-                    to="/dashboard"
-                    color="inherit"
-                  >
-                    Dashboard
-                  </Button>
-                  <IconButton
-                    className={classes.avatar}
-                    aria-owns={open ? 'account-menu' : null}
-                    aria-haspopup="true"
-                    color="inherit"
-                    onClick={() => this.toggleMenu(true)}
-                  >
-                    <Avatar
-                      src={window.location.origin + '/' + user.img}
-                      alt="profile picture"
-                    />
-                  </IconButton>
+          </Button>
+          <span className={classes.flex}></span>
+          {
+            user ? (
+              <div>
+                <Button
+                  className={classes.link}
+                  component={Link}
+                  to="/dashboard"
+                  color="inherit"
+                >
+                  Dashboard
+                </Button>
+                <IconButton
+                  className={classes.avatar}
+                  aria-owns={open ? 'account-menu' : null}
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={() => this.toggleMenu(true)}
+                >
+                  <Avatar
+                    src={window.location.origin + '/' + user.img}
+                    alt="profile picture"
+                  />
+                </IconButton>
 
-                  <SwipeableDrawer
-                    anchor="right"
-                    open={open}
-                    onClose={() => this.toggleMenu(false)}
-                    onOpen={() => this.toggleMenu(true)}
+                <SwipeableDrawer
+                  anchor="right"
+                  open={open}
+                  onClose={() => this.toggleMenu(false)}
+                  onOpen={() => this.toggleMenu(true)}
+                >
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => this.toggleMenu(false)}
+                    onKeyDown={() => this.toggleMenu(false)}
                   >
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => this.toggleMenu(false)}
-                      onKeyDown={() => this.toggleMenu(false)}
-                    >
-                      <AccountMenu
-                        user={user}
-                        logout={this.logout}
-                      />
-                    </div>
-                  </SwipeableDrawer>
-                </div>
-              ) : (
-                <React.Fragment>
-                  <Button
-                    className={classes.link}
-                    component={Link}
-                    to="/login"
-                    color="inherit"
-                  >
-                    Login
-                  </Button>
-                  {/*
-                    style={{
-                      borderTopRightRadius: 0,
-                      borderBottomRightRadius: 0,
-                    }}
-                    style={{
-                      borderTopLeftRadius: 0,
-                      borderBottomLeftRadius: 0,
-                    }}
-                  */}
-                  <Button
-                    className={classes.link}
-                    component={Link}
-                    to="/signup"
-                    variant="contained"
-                    color="secondary"
-                  >
-                    Sign Up
-                  </Button>
-                </React.Fragment>
-              )
-            }
-          </Toolbar>
-        </AppBar>
-      </div>
+                    <AccountMenu
+                      user={user}
+                      logout={this.logout}
+                    />
+                  </div>
+                </SwipeableDrawer>
+              </div>
+            ) : (
+              <React.Fragment>
+                <Button
+                  className={classes.link}
+                  component={Link}
+                  to="/login"
+                  color="inherit"
+                >
+                  Login
+                </Button>
+                {/*
+                  style={{
+                    borderTopRightRadius: 0,
+                    borderBottomRightRadius: 0,
+                  }}
+                  style={{
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                  }}
+                */}
+                <Button
+                  className={classes.link}
+                  component={Link}
+                  to="/signup"
+                  variant="contained"
+                  color="secondary"
+                >
+                  Sign Up
+                </Button>
+              </React.Fragment>
+            )
+          }
+        </Toolbar>
+      </AppBar>
     );
   }
 }

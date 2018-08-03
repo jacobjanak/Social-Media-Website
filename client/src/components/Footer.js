@@ -29,12 +29,14 @@ const Footer = props => {
 
       <span style={{ flexGrow: 1 }} />
 
+      {/*
       <IconButton href="https://twitter.com/" target="_blank">
         <FontAwesome className={classes.icon} name="twitter" />
       </IconButton>
       <IconButton href="https://www.facebook.com/" target="_blank">
         <FontAwesome className={classes.icon} name="facebook" />
       </IconButton>
+      */}
     </Toolbar>
   );
 };

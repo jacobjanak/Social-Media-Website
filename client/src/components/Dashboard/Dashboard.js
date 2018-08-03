@@ -36,7 +36,7 @@ class Dashboard extends Component {
     businesses: []
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { user } = this.props;
     API.getBusinesses(user.id)
     .then(res => {
@@ -58,8 +58,8 @@ class Dashboard extends Component {
           </Typography>
           <Grid container justify="center" >
 
-            {businesses.map(business => (
-              <Grid item xs={12} md={4}>
+            {businesses.map((business, i) => (
+              <Grid item xs={12} md={4} key={i}>
                 <Button
                   className={'paper-button ' + classes.button}
                   component={Link}

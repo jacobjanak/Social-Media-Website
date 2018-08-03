@@ -37,6 +37,7 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit
   },
   stepper: {
+    paddingTop: 0,
     backgroundColor: 'transparent'
   },
   step: {
