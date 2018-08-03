@@ -66,6 +66,7 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
+    const mobile = this.state.width < 600;
 
     return (
       <React.Fragment>
@@ -73,7 +74,8 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <Router>
             <div className={classes.root}>
-              { this.state.width >= 600 ? <NavBar /> : <MobileNav /> }
+              <NavBar mobile={mobile} />
+              { mobile ? <MobileNav /> : null }
 
               <ScrollToTop>
                 <Grid className={classes.app} justify="center" container>
@@ -86,6 +88,8 @@ class App extends Component {
                   <Route path="/business-builder/:step" component={withAuth(BusinessBuilder)} />
                 </Grid>
               </ScrollToTop>
+
+              {/* for footer */}
               <div style={{ flexGrow: 3 }}></div>
               {/* <Footer /> */}
 

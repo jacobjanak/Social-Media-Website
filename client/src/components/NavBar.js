@@ -48,7 +48,7 @@ class MenuAppBar extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, mobile } = this.props;
     const { open } = this.state;
 
     // must be in render or it won't update
@@ -68,9 +68,9 @@ class MenuAppBar extends Component {
             </Typography>
           </Button>
           <span className={classes.flex}></span>
-          {
-            user ? (
-              <div>
+          { mobile ? null : (
+            <React.Fragment>
+              { user ? (
                 <Button
                   className={classes.link}
                   component={Link}
@@ -79,70 +79,63 @@ class MenuAppBar extends Component {
                 >
                   Dashboard
                 </Button>
-                <IconButton
-                  className={classes.avatar}
-                  aria-owns={open ? 'account-menu' : null}
-                  aria-haspopup="true"
-                  color="inherit"
-                  onClick={() => this.toggleMenu(true)}
-                >
-                  <Avatar
-                    src={window.location.origin + '/' + user.img}
-                    alt="profile picture"
-                  />
-                </IconButton>
-
-                <SwipeableDrawer
-                  anchor="right"
-                  open={open}
-                  onClose={() => this.toggleMenu(false)}
-                  onOpen={() => this.toggleMenu(true)}
-                >
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => this.toggleMenu(false)}
-                    onKeyDown={() => this.toggleMenu(false)}
+              ) : (
+                <React.Fragment>
+                  <Button
+                    className={classes.link}
+                    component={Link}
+                    to="/login"
+                    color="inherit"
                   >
-                    <AccountMenu
-                      user={user}
-                      logout={this.logout}
-                    />
-                  </div>
-                </SwipeableDrawer>
-              </div>
-            ) : (
-              <React.Fragment>
-                <Button
-                  className={classes.link}
-                  component={Link}
-                  to="/login"
-                  color="inherit"
+                    Login
+                  </Button>
+                  <Button
+                    className={classes.link}
+                    component={Link}
+                    to="/signup"
+                    variant="contained"
+                    color="secondary"
+                  >
+                    Sign Up
+                  </Button>
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          )}
+          { user && (
+            <div>
+              <IconButton
+                className={classes.avatar}
+                aria-owns={open ? 'account-menu' : null}
+                aria-haspopup="true"
+                color="inherit"
+                onClick={() => this.toggleMenu(true)}
+              >
+                <Avatar
+                  src={window.location.origin + '/' + user.img}
+                  alt="profile picture"
+                />
+              </IconButton>
+              <SwipeableDrawer
+                anchor="right"
+                open={open}
+                onClose={() => this.toggleMenu(false)}
+                onOpen={() => this.toggleMenu(true)}
+              >
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => this.toggleMenu(false)}
+                  onKeyDown={() => this.toggleMenu(false)}
                 >
-                  Login
-                </Button>
-                {/*
-                  style={{
-                    borderTopRightRadius: 0,
-                    borderBottomRightRadius: 0,
-                  }}
-                  style={{
-                    borderTopLeftRadius: 0,
-                    borderBottomLeftRadius: 0,
-                  }}
-                */}
-                <Button
-                  className={classes.link}
-                  component={Link}
-                  to="/signup"
-                  variant="contained"
-                  color="secondary"
-                >
-                  Sign Up
-                </Button>
-              </React.Fragment>
-            )
-          }
+                  <AccountMenu
+                    user={user}
+                    logout={this.logout}
+                  />
+                </div>
+              </SwipeableDrawer>
+            </div>
+          )}
         </Toolbar>
       </AppBar>
     );
