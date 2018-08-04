@@ -38,7 +38,6 @@ const styles = theme => ({
     paddingTop: 0
   },
   formControl: {
-    display: 'block',
     marginTop: 2 * theme.spacing.unit
   },
 });
@@ -192,7 +191,6 @@ class Overview extends Component {
           <FormControl className={classes.formControl} component="fieldset">
             <FormLabel component="legend">Choose one</FormLabel>
             <RadioGroup
-              className={classes.group}
               aria-label="Have you tested or surveyed?"
               name="tested"
               value={this.props.tested}

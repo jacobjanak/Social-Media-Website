@@ -16,7 +16,6 @@ import CountrySelect from './CountrySelect';
 
 const styles = theme => ({
   formControl: {
-    display: 'block',
     marginTop: 2 * theme.spacing.unit
   },
   paper: {
@@ -103,8 +102,16 @@ class Details extends Component {
               value={this.props.fundStage}
               onChange={handleChange}
             >
-              <FormControlLabel value="seed" control={<Radio />} label="Seed" />
-              <FormControlLabel value="preSeed" control={<Radio />} label="Pre-seed" />
+              <FormControlLabel
+                value="seed"
+                control={<Radio />}
+                label="Seed"
+              />
+              <FormControlLabel
+                value="preSeed"
+                control={<Radio />}
+                label="Pre-seed"
+              />
             </RadioGroup>
           </FormControl>
         </Grid>
@@ -118,8 +125,16 @@ class Details extends Component {
               value={this.props.businessStage}
               onChange={handleChange}
             >
-              <FormControlLabel value="existing" control={<Radio />} label="Existing" />
-              <FormControlLabel value="new" control={<Radio />} label="New" />
+              <FormControlLabel
+                value="existing"
+                control={<Radio />}
+                label="Existing Business"
+              />
+              <FormControlLabel
+                value="new"
+                control={<Radio />}
+                label="New Business"
+              />
             </RadioGroup>
           </FormControl>
         </Grid>

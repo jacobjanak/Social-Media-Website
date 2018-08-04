@@ -19,7 +19,7 @@ const styles = theme => ({
     textAlign: 'center'
   },
   button: {
-    padding: theme.spacing.unit * 2,
+    padding: 2 * theme.spacing.unit,
     textTransform: 'none'
   },
   icon: {
@@ -30,6 +30,10 @@ const styles = theme => ({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  dialogActions: {
+    paddingRight: 2 * theme.spacing.unit,
+    paddingBottom: 2 * theme.spacing.unit,
   }
 });
 
@@ -189,16 +193,20 @@ class TeamMembers extends Component {
               />
             </Grid>
           </DialogContent>
-          <DialogActions>
-            <Button color="primary" onClick={this.handleClose}>
+          <DialogActions className={classes.dialogActions}>
+            <Button
+              onClick={this.handleClose}
+              style={{ marginRight: 0 }}
+            >
               Cancel
             </Button>
             <Button
               color="primary"
               variant="contained"
               onClick={this.handleSubmit}
+              style={{ marginLeft: 0 }}
             >
-              Add
+              Submit
             </Button>
           </DialogActions>
         </Dialog>

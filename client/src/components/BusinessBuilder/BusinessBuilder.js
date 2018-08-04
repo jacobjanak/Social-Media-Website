@@ -29,13 +29,6 @@ const styles = theme => ({
   root: {
     width: '90%',
   },
-  // if I want spacing between buttons
-  leftButton: {
-    marginRight: theme.spacing.unit,
-  },
-  rightButton: {
-    marginLeft: theme.spacing.unit,
-  },
   instructions: {
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit
@@ -53,6 +46,21 @@ const styles = theme => ({
     // margin: 'auto',
     // maxWidth: 320,
   },
+  mobileBack: {
+    paddingRight: 2 * theme.spacing.unit,
+  },
+  mobileNext: {
+    paddingLeft: 2 * theme.spacing.unit,
+  },
+  controlsContainer: {
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'flex-end',
+      paddingRight: 24
+    },
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center',
+    },
+  }
 });
 
 class BusinessBuilder extends React.Component {
@@ -100,6 +108,25 @@ class BusinessBuilder extends React.Component {
       marketingPlan: '',
       website: '',
       team: [],
+      stream1: '',
+      stream2: '',
+      stream3: '',
+      costOfStream1: 0,
+      costOfStream2: 0,
+      costOfStream3: 0,
+      startOfStream1: '',
+      startOfStream2: '',
+      startOfStream3: '',
+      rent: 0,
+      utilities: 0,
+      directCost: 0,
+      personnel: 0,
+      expenses: 0,
+      assets: 0,
+      taxes: 0,
+      dividends: 0,
+      cashFlow: 0,
+      financials: 0,
     };
   }
 
@@ -294,44 +321,6 @@ class BusinessBuilder extends React.Component {
                 );
               })}
             </Stepper>
-
-            <Grid container justify="flex-end" style={{ paddingRight: 24 }}>
-              <Button
-                disabled={activeStep === 0}
-                onClick={this.handleBack}
-              >
-                Back
-              </Button>
-
-              {/* Skip button */}
-              {this.isStepOptional(activeStep) && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleSkip}
-                >
-                  Skip
-                </Button>
-              )}
-
-              {activeStep !== steps.length - 1 ? (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleNext}
-                >
-                  Next
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleSubmit}
-                >
-                  Finish
-                </Button>
-              )}
-            </Grid>
           </React.Fragment>
         ) : (
           <MobileStepper
@@ -342,6 +331,7 @@ class BusinessBuilder extends React.Component {
             className={classes.mobileStepper}
             nextButton={
               <Button
+                className={classes.mobileNext}
                 size="small"
                 onClick={this.handleNext}
                 disabled={activeStep === steps.length - 1}
@@ -351,6 +341,7 @@ class BusinessBuilder extends React.Component {
             }
             backButton={
               <Button
+                className={classes.mobileBack}
                 size="small"
                 onClick={this.handleBack}
                 disabled={activeStep === 0}
@@ -360,6 +351,49 @@ class BusinessBuilder extends React.Component {
             }
           />
         )}
+
+
+        <Grid className={classes.controlsContainer} container>
+        <Grid item xs={12} sm={10} md={12}>
+        <Grid container justify="flex-end">
+          <Button
+            disabled={activeStep === 0}
+            onClick={this.handleBack}
+          >
+            Back
+          </Button>
+
+          {/* Skip button */}
+          {this.isStepOptional(activeStep) && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleSkip}
+            >
+              Skip
+            </Button>
+          )}
+
+          {activeStep !== steps.length - 1 ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleNext}
+            >
+              Next
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleSubmit}
+            >
+              Finish
+            </Button>
+          )}
+        </Grid>
+        </Grid>
+        </Grid>
 
         {activeStep === steps.length ? (
           <div>
@@ -385,31 +419,33 @@ class BusinessBuilder extends React.Component {
               {/* each step gets rendered here */}
               { this.getStepContent(activeStep) }
 
-              <Grid container justify="flex-end">
-                <Spacer />
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={this.handleBack}
-                >
-                  Back
-                </Button>
-                {this.isStepOptional(activeStep) && (
+              { window.innerWidth >= 960 && (
+                <Grid container justify="flex-end">
+                  <Spacer />
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={this.handleBack}
+                  >
+                    Back
+                  </Button>
+                  {this.isStepOptional(activeStep) && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleSkip}
+                    >
+                      Skip
+                    </Button>
+                  )}
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={this.handleSkip}
+                    onClick={this.handleNext}
                   >
-                    Skip
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                   </Button>
-                )}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleNext}
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
-              </Grid>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         )}
