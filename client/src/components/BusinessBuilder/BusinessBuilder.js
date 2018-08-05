@@ -127,6 +127,12 @@ class BusinessBuilder extends React.Component {
       dividends: 0,
       cashFlow: 0,
       financials: 0,
+      milestone1: '',
+      milestone2: '',
+      milestone3: '',
+      milestoneDate1: '',
+      milestoneDate2: '',
+      milestoneDate3: '',
     };
   }
 

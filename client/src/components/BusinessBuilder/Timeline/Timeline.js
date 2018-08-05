@@ -24,13 +24,20 @@ const styles = theme => ({
     marginTop: 2 * theme.spacing.unit,
   },
   list: {
-    paddingTop: 0.5 * theme.spacing.unit,
+    paddingTop: 0,
   },
   listItem: {
+    paddingTop: 0,
     paddingLeft: 0,
     paddingRight: 0,
     paddingBottom: 0,
-  }
+  },
+  textField: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      marginTop: theme.spacing.unit,
+    },
+  },
 });
 
 class Timeline extends Component {
@@ -40,20 +47,33 @@ class Timeline extends Component {
     return (
       <Grid container>
 
-        {/* Plans */}
+        {/* Social media */}
         <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Temp
+          <Typography variant="headline" margin="normal" gutterBottom>
+            Social Media
+          </Typography>
+        </Grid>
+        <Grid item xs={12} style={{ paddingTop: 8 }}>
+          <Typography variant="caption">
+            Connect social media accounts to establish your online traction.
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <Social />
         </Grid>
+        <Spacer />
+
+        {/* Online presence */}
         <Grid item xs={12}>
+          <Typography variant="headline">
+            Website
+          </Typography>
+        </Grid>
+        <Grid item xs={12} style={{ marginTop: 4 }}>
           <TextField
-            label="Website"
             name="website"
-            margin="normal"
+            margin="dense"
+            placeholder="https://www.yoursite.com"
             fullWidth
             value={this.props.website}
             onChange={handleChange}
@@ -77,6 +97,7 @@ class Timeline extends Component {
                       label="Name"
                       name={'milestone' + i}
                       value={this.props['milestone' + i]}
+                      margin="normal"
                       fullWidth
                       onChange={handleChange}
                       InputProps={{
@@ -89,20 +110,18 @@ class Timeline extends Component {
                       }}
                     />
                   </div>
-                  <div>
-                    <TextField
-                      label="Due date"
-                      type="date"
-                      name={'milestoneDate' + i}
-                      value={this.props['milestoneDate' + i] || ''}
-                      className={classes.textField}
-                      fullWidth
-                      onChange={handleChange}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </div>
+                  <TextField
+                    label="Due date"
+                    type="date"
+                    margin="normal"
+                    name={'milestoneDate' + i}
+                    value={this.props['milestoneDate' + i] || ''}
+                    className={classes.textField}
+                    onChange={handleChange}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
                 </Grid>
               </ListItem>
             ))}

@@ -6,17 +6,19 @@ import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
   btn: {
     display: 'block',
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginLeft: theme.spacing.unit,
-    borderRadius: 0.5 * theme.spacing.unit,
-    paddingTop: 0.5 * theme.spacing.unit,
-    paddingBottom: 0.5 * theme.spacing.unit,
-    paddingRight: 0.5 * theme.spacing.unit,
+    marginTop: 2 * theme.spacing.unit,
+    borderRadius: 5,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 5,
     cursor: 'pointer',
+    [theme.breakpoints.up('sm')]: {
+      marginRight: theme.spacing.unit,
+      marginLeft: theme.spacing.unit,
+    },
   },
   icon: {
+    fontSize: '1em !important',
     marginLeft: 2,
   },
 });
@@ -28,7 +30,7 @@ class Social extends Component {
     return (
       <Grid container>
         <Grid item xs={12} sm={6}>
-          <Typography variant="subheading" margin="normal">
+          <Typography variant="subheading">
             <a className={classes.btn + " btn btn-block btn-social btn-twitter"}>
               <span className={classes.icon + " fa fa-twitter"}></span>
               Connect with Twitter
@@ -36,7 +38,7 @@ class Social extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="subheading" margin="normal">
+          <Typography variant="subheading">
             <a className={classes.btn + " btn btn-block btn-social btn-facebook"}>
               <span className={classes.icon + " fa fa-facebook"}></span>
               Connect with Facebook
@@ -44,7 +46,7 @@ class Social extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="subheading" margin="normal">
+          <Typography variant="subheading">
             <a className={classes.btn + " btn btn-block btn-social btn-instagram"}>
               <span className={classes.icon + " fa fa-instagram"}></span>
               Connect with Instagram
@@ -52,7 +54,7 @@ class Social extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="subheading" margin="normal">
+          <Typography variant="subheading">
             <a className={classes.btn + " btn btn-block btn-social btn-linkedin"}>
               <span className={classes.icon + " fa fa-linkedin"}></span>
               Connect with LinkedIn
@@ -60,7 +62,7 @@ class Social extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="subheading" margin="normal">
+          <Typography variant="subheading">
             <a className={classes.btn + " btn btn-block btn-social btn-pinterest"}>
               <span className={classes.icon + " fa fa-pinterest"}></span>
               Connect with Pinterest
@@ -68,7 +70,7 @@ class Social extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="subheading" margin="normal">
+          <Typography variant="subheading">
             <a className={classes.btn + " btn btn-block btn-social btn-google"}>
               <span className={classes.icon + " fa fa-google"}></span>
               Connect with Google
