@@ -49,39 +49,18 @@ class Finances extends Component {
     return (
       <Grid container>
 
-        {/* Forecast */}
+        {/* Sales plan */}
         <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Forecast
+          <Typography variant="headline">
+            Sales Plan
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="currency">Currency</InputLabel>
-            <Select
-              value={this.props.currency}
-              style={{ width: '100%' }}
-              onChange={handleChange}
-              inputProps={{
-                name: 'currency',
-                id: 'currency'
-              }}
-            >
-              {Object.keys(currencies).map((key, i) => (
-                <MenuItem value={key} key={i}>
-                  {currencies[key].name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl className={classes.formControl} component="fieldset">
-            <FormLabel component="legend">Timeline</FormLabel>
+          <FormControl component="fieldset">
             <RadioGroup
               aria-label=""
-              name="forecast"
-              value={this.props.forecast}
+              name="salesPlanLength"
+              value={this.props.salesPlanLength}
               onChange={handleChange}
             >
               <FormControlLabel
@@ -97,30 +76,49 @@ class Finances extends Component {
             </RadioGroup>
           </FormControl>
         </Grid>
-        <Spacer />
-
-        {/* Plans */}
-        <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Planning
-          </Typography>
-        </Grid>
         <Grid item xs={12}>
           <TextField
-            label="Sales plan"
+            label="Description"
             name="salesPlan"
-            margin="normal"
             multiline
             fullWidth
             value={this.props.salesPlan}
             onChange={handleChange}
           />
         </Grid>
+        <Spacer />
+
+        {/* Marketing plan */}
+        <Grid item xs={12}>
+          <Typography variant="headline">
+            Marketing Plan
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label=""
+              name="marketingPlanLength"
+              value={this.props.marketingPlanLength}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value="5"
+                label="5 year plan"
+                control={<Radio />}
+              />
+              <FormControlLabel
+                value="3"
+                label="3 year plan"
+                control={<Radio />}
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
         <Grid item xs={12}>
           <TextField
-            label="Marketing plan"
+            label="Description"
             name="marketingPlan"
-            margin="normal"
             multiline
             fullWidth
             value={this.props.marketingPlan}
@@ -128,6 +126,38 @@ class Finances extends Component {
           />
         </Grid>
         <Spacer />
+
+        {/* Currency */}
+        <Grid item xs={12}>
+          <Typography variant="headline" margin="normal">
+            Currency
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          {/* <FormControl className={classes.formControl}> */}
+            {/* <InputLabel htmlFor="currency">Currency</InputLabel> */}
+            <Select
+              value={this.props.currency}
+              style={{
+                marginTop: 16,
+                width: '100%'
+              }}
+              onChange={handleChange}
+              inputProps={{
+                name: 'currency',
+                id: 'currency'
+              }}
+            >
+              {Object.keys(currencies).map((key, i) => (
+                <MenuItem value={key} key={i}>
+                  {currencies[key].name}
+                </MenuItem>
+              ))}
+            </Select>
+          {/* </FormControl> */}
+        </Grid>
+        <Spacer />
+
 
         {/* Streams of revenue */}
         <Grid item xs={12}>

@@ -52,8 +52,7 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <Router>
             <div className={classes.root}>
-              <NavBar mobile={mobile} />
-              { mobile ? <MobileNav /> : null }
+              <NavBar mobile={false} />
 
               <ScrollToTop>
                 <Grid className={classes.app} justify="center" container>

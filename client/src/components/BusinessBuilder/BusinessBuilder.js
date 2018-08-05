@@ -27,7 +27,20 @@ import Strategy from './Strategy';
 
 const styles = theme => ({
   root: {
-    width: '90%',
+    width: '100%',
+    paddingTop: 2 * theme.spacing.unit,
+  },
+  paper: {
+    paddingTop: 32,
+    paddingLeft: 64,
+    paddingRight: 64,
+    paddingBottom: 32,
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      paddingLeft: '5%',
+      paddingRight: '5%',
+      borderRadius: 0,
+    },
   },
   instructions: {
     marginTop: theme.spacing.unit,
@@ -105,7 +118,9 @@ class BusinessBuilder extends React.Component {
       currency: 'USD',
       forecast: '',
       salesPlan: '',
+      salesPlanLength: '',
       marketingPlan: '',
+      marketingPlanLength: '',
       website: '',
       team: [],
       stream1: '',
@@ -357,48 +372,46 @@ class BusinessBuilder extends React.Component {
             }
           />
         )}
-
-
         <Grid className={classes.controlsContainer} container>
-        <Grid item xs={12} sm={10} md={12}>
-        <Grid container justify="flex-end">
-          <Button
-            disabled={activeStep === 0}
-            onClick={this.handleBack}
-          >
-            Back
-          </Button>
+          <Grid item xs={10} sm={10} md={12}>
+            <Grid container justify="flex-end">
+              <Button
+                disabled={activeStep === 0}
+                onClick={this.handleBack}
+              >
+                Back
+              </Button>
 
-          {/* Skip button */}
-          {this.isStepOptional(activeStep) && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleSkip}
-            >
-              Skip
-            </Button>
-          )}
+              {/* Skip button */}
+              {this.isStepOptional(activeStep) && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleSkip}
+                >
+                  Skip
+                </Button>
+              )}
 
-          {activeStep !== steps.length - 1 ? (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleNext}
-            >
-              Next
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleSubmit}
-            >
-              Finish
-            </Button>
-          )}
-        </Grid>
-        </Grid>
+              {activeStep !== steps.length - 1 ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleNext}
+                >
+                  Next
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleSubmit}
+                >
+                  Finish
+                </Button>
+              )}
+            </Grid>
+          </Grid>
         </Grid>
 
         {activeStep === steps.length ? (
@@ -416,7 +429,8 @@ class BusinessBuilder extends React.Component {
             justify="center"
             container
           >
-            <Grid item xs={12} sm={10} md={8} lg={6}>
+            <Grid item xs={12} sm={12} md={10} lg={8} xl={6}>
+              <Paper className={classes.paper}>
               <Typography variant="display1" align="center" color="primary">
                 {steps[activeStep]}
               </Typography>
@@ -452,6 +466,7 @@ class BusinessBuilder extends React.Component {
                   </Button>
                 </Grid>
               )}
+              </Paper>
             </Grid>
           </Grid>
         )}

@@ -73,7 +73,9 @@ class Strategy extends Component {
             Team
           </Typography>
         </Grid>
-        <TeamMembers team={team} addTeamMember={addTeamMember} />
+        <Grid item xs={12}>
+          <TeamMembers team={team} addTeamMember={addTeamMember} />
+        </Grid>
 
       </Grid>
     );
