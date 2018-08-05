@@ -15,6 +15,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Social from './Social';
 import Spacer from '../../Spacer';
 
 const styles = theme => ({
@@ -46,6 +47,9 @@ class Timeline extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12}>
+          <Social />
+        </Grid>
+        <Grid item xs={12}>
           <TextField
             label="Website"
             name="website"
@@ -68,11 +72,11 @@ class Timeline extends Component {
             {[1, 2, 3].map(i => (
               <ListItem className={classes.listItem} key={i}>
                 <Grid container>
-                  <Grid item xs={12} sm={8}>
+                  <div style={{ flexGrow: 1 }}>
                     <TextField
                       label="Name"
-                      name={'stream' + i}
-                      value={this.props['stream' + i]}
+                      name={'milestone' + i}
+                      value={this.props['milestone' + i]}
                       fullWidth
                       onChange={handleChange}
                       InputProps={{
@@ -81,16 +85,16 @@ class Timeline extends Component {
                             {i + '.'}
                           </InputAdornment>
                         ),
-                        style: { paddingRight: 4 }
+                        style: { paddingRight: 8 }
                       }}
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
+                  </div>
+                  <div>
                     <TextField
                       label="Due date"
                       type="date"
-                      name={'startOfStream' + i}
-                      value={this.props['startOfStream' + i] || ''}
+                      name={'milestoneDate' + i}
+                      value={this.props['milestoneDate' + i] || ''}
                       className={classes.textField}
                       fullWidth
                       onChange={handleChange}
@@ -98,7 +102,7 @@ class Timeline extends Component {
                         shrink: true,
                       }}
                     />
-                  </Grid>
+                  </div>
                 </Grid>
               </ListItem>
             ))}

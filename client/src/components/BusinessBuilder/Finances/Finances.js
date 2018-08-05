@@ -26,11 +26,13 @@ const styles = theme => ({
   },
   list: {
     paddingTop: 0.5 * theme.spacing.unit,
+    paddingBottom: 0,
   },
   listItem: {
+    paddingBottom: 4 * theme.spacing.unit,
     paddingLeft: 0,
     paddingRight: 0,
-    paddingBottom: 0,
+    paddingTop: 0,
   }
 });
 
@@ -38,7 +40,11 @@ class Finances extends Component {
   render() {
     const { classes, handleChange } = this.props;
 
-    const currencySymbol = currencies[this.props.currency].symbol;
+    const CurrencySymbol = () => (
+      <InputAdornment position="start">
+        {currencies[this.props.currency].symbol}
+      </InputAdornment>
+    );
 
     return (
       <Grid container>
@@ -134,29 +140,45 @@ class Finances extends Component {
             {[1, 2, 3].map(i => (
               <ListItem className={classes.listItem} key={i}>
                 <Grid container>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12}>
                     <TextField
                       label="Name"
                       name={'stream' + i}
                       value={this.props['stream' + i]}
+                      margin="dense"
                       fullWidth
+                      multiline
                       onChange={handleChange}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
                             {i + '.'}
                           </InputAdornment>
-                        ),
-                        style: { paddingRight: 4 }
+                        )
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Cost"
+                      name={'streamCost' + i}
+                      value={this.props['streamCost' + i] || ''}
+                      margin="dense"
+                      type="number"
+                      fullWidth
+                      onChange={handleChange}
+                      InputProps={{
+                        startAdornment: <CurrencySymbol />
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       label="Start"
                       type="date"
                       name={'startOfStream' + i}
                       value={this.props['startOfStream' + i] || ''}
+                      margin="dense"
                       fullWidth
                       onChange={handleChange}
                       InputLabelProps={{
@@ -164,35 +186,23 @@ class Finances extends Component {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={2}>
-                    <FormControl fullWidth>
-                      <InputLabel htmlFor="adornment-amount">
-                        Cost
-                      </InputLabel>
-                      <Input
-                        id="adornment-amount"
-                        type="number"
-                        name={'costOfStream' + i}
-                        value={this.props['costOfStream' + i] || ''}
-                        onChange={handleChange}
-                        startAdornment={(
-                          <InputAdornment position="start">{currencySymbol}</InputAdornment>
-                        )}
-                      />
-                    </FormControl>
-                  </Grid>
                 </Grid>
               </ListItem>
             ))}
           </List>
         </Grid>
-        <Spacer />
+        {/* using half since all list items have bottom padding */}
+        <Spacer half />
 
         {/* Expenses */}
         <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
             Business Costs
+            <Typography variant="subheading" style={{ display: 'inline' }}>
+              &nbsp;&nbsp;(monthly)
+            </Typography>
           </Typography>
+
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl className={classes.formControl} fullWidth>
@@ -205,9 +215,7 @@ class Finances extends Component {
               name="rent"
               value={this.props.rent}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
@@ -222,9 +230,7 @@ class Finances extends Component {
               name="utilities"
               value={this.props.utilities}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
@@ -239,9 +245,7 @@ class Finances extends Component {
               name="directCost"
               value={this.props.directCost}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
@@ -256,9 +260,7 @@ class Finances extends Component {
               name="personnel"
               value={this.props.personnel}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
@@ -273,9 +275,7 @@ class Finances extends Component {
               name="expenses"
               value={this.props.expenses}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
@@ -290,9 +290,7 @@ class Finances extends Component {
               name="assets"
               value={this.props.assets}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
@@ -307,9 +305,7 @@ class Finances extends Component {
               name="taxes"
               value={this.props.taxes}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
@@ -324,9 +320,7 @@ class Finances extends Component {
               name="dividends"
               value={this.props.dividends}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
@@ -341,9 +335,7 @@ class Finances extends Component {
               name="cashFlow"
               value={this.props.cashFlow}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
@@ -358,9 +350,7 @@ class Finances extends Component {
               name="financials"
               value={this.props.financials}
               onChange={handleChange}
-              startAdornment={(
-                <InputAdornment position="start">{currencySymbol}</InputAdornment>
-              )}
+              startAdornment={<CurrencySymbol />}
             />
           </FormControl>
         </Grid>
