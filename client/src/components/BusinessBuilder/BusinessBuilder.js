@@ -158,7 +158,7 @@ class BusinessBuilder extends React.Component {
   };
 
   getSteps = () => ([
-    'Company Details',
+    'Public Info',
     'Overview',
     'Finances',
     'Timeline & Traction',
@@ -175,7 +175,6 @@ class BusinessBuilder extends React.Component {
             handleCheck={this.handleCheck}
             industrySelect={this.industrySelect}
             countrySelect={this.countrySelect}
-            addTeamMember={this.addTeamMember}
           />
         );
       case 1:
@@ -204,6 +203,7 @@ class BusinessBuilder extends React.Component {
           <Strategy
             { ...this.state }
             handleChange={this.handleChange}
+            addTeamMember={this.addTeamMember}
           />
         );
       default:

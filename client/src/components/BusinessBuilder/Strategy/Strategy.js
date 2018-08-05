@@ -12,6 +12,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import TeamMembers from './TeamMembers';
 import Spacer from '../../Spacer';
 
 const styles = theme => ({
@@ -20,7 +21,12 @@ const styles = theme => ({
 
 class Strategy extends Component {
   render() {
-    const { classes, handleChange } = this.props;
+    const {
+      classes,
+      handleChange,
+      addTeamMember,
+      team
+    } = this.props;
 
     return (
       <Grid container>
@@ -35,15 +41,13 @@ class Strategy extends Component {
           <TextField
             name="impact"
             margin="dense"
-            placeholder="blah blah blah"
             fullWidth
             multiline
             value={this.props.impact}
             onChange={handleChange}
-            style={{ marginBottom: 0 }}
           />
         </Grid>
-        <Spacer />
+        <Spacer half />
 
         {/* Exit strategy */}
         <Grid item xs={12}>
@@ -55,7 +59,6 @@ class Strategy extends Component {
           <TextField
             name="exitStrategy"
             margin="dense"
-            placeholder="blah blah blah"
             fullWidth
             multiline
             value={this.props.exitStrategy}
@@ -63,6 +66,14 @@ class Strategy extends Component {
           />
         </Grid>
         <Spacer />
+
+        {/* Team */}
+        <Grid item xs={12}>
+          <Typography variant="headline" margin="normal">
+            Team
+          </Typography>
+        </Grid>
+        <TeamMembers team={team} addTeamMember={addTeamMember} />
 
       </Grid>
     );

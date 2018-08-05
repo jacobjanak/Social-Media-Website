@@ -10,7 +10,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Spacer from '../../Spacer';
-import TeamMembers from './TeamMembers';
 import IndustrySelect from './IndustrySelect';
 import CountrySelect from './CountrySelect';
 
@@ -50,8 +49,6 @@ class Details extends Component {
       handleCheck,
       industrySelect,
       countrySelect,
-      addTeamMember,
-      team
     } = this.props;
 
     return (
@@ -60,7 +57,7 @@ class Details extends Component {
         {/* Basic info */}
         <Grid item xs={12}>
           <Typography variant="headline">
-            Basic Info
+            Basic Details
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -206,15 +203,6 @@ class Details extends Component {
             onChange={handleChange}
           />
         </Grid>
-        <Spacer />
-
-        {/* Team */}
-        <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Team
-          </Typography>
-        </Grid>
-        <TeamMembers team={team} addTeamMember={addTeamMember} />
         <Spacer />
 
         {/* Location */}

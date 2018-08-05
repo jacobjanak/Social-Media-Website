@@ -198,9 +198,9 @@ class Finances extends Component {
         <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
             Business Costs
-            <Typography variant="subheading" style={{ display: 'inline' }}>
+            <span style={{ display: 'inline', fontSize: '0.75em' }}>
               &nbsp;&nbsp;(monthly)
-            </Typography>
+            </span>
           </Typography>
 
         </Grid>
