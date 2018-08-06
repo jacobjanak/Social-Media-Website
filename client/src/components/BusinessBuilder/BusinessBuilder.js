@@ -28,13 +28,12 @@ import Strategy from './Strategy';
 const styles = theme => ({
   root: {
     width: '100%',
-    paddingTop: 2 * theme.spacing.unit,
   },
   paper: {
-    paddingTop: 32,
-    paddingLeft: 64,
-    paddingRight: 64,
-    paddingBottom: 32,
+    paddingTop: 4 * theme.spacing.unit,
+    paddingLeft: 8 * theme.spacing.unit,
+    paddingRight: 8 * theme.spacing.unit,
+    paddingBottom: 4 * theme.spacing.unit,
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       paddingLeft: '5%',
@@ -47,17 +46,17 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit
   },
   stepper: {
-    paddingTop: 0,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: 8 * theme.spacing.unit,
+      paddingRight: 8 * theme.spacing.unit, 
+    },
   },
   step: {
-    marginTop: 2 * theme.spacing.unit,
     marginBottom: 4 * theme.spacing.unit,
   },
   mobileStepper: {
-    backgroundColor: 'white',
-    // margin: 'auto',
-    // maxWidth: 320,
+    boxShadow: 'none',
   },
   mobileBack: {
     paddingRight: 2 * theme.spacing.unit,
@@ -86,6 +85,9 @@ class BusinessBuilder extends React.Component {
       : '';
 
     this.state = {
+      isDesktop: true,
+      isTablet: true,
+      isMobile: true,
       owner: id,
       activeStep: 0,
       skipped: new Set(),
@@ -166,6 +168,32 @@ class BusinessBuilder extends React.Component {
       this.updateURL()
     }
   }
+
+  componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener('resize', this.updateDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  updateDimensions = () => {
+    this.setState(state => {
+      if (window.innerWidth >= 960) {
+        state.isDesktop = true;
+      } else {
+        state.isDesktop = false;
+        if (window.innerWidth >= 600) {
+          state.isTablet = true;
+        } else {
+          state.isTablet = false;
+        }
+      }
+
+      return state;
+    })
+  };
 
   updateURL = step => {
     const url = `/business-builder/${this.state.activeStep + 1}`;
@@ -311,42 +339,43 @@ class BusinessBuilder extends React.Component {
 
   render() {
     const { classes, user } = this.props;
-    const { activeStep } = this.state;
+    const { isDesktop, isTablet, activeStep } = this.state;
     const steps = this.getSteps();
 
     return (
       <div className={classes.root}>
-        { window.innerWidth >= 960 ? (
-          <React.Fragment>
-            <Stepper
-              className={classes.stepper}
-              activeStep={activeStep}
-            >
-              {steps.map((label, i) => {
-                const props = {};
-                const labelProps = {};
-                if (this.isStepOptional(i)) {
-                  labelProps.optional = (
-                    <Typography variant="caption">Optional</Typography>
-                  );
-                }
-                if (this.isStepSkipped(i)) {
-                  props.completed = false;
-                }
-                return (
-                  <Step key={label} {...props}>
-                    <StepLabel {...labelProps}>
-                      {label}
-                    </StepLabel>
-                  </Step>
+
+        {/* Steppers */}
+        { isTablet ? (
+          <Stepper
+            className={classes.stepper}
+            activeStep={activeStep}
+            alternativeLabel={!isDesktop}
+          >
+            {steps.map((label, i) => {
+              const props = {};
+              const labelProps = {};
+              if (this.isStepOptional(i)) {
+                labelProps.optional = (
+                  <Typography variant="caption">Optional</Typography>
                 );
-              })}
-            </Stepper>
-          </React.Fragment>
+              }
+              if (this.isStepSkipped(i)) {
+                props.completed = false;
+              }
+              return (
+                <Step key={label} {...props}>
+                  <StepLabel {...labelProps}>
+                    {label}
+                  </StepLabel>
+                </Step>
+              );
+            })}
+          </Stepper>
         ) : (
           <MobileStepper
             steps={steps.length}
-            position="top"
+            position="static"
             component={Paper}
             activeStep={activeStep}
             className={classes.mobileStepper}
@@ -372,47 +401,7 @@ class BusinessBuilder extends React.Component {
             }
           />
         )}
-        <Grid className={classes.controlsContainer} container>
-          <Grid item xs={10} sm={10} md={12}>
-            <Grid container justify="flex-end">
-              <Button
-                disabled={activeStep === 0}
-                onClick={this.handleBack}
-              >
-                Back
-              </Button>
-
-              {/* Skip button */}
-              {this.isStepOptional(activeStep) && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleSkip}
-                >
-                  Skip
-                </Button>
-              )}
-
-              {activeStep !== steps.length - 1 ? (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleNext}
-                >
-                  Next
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleSubmit}
-                >
-                  Finish
-                </Button>
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
+        {/* End steppers */}
 
         {activeStep === steps.length ? (
           <div>
@@ -429,19 +418,60 @@ class BusinessBuilder extends React.Component {
             justify="center"
             container
           >
-            <Grid item xs={12} sm={12} md={10} lg={8} xl={6}>
+            <Grid item xs={12} sm={12} md={10} lg={7} xl={6}>
               <Paper className={classes.paper}>
-              <Typography variant="display1" align="center" color="primary">
-                {steps[activeStep]}
-              </Typography>
-              <Spacer half={true} />
 
-              {/* each step gets rendered here */}
-              { this.getStepContent(activeStep) }
+                {/* Next/back buttons */}
+                { isTablet && (
+                  <Grid container justify="flex-end">
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={this.handleBack}
+                    >
+                      Back
+                    </Button>
+                    {this.isStepOptional(activeStep) && (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleSkip}
+                      >
+                        Skip
+                      </Button>
+                    )}
+                    {activeStep !== steps.length - 1 ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleNext}
+                      >
+                        Next
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleSubmit}
+                      >
+                        Finish
+                      </Button>
+                    )}
+                  </Grid>
+                )}
+                {/* End next/back buttons */}
 
-              { window.innerWidth >= 960 && (
+                <Typography variant="display1" align="center" color="primary">
+                  {steps[activeStep]}
+                </Typography>
+
+                <Spacer half={true} />
+
+                {/* each step gets rendered here */}
+                { this.getStepContent(activeStep) }
+                <Spacer />
+
+                {/* Next/back buttons */}
                 <Grid container justify="flex-end">
-                  <Spacer />
                   <Button
                     disabled={activeStep === 0}
                     onClick={this.handleBack}
@@ -465,7 +495,8 @@ class BusinessBuilder extends React.Component {
                     {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                   </Button>
                 </Grid>
-              )}
+                {/* End next/back buttons */}
+
               </Paper>
             </Grid>
           </Grid>
