@@ -24,7 +24,7 @@ const upload = multer({
       cb(null, uploadPath)
     },
     filename: (req, file, cb) => {
-      const timestamp = new Date().toISOString();
+      const timestamp = new Date().toISOString().replace(/:/g, '-');
       const filename = timestamp + req.body.owner + '.jpg';
       cb(null, filename)
     }
