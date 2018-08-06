@@ -39,9 +39,17 @@ const styles = theme => ({
 });
 
 class App extends Component {
+  state = {
+    business: {}
+  };
+
+  changeBusiness = business => {
+    this.setState({ business })
+  };
+
   render() {
     const { classes } = this.props;
-    const mobile = window.innerWidth < 600;
+    const { business } = this.state;
 
     return (
       <React.Fragment>
@@ -49,17 +57,17 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <Router>
             <div className={classes.root}>
-              <NavBar mobile={false} />
+              <NavBar />
 
               <ScrollToTop>
                 <Grid className={classes.app} justify="center" container>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/login" component={withoutAuth(Login)} />
                   <Route exact path="/signup" component={withoutAuth(SignUp)} />
-                  <Route exact path="/dashboard" component={withAuth(Dashboard)} />
+                  <Route exact path="/dashboard" component={withAuth(Dashboard, { changeBusiness: this.changeBusiness })} />
                   <Route exact path="/profile/:id" component={withAuth(Profile)} />
                   <Route exact path="/business-builder" component={withAuth(StartBusinessBuilder)} />
-                  <Route path="/business-builder/:step" component={withAuth(BusinessBuilder)} />
+                  <Route exact path="/business-builder/:step" component={withAuth(BusinessBuilder, { business })} />
                 </Grid>
               </ScrollToTop>
 

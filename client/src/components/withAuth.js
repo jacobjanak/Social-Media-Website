@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AuthService from './AuthService';
 
-function withAuth(AuthComponent) {
+function withAuth(AuthComponent, props) {
   const Auth = new AuthService();
 
   return class AuthWrapped extends Component {
@@ -30,7 +30,7 @@ function withAuth(AuthComponent) {
       // }
 
       if (user) {
-        return <AuthComponent history={history} match={match} user={user} />;
+        return <AuthComponent history={history} match={match} user={user} {...props} />;
       } else {
         return null;
       }

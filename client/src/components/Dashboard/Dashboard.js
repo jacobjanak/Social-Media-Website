@@ -47,6 +47,12 @@ class Dashboard extends Component {
     .catch(err => console.log(err))
   }
 
+  editBusiness = id => {
+    const business = this.state.businesses[id];
+    this.props.changeBusiness(business)
+    this.props.history.push('/business-builder/1')
+  }
+
   render() {
     const { classes } = this.props;
     const { businesses } = this.state;
@@ -64,9 +70,8 @@ class Dashboard extends Component {
               <Grid item xs={12} md={4} key={i}>
                 <Button
                   className={'paper-button ' + classes.button}
-                  component={Link}
-                  to="/business-builder"
                   fullWidth
+                  onClick={() => this.editBusiness(i)}
                 >
                   <Paper className={classes.paper}>
                     <img
