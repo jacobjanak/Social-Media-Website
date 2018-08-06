@@ -49,7 +49,7 @@ const styles = theme => ({
     backgroundColor: 'transparent',
     [theme.breakpoints.up('md')]: {
       paddingLeft: 8 * theme.spacing.unit,
-      paddingRight: 8 * theme.spacing.unit, 
+      paddingRight: 8 * theme.spacing.unit,
     },
   },
   step: {
@@ -87,11 +87,11 @@ class BusinessBuilder extends React.Component {
     this.state = {
       isDesktop: true,
       isTablet: true,
-      isMobile: true,
       owner: id,
       activeStep: 0,
       skipped: new Set(),
       name: companyName,
+      logo: '',
       fundStage: null,
       businessStage: null,
       product: false,
@@ -184,11 +184,11 @@ class BusinessBuilder extends React.Component {
         state.isDesktop = true;
       } else {
         state.isDesktop = false;
-        if (window.innerWidth >= 600) {
-          state.isTablet = true;
-        } else {
-          state.isTablet = false;
-        }
+      }
+      if (window.innerWidth >= 600) {
+        state.isTablet = true;
+      } else {
+        state.isTablet = false;
       }
 
       return state;
@@ -216,6 +216,7 @@ class BusinessBuilder extends React.Component {
             { ...this.state }
             handleChange={this.handleChange}
             handleCheck={this.handleCheck}
+            handleUpload={this.handleUpload}
             industrySelect={this.industrySelect}
             countrySelect={this.countrySelect}
           />
@@ -298,7 +299,8 @@ class BusinessBuilder extends React.Component {
     API.createBusiness({
       owner: this.state.owner,
       name: this.state.name,
-      bio: this.state.bio
+      bio: this.state.bio,
+      logo: this.state.logo
     })
     .then(business => {
       this.props.history.push('/dashboard')
@@ -327,9 +329,15 @@ class BusinessBuilder extends React.Component {
     })
   };
 
+  handleUpload = event => {
+    const { name, files } = event.target;
+    this.setState({ [name]: files[0] })
+  };
+
   handleCheck = event => {
     // for when a checkbox is checked
-    this.setState({ [event.target.name]: event.target.checked })
+    const { name, checked } = event.target;
+    this.setState({ [name]: checked })
   };
 
   handleChange = event => {

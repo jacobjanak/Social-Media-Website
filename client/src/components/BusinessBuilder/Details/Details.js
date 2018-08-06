@@ -47,6 +47,7 @@ class Details extends Component {
       classes,
       handleChange,
       handleCheck,
+      handleUpload,
       industrySelect,
       countrySelect,
     } = this.props;
@@ -80,6 +81,9 @@ class Details extends Component {
             value={this.props.bio}
             onChange={handleChange}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <input type="file" name="logo" onChange={handleUpload} />
         </Grid>
         <Spacer />
 

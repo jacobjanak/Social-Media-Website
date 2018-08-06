@@ -1,11 +1,11 @@
 /*
   This file is for uploading images. It can be used as a middleware
-  on any route with upload.single('name')
+  on any route with upload.single('name').
 */
 
 const multer = require('multer');
 
-const uploadPath = '/public/uploads/*';
+const uploadPath = './public/uploads/';
 
 const upload = multer({
   limit: {
@@ -21,7 +21,7 @@ const upload = multer({
   },
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, `./${uploadPath}`)
+      cb(null, uploadPath)
     },
     filename: (req, file, cb) => {
       const timestamp = new Date().toISOString();

@@ -69,11 +69,17 @@ class Dashboard extends Component {
                   fullWidth
                 >
                   <Paper className={classes.paper}>
-                    <Typography variant="headline">
-                      {business.name}
-                    </Typography>
+                    <img
+                      src={'/uploads/' + business.logo}
+                      alt="logo"
+                      style={{
+                        height: 60,
+                        width: 60,
+
+                      }}
+                    />
                     <Typography variant="subheading">
-                      {business.bio}
+                      {business.name}
                     </Typography>
                   </Paper>
                 </Button>

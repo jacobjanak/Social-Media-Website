@@ -3,8 +3,10 @@ const db = require('../models');
 const upload = require('./upload');
 
 router.post('/api/business', upload.single('logo'), (req, res) => {
+  console.log(req.body.logo)
   console.log(req.file)
   console.log(req.file.path)
+  req.body.logo = req.file.filename;
   db.Business.create(req.body)
   .then(data => res.json(data))
   .catch(err => {
