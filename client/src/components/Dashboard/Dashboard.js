@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AddCircle from '@material-ui/icons/AddCircle';
 import API from '../../utils/API';
+import Spacer from '../Spacer';
 import './Dashboard.css';
 
 const styles = theme => ({
@@ -52,6 +53,7 @@ class Dashboard extends Component {
 
     return (
       <Grid container justify="center">
+        <Spacer half />
         <Grid item xs={12} sm={11} md={10} lg={8}>
           <Typography variant="display1" color="primary" gutterBottom>
             My Businesses

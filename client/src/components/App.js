@@ -28,15 +28,13 @@ if (localStorage.getItem('id_token')) {
 
 const styles = theme => ({
   root: {
+    minHeight: '100vh',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   app: {
     flexGrow: 1,
     marginBottom: 4 * theme.spacing.unit,
-    // [theme.breakpoints.down('xs')]: {
-    //   marginTop: 0
-    // }
   }
 });
 

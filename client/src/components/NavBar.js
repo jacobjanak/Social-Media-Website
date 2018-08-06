@@ -93,8 +93,7 @@ class MenuAppBar extends Component {
                     className={classes.link}
                     component={Link}
                     to="/signup"
-                    variant="contained"
-                    color="secondary"
+                    color="inherit"
                   >
                     Sign Up
                   </Button>

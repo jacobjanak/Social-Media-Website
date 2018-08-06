@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import Hidden from '@material-ui/core/Hidden';
+import Spacer from './Spacer';
 
 const styles = theme => ({
   card: {
@@ -80,6 +82,9 @@ class SignUp extends Component {
 
     return (
       <Grid item xs={12} sm={8} md={6} lg={4}>
+        <Hidden xsDown>
+          <Spacer half />
+        </Hidden>
         <Card className={classes.card}>
           <form noValidate onSubmit={this.handleSubmit}>
             <CardContent>

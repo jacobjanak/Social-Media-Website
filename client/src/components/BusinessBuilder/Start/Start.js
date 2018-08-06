@@ -30,6 +30,7 @@ class Start extends Component {
 
     return (
       <Grid container justify="center">
+        <Spacer half />
         <Typography variant="display1" align="center" color="primary" gutterBottom>
           Building a business has never been easier.
         </Typography>
