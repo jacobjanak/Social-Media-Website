@@ -20,8 +20,8 @@ app.use(express.static('client/build'))
 app.use(morgan('dev'))
 
 // routing
-app.use(require('./routes/user-authentication'))
-app.use(require('./routes/business'))
+app.use(require('./routes/userController'))
+app.use(require('./routes/businessController'))
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './client/build/index.html'))
 })

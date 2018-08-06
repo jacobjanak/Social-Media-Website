@@ -1,8 +1,10 @@
 const router = require('express').Router()
 const db = require('../models');
+const upload = require('./upload');
 
-router.post('/api/business', (req, res) => {
-  console.log(req.body)
+router.post('/api/business', upload.single('logo'), (req, res) => {
+  console.log(req.file)
+  console.log(req.file.path)
   db.Business.create(req.body)
   .then(data => res.json(data))
   .catch(err => {
@@ -16,7 +18,7 @@ router.post('/api/user/businesses', (req, res) => {
   .then(businesses => res.json(businesses))
   .catch(err => {
     console.log(err)
-    res.status(400).json(err)  
+    res.status(400).json(err)
   })
 })
 

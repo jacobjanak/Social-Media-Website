@@ -48,7 +48,7 @@ router.post('/api/login', (req, res) => {
 
         res.json({
           success: true,
-          message: "Token Issued!",
+          message: "Token issued.",
           token: token,
           user: user
         })
