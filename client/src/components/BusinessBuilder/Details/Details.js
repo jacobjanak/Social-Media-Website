@@ -39,6 +39,19 @@ const styles = theme => ({
   country: {
     marginTop: 2 * theme.spacing.unit
   },
+  previewContainer: {
+    width: 200,
+    height: 200,
+    marginBottom: 2 * theme.spacing.unit,
+    overflow: 'hidden',
+  },
+  preview: {
+    minWidth: '100%',
+    minHeight: '100%',
+    width: '100%',
+    margin: '50% 0 0 50%',
+    transform: 'translate(-50%, -50%)',
+  }
 });
 
 class Details extends Component {
@@ -82,8 +95,30 @@ class Details extends Component {
             onChange={handleChange}
           />
         </Grid>
+        <Spacer />
+
+        {/* Logo */}
         <Grid item xs={12}>
-          <input type="file" name="logo" onChange={handleUpload} />
+          <Typography variant="headline" margin="normal" gutterBottom>
+            Logo
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <div className={classes.previewContainer}>
+            <img
+              className={classes.preview}
+              src={this.props.logoPreview || '/img/business/default.jpg'}
+              alt="logo"
+            />
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <input
+            type="file"
+            name="logo"
+            accept=".png, .jpg, .jpeg"
+            onChange={handleUpload}
+          />
         </Grid>
         <Spacer />
 
@@ -129,12 +164,12 @@ class Details extends Component {
               <FormControlLabel
                 value="existing"
                 control={<Radio />}
-                label="Existing Business"
+                label="Existing business"
               />
               <FormControlLabel
                 value="new"
                 control={<Radio />}
-                label="New Business"
+                label="New business"
               />
             </RadioGroup>
           </FormControl>

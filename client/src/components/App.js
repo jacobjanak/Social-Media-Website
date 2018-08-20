@@ -21,6 +21,7 @@ import SignUp from './SignUp';
 import Dashboard from './Dashboard'
 import StartBusinessBuilder from './BusinessBuilder/Start'
 import BusinessBuilder from './BusinessBuilder'
+import Entrepreneur from './Entrepreneur'
 
 if (localStorage.getItem('id_token')) {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('id_token')}`;
@@ -64,6 +65,7 @@ class App extends Component {
                   <Route exact path="/" component={Home} />
                   <Route exact path="/login" component={withoutAuth(Login)} />
                   <Route exact path="/signup" component={withoutAuth(SignUp)} />
+                  <Route exact path="/entrepreneur" component={withAuth(Entrepreneur)} />
                   <Route exact path="/dashboard" component={withAuth(Dashboard, { changeBusiness: this.changeBusiness })} />
                   <Route exact path="/profile/:id" component={withAuth(Profile)} />
                   <Route exact path="/business-builder" component={withAuth(StartBusinessBuilder)} />

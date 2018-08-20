@@ -61,7 +61,7 @@ class Dashboard extends Component {
       <Grid container justify="center">
         <Spacer half />
         <Grid item xs={12} sm={11} md={10} lg={8}>
-          <Typography variant="display1" color="primary" gutterBottom>
+          <Typography variant="display1" color="primary" align="center" gutterBottom>
             My Businesses
           </Typography>
           <Grid container justify="center" >
@@ -80,7 +80,6 @@ class Dashboard extends Component {
                       style={{
                         height: 60,
                         width: 60,
-
                       }}
                     />
                     <Typography variant="subheading">

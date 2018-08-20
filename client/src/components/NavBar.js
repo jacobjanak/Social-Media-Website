@@ -71,14 +71,24 @@ class MenuAppBar extends Component {
           { mobile ? null : (
             <React.Fragment>
               { user ? (
-                <Button
-                  className={classes.link}
-                  component={Link}
-                  to="/dashboard"
-                  color="inherit"
-                >
-                  Dashboard
-                </Button>
+                <React.Fragment>
+                  <Button
+                    className={classes.link}
+                    component={Link}
+                    to="/entrepreneur"
+                    color="inherit"
+                  >
+                    Entrepreneur
+                  </Button>
+                  <Button
+                    className={classes.link}
+                    component={Link}
+                    to="/dashboard"
+                    color="inherit"
+                  >
+                    Dashboard
+                  </Button>
+                </React.Fragment>
               ) : (
                 <React.Fragment>
                   <Button

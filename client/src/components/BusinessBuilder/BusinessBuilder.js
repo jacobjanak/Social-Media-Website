@@ -85,13 +85,24 @@ class BusinessBuilder extends React.Component {
       : '';
 
     this.state = {
-      isDesktop: true,
-      isTablet: true,
-      owner: id,
+      // stuff for step counter
       activeStep: 0,
       skipped: new Set(),
+      steps: [
+        'Public Info',
+        'Overview',
+        'Finances',
+        'Timeline & Traction',
+        'Final Strategy'
+      ],
+      // responsiveness
+      isDesktop: true,
+      isTablet: true,
+      // form data
+      owner: id,
       name: props.business.name || companyName,
-      logo: props.business.logo || '',
+      logo: '',
+      logoPreview: props.business.logo || '',
       fundStage: props.business.fundStage || null,
       businessStage: props.business.businessStage || null,
       product: props.business.product || false,
@@ -153,21 +164,21 @@ class BusinessBuilder extends React.Component {
     };
   }
 
-  componentWillMount() {
-    // example: site.com/business-builder/4 takes user to step 4
-    const { step } = this.props.match.params;
-    const num = Number(step);
-
-    if (num && Number.isInteger(num) && (
-      // validate the size of the number
-      0 < num && num <= this.getSteps().length
-    )) {
-      this.setState({ activeStep: num - 1 })
-    } else {
-      // default to step 1
-      this.updateURL()
-    }
-  }
+  // componentWillMount() {
+  //   // // example: site.com/business-builder/4 takes user to step 4
+  //   // const { step } = this.props.match.params;
+  //   // const num = Number(step);
+  //   //
+  //   // if (num && Number.isInteger(num) && (
+  //   //   // validate the size of the number
+  //   //   0 < num && num <= this.state.steps.length
+  //   // )) {
+  //   //   this.setState({ activeStep: num - 1 })
+  //   // } else {
+  //   //   // default to step 1
+  //   //   this.updateURL()
+  //   // }
+  // }
 
   componentDidMount() {
     this.updateDimensions();
@@ -176,6 +187,27 @@ class BusinessBuilder extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    // example: site.com/business-builder/4 takes user to step 4
+    const { step } = props.match.params;
+    console.log(step)
+    console.log(props)
+    const num = Number(step);
+
+    if (num && Number.isInteger(num) && (
+      // validate the size of the number
+      0 < num && num <= state.steps.length
+
+      // fires when next button is clicked
+    )) {
+      return { activeStep: num - 1 };
+    }
+    // } else {
+    //   // default to step 1
+    //   this.updateURL()
+    // }
   }
 
   updateDimensions = () => {
@@ -196,17 +228,10 @@ class BusinessBuilder extends React.Component {
   };
 
   updateURL = step => {
-    const url = `/business-builder/${this.state.activeStep + 1}`;
+    if (step || step === 0) step++;
+    const url = `/business-builder/${step || this.state.activeStep + 1}`;
     this.props.history.push(url)
   };
-
-  getSteps = () => ([
-    'Public Info',
-    'Overview',
-    'Finances',
-    'Timeline & Traction',
-    'Final Strategy'
-  ]);
 
   getStepContent = step => {
     switch (step) {
@@ -258,23 +283,22 @@ class BusinessBuilder extends React.Component {
   isStepOptional = step => false;
 
   handleNext = () => {
-    const { activeStep } = this.state;
+    let { activeStep } = this.state;
     let { skipped } = this.state;
     if (this.isStepSkipped(activeStep)) {
       skipped = new Set(skipped.values());
       skipped.delete(activeStep);
     }
-    this.setState({
-      activeStep: activeStep + 1,
-      skipped
-    }, this.updateURL)
+    activeStep++
+    this.updateURL(activeStep)
+    this.setState({ activeStep, skipped })
   };
 
   handleBack = () => {
-    const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep - 1
-    }, this.updateURL)
+    let { activeStep } = this.state;
+    activeStep--;
+    this.updateURL(activeStep)
+    this.setState({ activeStep })
   };
 
   handleSkip = () => {
@@ -361,9 +385,7 @@ class BusinessBuilder extends React.Component {
     .catch(err => alert(err.message))
   };
 
-  isStepSkipped = step => {
-    return this.state.skipped.has(step);
-  };
+  isStepSkipped = step => this.state.skipped.has(step);
 
   industrySelect = value => {
     // value is an array of objects, not strings
@@ -384,7 +406,14 @@ class BusinessBuilder extends React.Component {
 
   handleUpload = event => {
     const { name, files } = event.target;
-    this.setState({ [name]: files[0] })
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.setState({
+        logo: files[0],
+        logoPreview: reader.result
+      });
+    }
+    reader.readAsDataURL(files[0])
   };
 
   handleCheck = event => {
@@ -400,8 +429,7 @@ class BusinessBuilder extends React.Component {
 
   render() {
     const { classes, user } = this.props;
-    const { isDesktop, isTablet, activeStep } = this.state;
-    const steps = this.getSteps();
+    const { isDesktop, isTablet, steps, activeStep } = this.state;
 
     return (
       <div className={classes.root}>

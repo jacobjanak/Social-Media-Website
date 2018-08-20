@@ -22,23 +22,15 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 
 const styles = theme => ({
-  leftPaper: {
-    paddingTop: theme.spacing.unit,
-    [theme.breakpoints.up('md')]: {
-      marginRight: 2 * theme.spacing.unit
-    }
-  },
-  rightPaper: {
-    paddingTop: theme.spacing.unit,
-    [theme.breakpoints.up('md')]: {
-      marginLeft: 2 * theme.spacing.unit
-    }
-  },
   list: {
-    paddingTop: 0
+    padding: 0,
+  },
+  listItem: {
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   formControl: {
-    marginTop: 2 * theme.spacing.unit
+    marginTop: 2 * theme.spacing.unit,
   },
 });
 
@@ -48,7 +40,7 @@ class Overview extends Component {
     return (
       <Grid container>
 
-        {/* Info previous page */}
+        {/* Info previous page
         <Grid item xs={12}>
           <Typography variant="headline">
             { this.props.name }
@@ -57,7 +49,7 @@ class Overview extends Component {
             { this.props.bio }
           </Typography>
         </Grid>
-        <Spacer half={true} />
+        <Spacer half={true} /> */}
 
         {/* Description */}
         <Grid item xs={12}>
@@ -127,57 +119,53 @@ class Overview extends Component {
         </Grid>
         <Spacer />
 
-        {/* Markets and competitors */}
-        <Grid item xs={12} md={6}>
-          <Paper className={classes.leftPaper}>
-            <Typography variant="headline" align="center">
-              Markets
-            </Typography>
-            <List className={classes.list}>
-              {[1, 2, 3, 4].map(i => (
-                <ListItem key={i}>
-                  <TextField
-                    name={'market' + i}
-                    value={this.props['market' + i]}
-                    fullWidth
-                    onChange={handleChange}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">{i + '.'}</InputAdornment>
-                      ),
-                    }}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
+        {/* Markets */}
+        <Grid item xs={12}>
+          <Typography variant="headline">
+            Target Markets
+          </Typography>
+          <List className={classes.list}>
+            {[1, 2, 3].map(i => (
+              <ListItem className={classes.listItem} key={i}>
+                <TextField
+                  name={'market' + i}
+                  value={this.props['market' + i]}
+                  fullWidth
+                  onChange={handleChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">{i + '.'}</InputAdornment>
+                    ),
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
         </Grid>
-        <Hidden mdUp={true}>
-          <Spacer />
-        </Hidden>
-        <Grid item xs={12} md={6}>
-          <Paper className={classes.rightPaper}>
-            <Typography variant="headline" align="center">
-              Competitors
-            </Typography>
-            <List className={classes.list}>
-              {[1, 2, 3, 4].map(i => (
-                <ListItem key={i}>
-                  <TextField
-                    name={'competitor' + i}
-                    value={this.props['competitor' + i]}
-                    fullWidth
-                    onChange={handleChange}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">{i + '.'}</InputAdornment>
-                      ),
-                    }}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
+        <Spacer />
+
+        {/* Competitors */}
+        <Grid item xs={12}>
+          <Typography variant="headline">
+            Competitors
+          </Typography>
+          <List className={classes.list}>
+            {[1, 2, 3].map(i => (
+              <ListItem className={classes.listItem} key={i}>
+                <TextField
+                  name={'competitor' + i}
+                  value={this.props['competitor' + i]}
+                  fullWidth
+                  onChange={handleChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">{i + '.'}</InputAdornment>
+                    ),
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
         </Grid>
         <Spacer />
 

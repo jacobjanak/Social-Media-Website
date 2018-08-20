@@ -53,8 +53,8 @@ class Timeline extends Component {
             Social Media
           </Typography>
         </Grid>
-        <Grid item xs={12} style={{ paddingTop: 8 }}>
-          <Typography variant="caption">
+        <Grid item xs={12}>
+          <Typography variant="body1">
             Connect social media accounts to establish your online traction.
           </Typography>
         </Grid>

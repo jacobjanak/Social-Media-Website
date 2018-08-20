@@ -96,9 +96,26 @@ const BusinessSchema = new Schema({
   website: {
     type: String
   },
-  // team: {
-  //   type: String
-  // },
+  team: [{
+    firstName: {
+      type: String
+    },
+    lastName: {
+      type: String
+    },
+    email: {
+      type: String
+    },
+    title: {
+      type: String
+    },
+    education: {
+      type: String
+    },
+    bio: {
+      type: String
+    }
+  }],
   stream1: {
     type: String
   },
