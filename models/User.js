@@ -29,7 +29,7 @@ const UserSchema = new Schema({
   },
   img: {
     type: String,
-    default: 'img/user/06.jpg'
+    default: 'img/user/default.jpg'
   },
   role: {
     entrepreneur: {
@@ -46,7 +46,7 @@ const UserSchema = new Schema({
     default: Date.now
   },
   businesses : [{
-    type: Schema.Types.ObjectId, 
+    type: Schema.Types.ObjectId,
     ref: 'Business'
   }]
 });

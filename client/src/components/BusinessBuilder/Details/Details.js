@@ -17,12 +17,6 @@ const styles = theme => ({
   formControl: {
     marginTop: 2 * theme.spacing.unit
   },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    width: '100%',
-    height: 160,
-    textAlign: 'center'
-  },
   button: {
     padding: theme.spacing.unit * 2,
     textTransform: 'none'
