@@ -14,11 +14,12 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
+import LocationForm from './LocationForm';
 import Spacer from './Spacer';
 import './Temp.css';
 
 // data
-import educationLevels from '../data/educationLevels';
+import education from '../data/education';
 import ethnicities from '../data/ethnicities';
 
 const styles = theme => ({
@@ -203,7 +204,11 @@ class Entrepreneur extends Component {
               </Grid>
               <Spacer half />
 
-              {/* google maps api auto complete */}
+              {/* Location */}
+              <Grid item xs={12}>
+                <LocationForm handleChange={this.handleChange} />
+              </Grid>
+              <Spacer half />
 
               {/* Education */}
               <Grid item xs={12}>
@@ -217,7 +222,7 @@ class Entrepreneur extends Component {
                       id: 'education',
                     }}
                   >
-                    {educationLevels.map((level, i) => (
+                    {education.map((level, i) => (
                       <MenuItem value={level} key={i}>
                         {level}
                       </MenuItem>
