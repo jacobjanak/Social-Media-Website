@@ -1,167 +1,109 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import ReactDOM from 'react-dom';
+import Autosuggest from 'react-autosuggest';
+import match from 'autosuggest-highlight/match';
+import parse from 'autosuggest-highlight/parse';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Select from 'react-select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Popper from '@material-ui/core/Popper';
+import { withStyles } from '@material-ui/core/styles';
 
-// Google places API
+// for Google Places API
 import axios from 'axios';
+const CORS = 'https://cors-anywhere.herokuapp.com/';
+const proxy = process.env.NODE_ENV === 'development' ? CORS : '';
 const key = 'AIzaSyC-_mgd4Vs9X83tJlxKur1V8lmjhQCyh0I';
 
-// holds a ref to the Component.autocomplete function
-let autocomplete = () => {};
+const renderInputComponent = inputProps => {
+  const { classes, inputRef = () => {}, ref, ...other } = inputProps;
+
+  return (
+    <TextField
+      margin="dense"
+      fullWidth
+      InputProps={{
+        inputRef: node => {
+          ref(node);
+          inputRef(node);
+        },
+        classes: {
+          input: classes.input,
+        },
+      }}
+      {...other}
+    />
+  );
+};
+
+const renderSuggestion = (suggestion, { query, isHighlighted }) => {
+  const matches = match(suggestion.label, query);
+  const parts = parse(suggestion.label, matches);
+
+  return (
+    <MenuItem selected={isHighlighted} component="div">
+      <div>
+        {parts.map((part, i) => {
+          return part.highlight ? (
+            <span key={i} style={{ fontWeight: 500 }}>
+              {part.text}
+            </span>
+          ) : (
+            <strong key={i} style={{ fontWeight: 300 }}>
+              {part.text}
+            </strong>
+          );
+        })}
+      </div>
+    </MenuItem>
+  );
+};
+
+//NOTE: can we skip this function?
+const getSuggestionValue = suggestion => suggestion;
 
 const styles = theme => ({
-  input: {
-    display: 'flex',
-    padding: 0,
+  root: {
+    height: 250,
+    flexGrow: 1,
   },
-  valueContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flex: 1,
-    alignItems: 'center',
+  container: {
+    position: 'relative',
   },
-  noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
-  },
-  singleValue: {
-    fontSize: 16,
-  },
-  placeholder: {
+  suggestionsContainerOpen: {
     position: 'absolute',
-    left: 2,
-    fontSize: 16,
-  },
-  paper: {
+    zIndex: 1,
     marginTop: theme.spacing.unit,
+    left: 0,
+    right: 0,
+  },
+  suggestion: {
+    display: 'block',
+  },
+  suggestionsList: {
+    margin: 0,
+    padding: 0,
+    listStyleType: 'none',
   },
 });
 
-const NoOptionsMessage = props => (
-  <Typography
-    color="textSecondary"
-    className={props.selectProps.classes.noOptionsMessage}
-    {...props.innerProps}
-  >
-    {props.children}
-  </Typography>
-);
-
-const inputComponent = ({ inputRef, ...props }) => (
-  <div ref={inputRef} {...props} />
-);
-
-const Control = props => (
-  <TextField
-    fullWidth
-    onChange={autocomplete}
-    InputProps={{
-      inputComponent,
-      inputProps: {
-        className: props.selectProps.classes.input,
-        inputRef: props.innerRef,
-        children: props.children,
-        ...props.innerProps,
-      },
-    }}
-    {...props.selectProps.textFieldProps}
-  />
-);
-
-const Option = props => (
-  <MenuItem
-    buttonRef={props.innerRef}
-    selected={props.isFocused}
-    component="div"
-    style={{
-      fontWeight: props.isSelected ? 500 : 400,
-    }}
-    {...props.innerProps}
-  >
-    {props.children}
-  </MenuItem>
-);
-
-const Placeholder = props => (
-  <Typography
-    color="textSecondary"
-    className={props.selectProps.classes.placeholder}
-    {...props.innerProps}
-  >
-    {props.children}
-  </Typography>
-);
-
-const SingleValue = props => (
-  <Typography
-    className={props.selectProps.classes.singleValue}
-    {...props.innerProps}
-  >
-    {props.children}
-  </Typography>
-);
-
-const ValueContainer = props => (
-  <div className={props.selectProps.classes.valueContainer}>
-    {props.children}
-  </div>
-);
-
-const Menu = props => (
-  <Paper
-    square
-    className={props.selectProps.classes.paper}
-    {...props.innerProps}
-  >
-    {props.children}
-  </Paper>
-);
-
-const components = {
-  Option,
-  Control,
-  NoOptionsMessage,
-  Placeholder,
-  SingleValue,
-  ValueContainer,
-  Menu,
-};
-
 class LocationForm extends Component {
   state = {
-    predictions: [],
+    suggestions: [],
     street: '',
     zip: '',
     city: '',
     state: '',
     country: '',
-  }
-
-  componentDidMount() {
-    autocomplete = this.autocomplete;
-  }
-
-  autocomplete = e => {
-    const { value } = e.target;
-    const url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
-
-    axios.get(`https://cors-anywhere.herokuapp.com/${url}input=${value}&key=${key}`)
-    .then(res => {
-      const { predictions } = res.data;
-      this.setState({ predictions })
-    })
+    focus: '', // keep track of which input has focus
   };
 
-  handleSelect = name => index => {
-    const { predictions } = this.state;
-    const placeId = predictions[index.value].place_id;
+  popperNode = {};
 
+  getPlaceData = placeId => {
     const url = 'https://maps.googleapis.com/maps/api/place/details/json?';
-    axios.get(`https://cors-anywhere.herokuapp.com/${url}placeid=${placeId}&key=${key}`)
+    axios.get(`${proxy}${url}placeid=${placeId}&key=${key}`)
     .then(res => {
       this.setState(state => {
         const data = res.data.result.address_components;
@@ -191,14 +133,48 @@ class LocationForm extends Component {
     })
   };
 
-  render() {
-    const { classes, theme } = this.props;
-    const { predictions } = this.state;
+  autocompleteFetch = ({ value }) => {
+    const url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
 
-    const options = predictions.map((prediction, i) => ({
-      value: i,
-      label: prediction.description
-    }));
+    axios.get(`${proxy}${url}input=${value}&key=${key}`)
+    .then(res => {
+      const suggestions = res.data.predictions.map(el => ({
+        label: el.description,
+        id: el.place_id
+      }))
+      this.setState({ suggestions })
+    })
+  };
+
+  autocompleteClear = () => {
+    this.setState({ suggestions: [] })
+  };
+
+  setFocus = name => {
+    this.setState({ focus: name })
+  };
+
+  handleChange = name => (event, { newValue }) => {
+    // runs when a letter is typed or option is clicked
+    if (newValue.label) {
+      this.setState({ [name]: newValue.label })
+      this.getPlaceData(newValue.id)
+    } else {
+      this.setState({ [name]: newValue })
+    }
+  };
+
+  render() {
+    const { classes } = this.props;
+
+    const autosuggestProps = {
+      renderInputComponent,
+      suggestions: this.state.suggestions,
+      onSuggestionsFetchRequested: this.autocompleteFetch,
+      onSuggestionsClearRequested: this.autocompleteClear,
+      getSuggestionValue,
+      renderSuggestion,
+    };
 
     const fields = [
       { value: 'street', label: 'Street address' },
@@ -208,16 +184,42 @@ class LocationForm extends Component {
       { value: 'country', label: 'Country' }
     ].reduce((map, field) => {
       map[field.value] = (
-        <Select
-          classes={classes}
-          options={options}
-          components={components}
-          placeholder={field.label}
-          onChange={this.handleSelect(field.value)}
-          value={this.state[field.value]
-            ? { label: this.state[field.value] }
-            : ''
-          }
+        <Autosuggest
+          {...autosuggestProps}
+          inputProps={{
+            classes,
+            label: field.label,
+            value: this.state[field.value],
+            onChange: this.handleChange(field.value),
+            onFocus: () => this.setFocus(field.value),
+            onBlur: () => this.setFocus(''),
+            inputRef: node => this.popperNode[field.value] = node,
+            InputLabelProps: {
+              shrink: this.state[field.value] || this.state.focus[field.value],
+            },
+          }}
+          theme={{
+            suggestionsList: classes.suggestionsList,
+            suggestion: classes.suggestion,
+          }}
+          renderSuggestionsContainer={options => (
+            <Popper
+              anchorEl={this.popperNode[field.value]}
+              open={Boolean(options.children)}
+            >
+              <Paper
+                square
+                {...options.containerProps}
+                style={{
+                  width: this.popperNode[field.value]
+                    ? this.popperNode[field.value].clientWidth
+                    : null
+                }}
+              >
+                {options.children}
+              </Paper>
+            </Popper>
+          )}
         />
       );
       return map;
@@ -229,13 +231,13 @@ class LocationForm extends Component {
           {fields.street}
         </Grid>
         <Grid item xs={12}>
+          {fields.zip}
+        </Grid>
+        <Grid item xs={12}>
           {fields.city}
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           {fields.state}
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          {fields.zip}
         </Grid>
         <Grid item xs={12}>
           {fields.country}
