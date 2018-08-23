@@ -31,6 +31,36 @@ const UserSchema = new Schema({
     type: String,
     default: 'img/user/default.jpg'
   },
+  gender: {
+    type: String,
+  },
+  birthday: {
+    type: String,
+  },
+  interests: [{
+    type: String
+  }],
+  education: {
+    type: String,
+  },
+  ethnicity: {
+    type: String,
+  },
+  street: {
+    type: String,
+  },
+  zip: {
+    type: Number,
+  },
+  city: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
   role: {
     entrepreneur: {
       type: Boolean,

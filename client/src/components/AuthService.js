@@ -24,7 +24,7 @@ class AuthService {
 
   signUp = (email, password, firstName, lastName, role) => {
     return new Promise((resolve, reject) => {
-      axios.post('api/signup', {
+      axios.post('user/signup', {
         email: email,
         password: password,
         firstName: firstName,
@@ -40,7 +40,7 @@ class AuthService {
   login = (email, password) => {
     return new Promise((resolve, reject) => {
       // get token
-      axios.post('api/login', {
+      axios.post('user/login', {
         email: email,
         password: password
       })

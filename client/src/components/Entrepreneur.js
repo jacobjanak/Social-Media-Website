@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import API from '../utils/API';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
@@ -37,6 +38,11 @@ const styles = theme => ({
   },
   formControl: {
     width: '100%',
+  },
+  group: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline',
+    },
   },
   flex: {
     flexDirection: 'row-reverse',
@@ -79,14 +85,40 @@ class Entrepreneur extends Component {
       interests: '',
       education: '',
       ethnicity: '',
-      picture: '',
-      picturePreview: '',
+      img: '',
+      imgPreview: '',
+      // address
+      street: '',
+      zip: '',
+      city: '',
+      state: '',
+      country: '',
     };
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    console.log('hi')
+    API.editUser({
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      gender: this.state.gender,
+      birthday: this.state.birthday,
+      interests: this.state.interests,
+      education: this.state.education,
+      ethnicity: this.state.ethnicity,
+      img: this.state.img,
+      street: this.state.street,
+      zip: this.state.zip,
+      city: this.state.city,
+      state: this.state.state,
+      country: this.state.country,
+    })
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+  };
+
+  changeState = (newState, cb) => {
+    this.setState(newState, cb)
   };
 
   handleUpload = event => {
@@ -94,8 +126,8 @@ class Entrepreneur extends Component {
     const reader = new FileReader();
     reader.onloadend = () => {
       this.setState({
-        picture: files[0],
-        picturePreview: reader.result
+        img: files[0],
+        imgPreview: reader.result
       });
     }
     reader.readAsDataURL(files[0])
@@ -108,9 +140,9 @@ class Entrepreneur extends Component {
 
   render() {
     const { classes } = this.props;
-    const { picturePreview } = this.state;
+    const { imgPreview } = this.state;
 
-    const profilePic = `url(${this.state.picturePreview || '/img/user/default.jpg'})`;
+    const profilePic = `url(${this.state.imgPreview || '/img/user/default.jpg'})`;
 
     return (
       <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
@@ -131,7 +163,7 @@ class Entrepreneur extends Component {
                 <div className={classes.previewContainer}>
                   <img
                     className={classes.preview}
-                    src={this.state.picturePreview || '/img/user/default.jpg'}
+                    src={this.state.imgPreview || '/img/user/default.jpg'}
                     alt="logo"
                   />
                 </div>
@@ -163,12 +195,12 @@ class Entrepreneur extends Component {
                 </div>
 
                 {/* Name */}
-                <div className={classes.names}>
+                <div className={classes.names} style={{ alignItems: 'flex-end' }}>
                   <Grid item xs={12}>
                     <TextField
                       label="First name"
                       name="firstName"
-                      margin="normal"
+                      margin="dense"
                       fullWidth
                       value={this.state.firstName}
                       onChange={this.handleChange}
@@ -178,7 +210,7 @@ class Entrepreneur extends Component {
                     <TextField
                       label="Last name"
                       name="lastName"
-                      margin="normal"
+                      margin="dense"
                       fullWidth
                       value={this.state.lastName}
                       onChange={this.handleChange}
@@ -188,93 +220,20 @@ class Entrepreneur extends Component {
               </Grid>
               <Spacer half />
 
-              {/* Birthday */}
+              {/* Personal information begins */}
               <Grid item xs={12}>
-                <TextField
-                  label="Birthday"
-                  name="birthday"
-                  type="date"
-                  value={this.state.birthday}
-                  onChange={this.handleChange}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  style={{ width: '100%' }}
-                />
+                <Typography variant="headline">
+                  Personal Information
+                </Typography>
               </Grid>
-              <Spacer half />
-
-              {/* Location */}
-              <Grid item xs={12}>
-                <LocationForm handleChange={this.handleChange} />
-              </Grid>
-              <Spacer half />
-
-              {/* Education */}
-              <Grid item xs={12}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="education">Education</InputLabel>
-                  <Select
-                    value={this.state.education}
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: 'education',
-                      id: 'education',
-                    }}
-                  >
-                    {education.map((level, i) => (
-                      <MenuItem value={level} key={i}>
-                        {level}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Spacer half />
-
-              {/* Interests */}
-              <Grid item xs={12}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="interests">Interests</InputLabel>
-                  <Select
-                    value={this.state.interests}
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: 'interests',
-                      id: 'interests',
-                    }}
-                  >
-                    <MenuItem value=""><em>None</em></MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Spacer half />
-
-              {/* Ethnicity */}
-              <Grid item xs={12}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="ethnicity">Race or ethnicity</InputLabel>
-                  <Select
-                    value={this.state.ethnicity}
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: 'ethnicity',
-                      id: 'ethnicity',
-                    }}
-                  >
-                    {ethnicities.map((ethnicity, i) => (
-                      <MenuItem value={ethnicity} key={i}>
-                        {ethnicity}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Spacer half />
 
               {/* Gender */}
               <Grid item xs={12}>
-                <FormControl component="fieldset" className={classes.formControl}>
+                <FormControl
+                  className={classes.formControl}
+                  component="fieldset"
+                  margin="normal"
+                >
                   <FormLabel component="legend">Gender</FormLabel>
                   <RadioGroup
                     className={classes.group}
@@ -301,6 +260,100 @@ class Entrepreneur extends Component {
                   </RadioGroup>
                 </FormControl>
               </Grid>
+
+              {/* Birthday */}
+              <Grid item xs={12}>
+                <TextField
+                  label="Birthday"
+                  name="birthday"
+                  type="date"
+                  margin="dense"
+                  value={this.state.birthday}
+                  onChange={this.handleChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  style={{ width: '100%' }}
+                />
+              </Grid>
+
+              {/* Education */}
+              <Grid item xs={12}>
+                <FormControl className={classes.formControl} margin="dense">
+                  <InputLabel htmlFor="education">Education</InputLabel>
+                  <Select
+                    value={this.state.education}
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: 'education',
+                      id: 'education',
+                    }}
+                  >
+                    {education.map((level, i) => (
+                      <MenuItem value={level} key={i}>
+                        {level}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              {/* Interests */}
+              <Grid item xs={12}>
+                <FormControl className={classes.formControl} margin="dense">
+                  <InputLabel htmlFor="interests">Interests</InputLabel>
+                  <Select
+                    value={this.state.interests}
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: 'interests',
+                      id: 'interests',
+                    }}
+                  >
+                    <MenuItem value=""><em>None</em></MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              {/* Ethnicity */}
+              <Grid item xs={12}>
+                <FormControl className={classes.formControl} margin="dense">
+                  <InputLabel htmlFor="ethnicity">Race or ethnicity</InputLabel>
+                  <Select
+                    value={this.state.ethnicity}
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: 'ethnicity',
+                      id: 'ethnicity',
+                    }}
+                  >
+                    {ethnicities.map((ethnicity, i) => (
+                      <MenuItem value={ethnicity} key={i}>
+                        {ethnicity}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Spacer />
+
+              {/* Location */}
+              <Grid item xs={12}>
+                <Typography variant="headline" margin="normal">
+                  Address
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <LocationForm
+                  street={this.state.street}
+                  zip={this.state.zip}
+                  city={this.state.city}
+                  state={this.state.state}
+                  country={this.state.country}
+                  changeState={this.changeState}
+                />
+              </Grid>
+              <Spacer half />
 
               {/* Submit button */}
               <Grid container justify="flex-end">

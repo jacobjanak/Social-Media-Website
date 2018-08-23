@@ -73,7 +73,6 @@ const styles = theme => ({
   },
   suggestionsContainerOpen: {
     position: 'absolute',
-    zIndex: 1,
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0,
@@ -85,17 +84,13 @@ const styles = theme => ({
     margin: 0,
     padding: 0,
     listStyleType: 'none',
+    marginBottom: 20,
   },
 });
 
 class LocationForm extends Component {
   state = {
     suggestions: [],
-    street: '',
-    zip: '',
-    city: '',
-    state: '',
-    country: '',
     focus: '', // keep track of which input has focus
   };
 
@@ -105,31 +100,39 @@ class LocationForm extends Component {
     const url = 'https://maps.googleapis.com/maps/api/place/details/json?';
     axios.get(`${proxy}${url}placeid=${placeId}&key=${key}`)
     .then(res => {
-      this.setState(state => {
-        const data = res.data.result.address_components;
-        data.forEach(el => {
-          if (el.types.includes('street_number')) {
-            state.street = el.long_name
-          }
-          else if (el.types.includes('route')) {
-            state.street += ' ' + el.long_name;
-          }
-          else if (el.types.includes('locality')) {
-            state.city = el.long_name;
-          }
-          else if (el.types.includes('administrative_area_level_1')) {
-            state.state = el.long_name;
-          }
-          else if (el.types.includes('postal_code')) {
-            state.zip = el.long_name;
-          }
-          else if (el.types.includes('country')) {
-            state.country = el.long_name;
-          }
-        })
+      // some prehistoric error handling
+      if (!res.data) return;
+      if (!res.data.result) return;
+      if (!res.data.result.address_components) return;
 
-        return state;
+      const data = res.data.result.address_components;
+      const state = {};
+      let streetNumber = '';
+      let route = '';
+
+      data.forEach(el => {
+        if (el.types.includes('street_number')) {
+          streetNumber = el.long_name;
+        }
+        else if (el.types.includes('route')) {
+          route = el.long_name;
+        }
+        else if (el.types.includes('locality')) {
+          state.city = el.long_name;
+        }
+        else if (el.types.includes('administrative_area_level_1')) {
+          state.state = el.long_name;
+        }
+        else if (el.types.includes('postal_code')) {
+          state.zip = el.long_name;
+        }
+        else if (el.types.includes('country')) {
+          state.country = el.long_name;
+        }
       })
+
+      state.street = streetNumber + (streetNumber ? ' ' : '') + route;
+      this.props.changeState(state)
     })
   };
 
@@ -157,10 +160,11 @@ class LocationForm extends Component {
   handleChange = name => (event, { newValue }) => {
     // runs when a letter is typed or option is clicked
     if (newValue.label) {
-      this.setState({ [name]: newValue.label })
-      this.getPlaceData(newValue.id)
+      this.props.changeState({ [name]: newValue.label }, () => { //NOTEL did it work?
+        this.getPlaceData(newValue.id)
+      })
     } else {
-      this.setState({ [name]: newValue })
+      this.props.changeState({ [name]: newValue })
     }
   };
 
@@ -189,13 +193,17 @@ class LocationForm extends Component {
           inputProps={{
             classes,
             label: field.label,
-            value: this.state[field.value],
+            value: this.props[field.value],
+            type: field.value === 'zip' ? 'number' : 'text',
             onChange: this.handleChange(field.value),
             onFocus: () => this.setFocus(field.value),
             onBlur: () => this.setFocus(''),
             inputRef: node => this.popperNode[field.value] = node,
             InputLabelProps: {
-              shrink: this.state[field.value] || this.state.focus[field.value],
+              shrink: (
+                Boolean(this.props[field.value])
+                || this.state.focus === field.value
+              ),
             },
           }}
           theme={{
@@ -206,6 +214,7 @@ class LocationForm extends Component {
             <Popper
               anchorEl={this.popperNode[field.value]}
               open={Boolean(options.children)}
+              placement="top-start"
             >
               <Paper
                 square

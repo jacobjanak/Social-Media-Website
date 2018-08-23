@@ -102,7 +102,7 @@ class BusinessBuilder extends React.Component {
       owner: id,
       name: props.business.name || companyName,
       logo: '',
-      logoPreview: props.business.logo || '',
+      logoPreview: props.business.logo ? '/uploads/' + props.business.logo : '',
       fundStage: props.business.fundStage || null,
       businessStage: props.business.businessStage || null,
       product: props.business.product || false,
@@ -192,22 +192,11 @@ class BusinessBuilder extends React.Component {
   static getDerivedStateFromProps(props, state) {
     // example: site.com/business-builder/4 takes user to step 4
     const { step } = props.match.params;
-    console.log(step)
-    console.log(props)
     const num = Number(step);
 
-    if (num && Number.isInteger(num) && (
-      // validate the size of the number
-      0 < num && num <= state.steps.length
-
-      // fires when next button is clicked
-    )) {
+    if (num && Number.isInteger(num) && 0 < num && num <= state.steps.length) {
       return { activeStep: num - 1 };
     }
-    // } else {
-    //   // default to step 1
-    //   this.updateURL()
-    // }
   }
 
   updateDimensions = () => {
