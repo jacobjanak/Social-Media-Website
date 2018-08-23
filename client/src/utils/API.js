@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 const API = {
+  getUser: user => axios.get('/user/' + (user || '')),
+
   editUser: user => {
     // all this formData stuff is necessary for images
     const formData = new FormData();
@@ -25,7 +27,7 @@ const API = {
     })
   },
 
-  getBusinesses: userID => axios.post('business/api/user/businesses', { userID })
+  getBusinesses: userID => axios.post('/business/get', { userID })
 };
 
 export default API;

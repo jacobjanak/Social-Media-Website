@@ -75,7 +75,7 @@ class Dashboard extends Component {
                 >
                   <Paper className={classes.paper}>
                     <img
-                      src={'/uploads/' + business.logo}
+                      src={business.logo}
                       alt="logo"
                       style={{
                         height: 60,

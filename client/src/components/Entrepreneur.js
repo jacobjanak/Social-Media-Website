@@ -96,6 +96,12 @@ class Entrepreneur extends Component {
     };
   }
 
+  componentDidMount() {
+    API.getUser()
+    .then(res => this.setState({ ...res.data, imgPreview: res.data.img }))
+    .catch(err => console.log(err))
+  }
+
   handleSubmit = e => {
     e.preventDefault()
     API.editUser({
@@ -158,24 +164,6 @@ class Entrepreneur extends Component {
                 </Typography>
               </Grid>
               <Spacer half={true} />
-
-              {/* <Grid item xs={12}>
-                <div className={classes.previewContainer}>
-                  <img
-                    className={classes.preview}
-                    src={this.state.imgPreview || '/img/user/default.jpg'}
-                    alt="logo"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={12}>
-                <input
-                  type="file"
-                  name="logo"
-                  accept=".png, .jpg, .jpeg"
-                  onChange={this.handleUpload}
-                />
-              </Grid> */}
 
               {/* Picture */}
               <Grid container className={classes.flex}>
@@ -298,23 +286,6 @@ class Entrepreneur extends Component {
                 </FormControl>
               </Grid>
 
-              {/* Interests */}
-              <Grid item xs={12}>
-                <FormControl className={classes.formControl} margin="dense">
-                  <InputLabel htmlFor="interests">Interests</InputLabel>
-                  <Select
-                    value={this.state.interests}
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: 'interests',
-                      id: 'interests',
-                    }}
-                  >
-                    <MenuItem value=""><em>None</em></MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-
               {/* Ethnicity */}
               <Grid item xs={12}>
                 <FormControl className={classes.formControl} margin="dense">
@@ -332,6 +303,23 @@ class Entrepreneur extends Component {
                         {ethnicity}
                       </MenuItem>
                     ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              {/* Interests */}
+              <Grid item xs={12}>
+                <FormControl className={classes.formControl} margin="dense">
+                  <InputLabel htmlFor="interests">Interests</InputLabel>
+                  <Select
+                    value={this.state.interests}
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: 'interests',
+                      id: 'interests',
+                    }}
+                  >
+                    <MenuItem value=""><em>None</em></MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

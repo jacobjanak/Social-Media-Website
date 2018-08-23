@@ -50,7 +50,7 @@ const UserSchema = new Schema({
     type: String,
   },
   zip: {
-    type: Number,
+    type: String,
   },
   city: {
     type: String,

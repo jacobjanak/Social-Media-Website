@@ -5,9 +5,18 @@ const upload = require('../utils/upload');
 
 const isAuthenticated = exjwt({ secret: 'swag' });
 
+router.post('/get', (req, res) => {
+  db.Business.find({ owner: req.body.userID })
+  .then(businesses => res.json(businesses))
+  .catch(err => {
+    console.log(err)
+    res.status(400).json(err)
+  })
+})
+
 router.post('/create', isAuthenticated, upload.single('logo'), (req, res) => {
   if (req.file) {
-    req.body.logo = req.file.filename;
+    req.body.logo = '/uploads/' + req.file.filename;
   }
 
   db.Business.create({
@@ -70,15 +79,6 @@ router.post('/create', isAuthenticated, upload.single('logo'), (req, res) => {
     milestoneDate3: req.body.milestoneDate3,
   })
   .then(data => res.json(data))
-  .catch(err => {
-    console.log(err)
-    res.status(400).json(err)
-  })
-})
-
-router.post('/api/user/businesses', (req, res) => {
-  db.Business.find({ owner: req.body.userID })
-  .then(businesses => res.json(businesses))
   .catch(err => {
     console.log(err)
     res.status(400).json(err)

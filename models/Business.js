@@ -34,7 +34,7 @@ const BusinessSchema = new Schema({
     type: String
   },
   zip: {
-    type: Number
+    type: String
   },
   country: {
     type: String

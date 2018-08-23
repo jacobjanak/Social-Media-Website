@@ -102,7 +102,7 @@ class BusinessBuilder extends React.Component {
       owner: id,
       name: props.business.name || companyName,
       logo: '',
-      logoPreview: props.business.logo ? '/uploads/' + props.business.logo : '',
+      logoPreview: props.business.logo || '',
       fundStage: props.business.fundStage || null,
       businessStage: props.business.businessStage || null,
       product: props.business.product || false,

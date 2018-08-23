@@ -6,7 +6,22 @@ const upload = require('../utils/upload');
 
 const isAuthenticated = exjwt({ secret: 'swag' });
 
-router.get('/:id', isAuthenticated, (req, res) => {
+router.get('/', isAuthenticated, (req, res) => {
+  db.User.findById(req.user.id)
+  .then(data => {
+    if (data) {
+      res.json(data)
+    } else {
+      res.status(404).send({
+        success: false,
+        message: 'No user found'
+      })
+    }
+  })
+  .catch(err => res.status(400).send(err))
+})
+
+router.get('/:id', (req, res) => {
   db.User.findById(req.params.id)
   .then(data => {
     if (data) {
@@ -72,7 +87,7 @@ router.post('/login', (req, res) => {
 
 router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
   if (req.file) {
-    req.body.img = req.file.filename;
+    req.body.img = '/uploads/' + req.file.filename;
   }
 
   db.User.findById(req.user.id)

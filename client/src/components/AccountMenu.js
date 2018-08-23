@@ -72,7 +72,7 @@ class AccountMenu extends Component {
               <Link to={'/profile/' + user.id}>
                 <Avatar
                   className={classes.avatar}
-                  src={window.location.origin + '/' + user.img}
+                  src={window.location.origin + user.img}
                   alt="profile picture"
                 />
               </Link>
