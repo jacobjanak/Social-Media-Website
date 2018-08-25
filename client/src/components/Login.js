@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../utils/API';
-import queryString from 'query-string';
+import qs from 'qs';
 import AuthService from './AuthService';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -44,7 +44,7 @@ class Login extends Component {
     super();
     this.Auth = new AuthService();
 
-    const params = queryString.parse(props.history.location.search);
+    const params = qs.parse(props.history.location.search.slice(1));
     this.state = {
       key: params.key || false, // used to confirm email
       open: false,
@@ -123,7 +123,7 @@ class Login extends Component {
           onClose={this.toggleSnackbar}
           ContentProps={{ 'aria-describedby': 'message-id' }}
           message={(
-            <span id="message-id">Email confirmed! Login now</span>
+            <span id="message-id">Email confirmed! You may login now</span>
           )}
           action={[
             <IconButton

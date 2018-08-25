@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import API from '../utils/API';
-import queryString from 'query-string';
-// import { withStyles } from '@material-ui/core/styles';
+import qs from 'qs';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,8 +13,7 @@ import Spacer from './Spacer';
 class Reset extends Component {
   constructor(props) {
     super()
-    const params = queryString.parse(props.history.location.search);
-
+    const params = qs.parse(props.history.location.search.slice(1));
     this.state = {
       key: params.key,
       password: '',
