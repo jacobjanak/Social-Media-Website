@@ -68,7 +68,7 @@ class App extends Component {
                   <Route exact path="/signup" component={withoutAuth(SignUp)} />
                   <Route exact path="/login" component={withoutAuth(Login)} />
                   <Route exact path="/forgot" component={withoutAuth(Recover)} />
-                  <Route exact path="/reset/:random" component={withoutAuth(Reset)} />
+                  <Route path="/reset" component={withoutAuth(Reset)} />
                   <Route exact path="/entrepreneur" component={withAuth(Entrepreneur)} />
                   <Route exact path="/dashboard" component={withAuth(Dashboard, { changeBusiness: this.changeBusiness })} />
                   <Route exact path="/profile/:id" component={withAuth(Profile)} />

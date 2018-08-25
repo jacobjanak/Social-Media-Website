@@ -31,8 +31,8 @@ const API = {
 
   resetPassword: email => axios.post('/email/reset-password', { email }),
 
-  changePassword: (password, url) => {
-    return axios.post('/user/edit/password', { password, url });
+  changePassword: (password, key) => {
+    return axios.post('/user/edit/password', { password, key });
   }
 };
 

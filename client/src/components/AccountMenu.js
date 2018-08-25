@@ -55,6 +55,8 @@ const styles = {
 };
 
 class AccountMenu extends Component {
+  
+
   render() {
     const { classes, user, logout } = this.props;
 

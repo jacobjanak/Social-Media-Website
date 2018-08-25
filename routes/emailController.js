@@ -16,9 +16,8 @@ router.post('/reset-password', (req, res) => {
     if (user) {
       db.Reset.create({ user: user._id })
       .then(reset => {
-        console.log(reset)
         fs.readFile(pathToHTML, (err, data) => {
-          const resetUrl = `https://innovationscity.com/reset/${reset.url}`;
+          const resetUrl = `https://innovationscity.herokuapp.com/reset?key=${reset.key}`;
 
           const result = data
             .toString()
@@ -27,7 +26,7 @@ router.post('/reset-password', (req, res) => {
 
           const options = {
             to: email,
-            subject: 'Forgotten Password',
+            subject: 'Reset Your Password',
             html: result
           };
 
@@ -50,7 +49,12 @@ router.post('/reset-password', (req, res) => {
       })
     }
   })
-  .catch(err => res.status(500).json({ err: err }))
+  .catch(err => {
+    res.status(404).json({
+      err: err,
+      message: "No account found with that email address."
+    })
+  })
 })
 
 module.exports = router;

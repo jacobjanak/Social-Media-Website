@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import API from '../utils/API';
+import queryString from 'query-string';
 // import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -11,20 +12,22 @@ import Typography from '@material-ui/core/Typography';
 import Spacer from './Spacer';
 
 class Reset extends Component {
-  state = {
-    password: '',
-    confirmPassword: '',
-  };
+  constructor(props) {
+    super()
+    const params = queryString.parse(props.history.location.search);
+
+    this.state = {
+      key: params.key,
+      password: '',
+      confirmPassword: '',
+    };
+  }
 
   handleSubmit = () => {
-    const { password, confirmPassword } = this.state;
-
-    // need to figure out how to get params from url
-
-    return console.log(this.props.match.params)
+    const { password, confirmPassword, key } = this.state;
 
     if (password === confirmPassword) {
-      API.changePassword(password, this.props.match.params.random)
+      API.changePassword(password, key)
       .then(res => console.log(res))
       .catch(err => console.log(err))
     }
@@ -50,6 +53,7 @@ class Reset extends Component {
               label="New password"
               name="password"
               margin="normal"
+              type="password"
               fullWidth
               value={this.state.password}
               onChange={this.handleChange}
@@ -58,6 +62,7 @@ class Reset extends Component {
               label="Confirm password"
               name="confirmPassword"
               margin="normal"
+              type="password"
               fullWidth
               value={this.state.confirmPassword}
               onChange={this.handleChange}

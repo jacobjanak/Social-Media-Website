@@ -7,7 +7,7 @@ const ResetSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  url: {
+  key: {
     type: String,
     default: random.string(8)
   },

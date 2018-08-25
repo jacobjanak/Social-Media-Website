@@ -121,7 +121,7 @@ class MenuAppBar extends Component {
                 onClick={() => this.toggleMenu(true)}
               >
                 <Avatar
-                  src={window.location.origin + '/' + user.img}
+                  src={window.location.origin + user.img}
                   alt="profile picture"
                 />
               </IconButton>

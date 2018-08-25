@@ -113,8 +113,15 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
 })
 
 router.post('/edit/password', (req, res) => {
-  console.log(req.body.password)
-  console.log(req.body.url)
+  console.log(req.body.key)
+  db.Reset.findOne({ key: req.body.key })
+  .then(reset => db.User.findOne({ _id: reset.user }))
+  .then(user => {
+    user.password = req.body.password;
+    return user.save();
+  })
+  .then(user => res.json(user))
+  .catch(err => res.sendStatus(404))
 })
 
 module.exports = router;
