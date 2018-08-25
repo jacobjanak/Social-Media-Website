@@ -57,7 +57,6 @@ const styles = {
 class AccountMenu extends Component {
   render() {
     const { classes, user, logout } = this.props;
-    user.bio = "I am a graduate of Harvard Business School class of 2030";
 
     const liProps = {
       variant: 'body1'

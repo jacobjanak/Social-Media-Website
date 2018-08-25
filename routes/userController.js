@@ -98,6 +98,7 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
     if (req.body.gender) user.gender = req.body.gender;
     if (req.body.birthday) user.birthday = req.body.birthday;
     if (req.body.interests) user.interests = req.body.interests;
+    if (req.body.bio) user.bio = req.body.bio;
     if (req.body.education) user.education = req.body.education;
     if (req.body.ethnicity) user.ethnicity = req.body.ethnicity;
     if (req.body.street) user.street = req.body.street;
@@ -109,6 +110,11 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
     .then(user => res.json(user))
     .catch(err => console.log(err))
   })
+})
+
+router.post('/edit/password', (req, res) => {
+  console.log(req.body.password)
+  console.log(req.body.url)
 })
 
 module.exports = router;

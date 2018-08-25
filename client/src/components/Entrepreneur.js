@@ -83,6 +83,7 @@ class Entrepreneur extends Component {
       gender: '',
       birthday: '',
       interests: '',
+      bio: '',
       education: '',
       ethnicity: '',
       img: '',
@@ -110,6 +111,7 @@ class Entrepreneur extends Component {
       gender: this.state.gender,
       birthday: this.state.birthday,
       interests: this.state.interests,
+      bio: this.state.bio,
       education: this.state.education,
       ethnicity: this.state.ethnicity,
       img: this.state.img,
@@ -152,9 +154,9 @@ class Entrepreneur extends Component {
 
     return (
       <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
-        <Hidden xsDown>
+        {/* <Hidden xsDown>
           <Spacer half />
-        </Hidden>
+        </Hidden> */}
         <Paper className={classes.paper}>
           <form onSubmit={this.handleSubmit}>
             <Grid container>
@@ -322,6 +324,19 @@ class Entrepreneur extends Component {
                     <MenuItem value=""><em>None</em></MenuItem>
                   </Select>
                 </FormControl>
+              </Grid>
+
+              {/* Bio */}
+              <Grid item xs={12}>
+                <TextField
+                  label="Bio"
+                  placeholder="Write a short intro for yourself. Max 255 characters."
+                  name="bio"
+                  margin="dense"
+                  fullWidth
+                  value={this.state.bio}
+                  onChange={this.handleChange}
+                />
               </Grid>
               <Spacer />
 

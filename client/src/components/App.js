@@ -15,9 +15,11 @@ import MobileNav from './MobileNav';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
 import Home from './Home';
-import Login from './Login';
-import Profile from './Profile';
 import SignUp from './SignUp';
+import Login from './Login';
+import Recover from './Recover';
+import Reset from './Reset';
+import Profile from './Profile';
 import Dashboard from './Dashboard'
 import StartBusinessBuilder from './BusinessBuilder/Start'
 import BusinessBuilder from './BusinessBuilder'
@@ -63,8 +65,10 @@ class App extends Component {
               <ScrollToTop>
                 <Grid className={classes.app} justify="center" container>
                   <Route exact path="/" component={Home} />
-                  <Route exact path="/login" component={withoutAuth(Login)} />
                   <Route exact path="/signup" component={withoutAuth(SignUp)} />
+                  <Route exact path="/login" component={withoutAuth(Login)} />
+                  <Route exact path="/forgot" component={withoutAuth(Recover)} />
+                  <Route exact path="/reset/:random" component={withoutAuth(Reset)} />
                   <Route exact path="/entrepreneur" component={withAuth(Entrepreneur)} />
                   <Route exact path="/dashboard" component={withAuth(Dashboard, { changeBusiness: this.changeBusiness })} />
                   <Route exact path="/profile/:id" component={withAuth(Profile)} />
@@ -80,8 +84,8 @@ class App extends Component {
                 the padding for lower nav
               */}
 
-              {/* for footer */}
-              <div style={{ flexGrow: 3 }}></div>
+              {/* for footer
+              <div style={{ flexGrow: 3 }}></div> */}
               {/* <Footer /> */}
 
             </div>

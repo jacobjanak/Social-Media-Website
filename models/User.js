@@ -29,7 +29,7 @@ const UserSchema = new Schema({
   },
   img: {
     type: String,
-    default: 'img/user/default.jpg'
+    default: '/img/user/default.jpg'
   },
   gender: {
     type: String,
@@ -40,6 +40,9 @@ const UserSchema = new Schema({
   interests: [{
     type: String
   }],
+  bio: {
+    type: String,
+  },
   education: {
     type: String,
   },
