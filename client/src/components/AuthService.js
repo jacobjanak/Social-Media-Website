@@ -31,7 +31,7 @@ class AuthService {
         lastName: lastName,
         role: role
       })
-      .then(() => this.login(email, password))
+      // .then(() => this.login(email, password))
       .then(user => resolve(user))
       .catch(err => reject(err))
     })

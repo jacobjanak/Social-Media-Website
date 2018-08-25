@@ -23,7 +23,7 @@ app.use(morgan('dev'))
 app.use('/user', require('./routes/userController'))
 app.use('/business', require('./routes/businessController'))
 app.use('/email', require('./routes/emailController'))
-app.use(require('./routes/uploadsController'))
+app.use('/uploads', require('./routes/uploadsController'))
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './client/build/index.html'))
 })

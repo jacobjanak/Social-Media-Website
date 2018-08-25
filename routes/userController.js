@@ -2,6 +2,7 @@ const router = require('express').Router()
 const jwt = require('jsonwebtoken');
 const exjwt = require('express-jwt');
 const db = require('../models');
+const emailer = require('../utils/emailer');
 const upload = require('../utils/upload');
 
 const isAuthenticated = exjwt({ secret: 'swag' });
@@ -37,11 +38,25 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-  db.User.create(req.body)
-  .then(data => res.json(data))
+  db.User.create({
+    email: req.body.email,
+    password: req.body.password,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    role: {
+      investor: req.body.role.investor,
+      entrepreneur: req.body.role.entrepreneur,
+    }
+  })
+  .then(user => emailer.confirmEmail(user))
+  .then(() => res.sendStatus(200))
   .catch(err => {
-    console.log(err)
-    res.status(400).json(err)
+    if (err.message) {
+      console.log(err.message)
+      res.status(401).json({ message: err.message })
+    } else {
+      res.sendStatus(500)
+    }
   })
 })
 
@@ -50,29 +65,33 @@ router.post('/login', (req, res) => {
   .then(user => {
     user.verifyPassword(req.body.password, (err, isMatch) => {
       if (isMatch && !err) {
+        if (user.emailConfirmed) {
 
-        // must pass a simple object as first arg of sign()
-        const token = jwt.sign({
-          id: user._id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          img: user.img
-        }, 'swag', {
-          expiresIn: 129600
-        });
+          // must pass a simple object as first arg of sign()
+          //NOTE: should only be using id
+          const token = jwt.sign({
+            id: user._id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            img: user.img
+          }, 'swag', {
+            expiresIn: 12960000
+          });
 
-        res.json({
-          success: true,
-          message: "Token issued.",
-          token: token,
-          user: user
-        })
+          res.json({
+            success: true,
+            message: "Token issued.",
+            token: token,
+            user: user
+          })
+        } else {
+          // email not confirmed
+          res.status(401).json({ emailNotConfirmed: true })
+        }
       } else {
-        res.status(401).json({
-          success: false,
-          message: "Authentication failed. Wrong password."
-        })
+        // wrong password
+        res.sendStatus(401)
       }
     })
   })
@@ -108,12 +127,11 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
     if (req.body.country) user.country = req.body.country;
     user.save()
     .then(user => res.json(user))
-    .catch(err => console.log(err))
+    .catch(err => res.sendStatus(500))
   })
 })
 
 router.post('/edit/password', (req, res) => {
-  console.log(req.body.key)
   db.Reset.findOne({ key: req.body.key })
   .then(reset => db.User.findOne({ _id: reset.user }))
   .then(user => {
@@ -121,6 +139,17 @@ router.post('/edit/password', (req, res) => {
     return user.save();
   })
   .then(user => res.json(user))
+  .catch(err => res.sendStatus(404))
+})
+
+router.post('/confirm', (req, res) => {
+  db.Confirm.findOne({ key: req.body.key })
+  .then(confirm => db.User.findOne({ _id: confirm.user }))
+  .then(user => {
+    user.emailConfirmed = true;
+    return user.save();
+  })
+  .then(user => res.sendStatus(200))
   .catch(err => res.sendStatus(404))
 })
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = {
-  getUser: user => axios.get('/user/' + (user || '')),
+  getUser: (user = '') => axios.get('/user/' + user),
 
   editUser: user => {
     // all this formData stuff is necessary for images
@@ -28,6 +28,10 @@ const API = {
   },
 
   getBusinesses: userID => axios.post('/business/get', { userID }),
+
+  sendConfirmationEmail: email => axios.post('/email/confirmation', { email }),
+
+  confirmEmail: key => axios.post('/user/confirm', { key }),
 
   resetPassword: email => axios.post('/email/reset-password', { email }),
 

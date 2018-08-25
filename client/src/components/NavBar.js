@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import API from '../utils/API';
 import AuthService from './AuthService';
 import AccountMenu from './AccountMenu';
 import { withStyles } from '@material-ui/core/styles';
@@ -33,13 +34,24 @@ class MenuAppBar extends Component {
     super();
     this.Auth = new AuthService();
     this.state = {
-      open: false
+      user: false,
+      open: false,
     };
+  }
+
+  componentDidMount() {
+    if (this.Auth.user()) {
+      API.getUser()
+      .then(res => {
+        const user = res.data;
+        this.setState({ user })
+      })
+    }
   }
 
   logout = () => {
     this.Auth.logout()
-    // reloade window to redirect only if on a protected route
+    // reload window to redirect if they're on a protected route
     window.location.reload()
   };
 
@@ -49,10 +61,7 @@ class MenuAppBar extends Component {
 
   render() {
     const { classes, mobile } = this.props;
-    const { open } = this.state;
-
-    // must be in render or it won't update
-    const user = this.Auth.user();
+    const { user, open } = this.state;
 
     return (
       <AppBar position="static">

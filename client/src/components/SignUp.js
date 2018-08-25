@@ -62,8 +62,9 @@ class SignUp extends Component {
           investor: this.state.investor
         }
       )
-      .then(user => this.props.history.replace('/profile/' + user._id))
-      .catch(err => alert(err.response.data.message))
+      .then(() => {
+        alert('do stuff')
+      })
     }
   }
 
