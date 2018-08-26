@@ -83,9 +83,9 @@ class SignUp extends Component {
 
     return (
       <Grid item xs={12} sm={8} md={6} lg={4}>
-        <Hidden xsDown>
+        {/* <Hidden xsDown>
           <Spacer half />
-        </Hidden>
+        </Hidden> */}
         <Card className={classes.card}>
           <form noValidate onSubmit={this.handleSubmit}>
             <CardContent>

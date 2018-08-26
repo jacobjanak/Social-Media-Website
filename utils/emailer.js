@@ -70,7 +70,7 @@ const emailer = {
             if (!err) {
               resolve()
             } else {
-              reject({ message: "Unable to send emails to that email address." })
+              reject({ err: err, message: "Unable to send emails to that email address." })
             }
           })
         })

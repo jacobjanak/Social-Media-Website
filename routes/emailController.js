@@ -69,8 +69,7 @@ router.post('/reset-password', (req, res) => {
 })
 
 router.post('/confirm', (req, res) => {
-  console.log('hello')
-  // this is for re-sending the confirmation email
+  // this is for re-sending the confirmation email NOTE: rename to /confirm/resend?
   db.User.findOne({ email: req.body.email })
   .then(user => {
     if (user) {
@@ -81,8 +80,7 @@ router.post('/confirm', (req, res) => {
   })
   .then(() => res.sendStatus(200))
   .catch(err => {
-    console.log(err)
-    res.status(500).json({ message: err.message })
+    res.status(500).json({ err: err, message: err.message })
   })
 })
 

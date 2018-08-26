@@ -90,6 +90,12 @@ class Login extends Component {
         snackbarText: 'Email sent',
       })
     })
+    .catch(err => {
+      if (err.response) {
+        console.log(err.response.data.err)
+        console.log(err.response.data.message)
+      }
+    })
   };
 
   handleSubmit = event => {
