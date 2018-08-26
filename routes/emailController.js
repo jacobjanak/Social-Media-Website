@@ -3,6 +3,7 @@ const exjwt = require('express-jwt');
 const path = require('path');
 const fs = require('fs');
 const db = require('../models');
+const emailer = require('../utils/emailer');
 
 //NOTE: remove this
 const nodemailer = require('nodemailer');
@@ -65,6 +66,20 @@ router.post('/reset-password', (req, res) => {
       message: "No account found with that email address."
     })
   })
+})
+
+router.post('/confirm', (req, res) => {
+  // this is for re-sending the confirmation email
+  db.User.findOne({ email: req.body.email })
+  .then(user => {
+    if (user) {
+      return emailer.resendConfirmEmail(user)
+    } else {
+      res.status(401).json({ message: "No account found with that email address." })
+    }
+  })
+  .then(() => res.sendStatus(200))
+  .catch(err => res.status(500).json({ message: err.message }))
 })
 
 module.exports = router;

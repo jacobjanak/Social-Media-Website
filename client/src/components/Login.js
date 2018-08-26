@@ -73,7 +73,10 @@ class Login extends Component {
   }
 
   resendEmail = () => {
-    API.sendConfirmationEmail(this.state.email)
+    API.resendConfirmation(this.state.email)
+    .then(() => {
+      //NOTE: make the snackbar popup
+    })
   };
 
   handleSubmit = event => {

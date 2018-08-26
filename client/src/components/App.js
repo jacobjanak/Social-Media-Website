@@ -71,7 +71,7 @@ class App extends Component {
                 <Grid className={classes.app} justify="center" container>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/signup" component={withoutAuth(SignUp)} />
-                  <Route exact path="/(login|confirm)/" component={Login} />
+                  <Route exact path="/(login|confirm)/" component={withoutAuth(Login)} />
                   <Route exact path="/forgot" component={withoutAuth(Recover)} />
                   <Route path="/reset" component={withoutAuth(Reset)} />
                   <Route exact path="/entrepreneur" component={withAuth(Entrepreneur)} />

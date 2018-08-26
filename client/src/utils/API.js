@@ -29,7 +29,7 @@ const API = {
 
   getBusinesses: userID => axios.post('/business/get', { userID }),
 
-  sendConfirmationEmail: email => axios.post('/email/confirmation', { email }),
+  resendConfirmation: email => axios.post('/email/confirm', { email }),
 
   confirmEmail: key => axios.post('/user/confirm', { key }),
 
