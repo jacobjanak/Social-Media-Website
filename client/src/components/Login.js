@@ -85,9 +85,7 @@ class Login extends Component {
 
     if (email && password) {
       this.Auth.login(email, password)
-      .then(user => {
-        this.props.history.replace(`/profile/${user._id}`)
-      })
+      .then(user => window.location.reload())
       .catch(err => {
         if (err.response.data.emailNotConfirmed) {
           this.setState({ emailNotConfirmed: true })

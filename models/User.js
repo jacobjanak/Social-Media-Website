@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
+const random = require('../utils/random');
 
 const UserSchema = new Schema({
+  url: {
+    type: String,
+    default: random.string(6),
+  },
   email: {
     type: String,
     required: true,

@@ -55,7 +55,7 @@ const styles = {
 };
 
 class AccountMenu extends Component {
-  
+
 
   render() {
     const { classes, user, logout } = this.props;
@@ -70,7 +70,7 @@ class AccountMenu extends Component {
           {/* <CancelIcon className={classes.close} /> */}
           <ListItem style={user.bio ? { padding: 0 } : {}}>
             <Grid container justify="center">
-              <Link to={'/profile/' + user.id}>
+              <Link to={'/profile/' + user.url}>
                 <Avatar
                   className={classes.avatar}
                   src={window.location.origin + user.img}
@@ -138,7 +138,7 @@ class AccountMenu extends Component {
           <Divider />
           <ListItem
             component={Link}
-            to={'/profile/' + user.id}
+            to={'/profile/' + user.url}
             button
           >
             <ListItemIcon>

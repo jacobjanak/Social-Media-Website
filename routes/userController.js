@@ -22,8 +22,8 @@ router.get('/', isAuthenticated, (req, res) => {
   .catch(err => res.status(400).send(err))
 })
 
-router.get('/:id', (req, res) => {
-  db.User.findById(req.params.id)
+router.get('/:key', (req, res) => {
+  db.User.findOne({ url: req.params.key })
   .then(data => {
     if (data) {
       res.json(data)
