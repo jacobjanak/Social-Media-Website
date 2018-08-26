@@ -8,7 +8,7 @@ function withoutAuth(NoAuthComponent) {
     componentWillMount() {
       const user = Auth.user();
       if (user) {
-        this.props.history.replace('/profile/' + user.id);
+        this.props.history.replace('/');
       }
     }
 

@@ -17,7 +17,7 @@ import ScrollToTop from './ScrollToTop';
 import Home from './Home';
 import SignUp from './SignUp';
 import Login from './Login';
-import Recover from './Recover';
+import Forgot from './Forgot';
 import Reset from './Reset';
 import Profile from './Profile';
 import Dashboard from './Dashboard'
@@ -72,7 +72,7 @@ class App extends Component {
                   <Route exact path="/" component={Home} />
                   <Route exact path="/signup" component={withoutAuth(SignUp)} />
                   <Route exact path="/(login|confirm)/" component={withoutAuth(Login)} />
-                  <Route exact path="/forgot" component={withoutAuth(Recover)} />
+                  <Route exact path="/forgot" component={withoutAuth(Forgot)} />
                   <Route path="/reset" component={withoutAuth(Reset)} />
                   <Route exact path="/entrepreneur" component={withAuth(Entrepreneur)} />
                   <Route exact path="/dashboard" component={withAuth(Dashboard, { changeBusiness: this.changeBusiness })} />

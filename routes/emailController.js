@@ -11,8 +11,8 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'tech@innovationscity.com',
-    pass: 'ICtech2019!'
+    user: process.env.EMAIL_NAME,
+    pass: process.env.EMAIL_PASS
   }
 });
 
@@ -69,6 +69,7 @@ router.post('/reset-password', (req, res) => {
 })
 
 router.post('/confirm', (req, res) => {
+  console.log('hello')
   // this is for re-sending the confirmation email
   db.User.findOne({ email: req.body.email })
   .then(user => {
@@ -79,7 +80,10 @@ router.post('/confirm', (req, res) => {
     }
   })
   .then(() => res.sendStatus(200))
-  .catch(err => res.status(500).json({ message: err.message }))
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({ message: err.message })
+  })
 })
 
 module.exports = router;

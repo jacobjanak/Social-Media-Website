@@ -55,6 +55,7 @@ router.post('/signup', (req, res) => {
       console.log(err.message)
       res.status(401).json({ message: err.message })
     } else {
+      console.log(err)
       res.sendStatus(500)
     }
   })

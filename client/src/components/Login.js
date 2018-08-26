@@ -16,6 +16,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import SendIcon from '@material-ui/icons/Send';
 import Spacer from './Spacer';
 
 const styles = theme => ({
@@ -31,6 +32,9 @@ const styles = theme => ({
   },
   link: {
     textTransform: 'none'
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
   },
   error: {
     marginTop: 2 * theme.spacing.unit,
@@ -48,18 +52,23 @@ class Login extends Component {
     this.state = {
       key: params.key || false, // used to confirm email
       open: false,
+      snackbarText: 'Email confirmed! You may login now',
       email: '',
       password: '',
       emailNotConfirmed: false,
+      lastEmailChecked: '',
     };
   }
 
   componentDidMount() {
+    // if they are being sent here via email 'confirm' button
+    //NOTE: auto-fill email?
     if (this.state.key) {
       API.confirmEmail(this.state.key)
       .then(() => {
         this.setState({
           key: false,
+          snackbarText: 'Email confirmed! You may login now',
           open: true
         }, () => {
           this.props.history.replace('/login')
@@ -73,9 +82,13 @@ class Login extends Component {
   }
 
   resendEmail = () => {
-    API.resendConfirmation(this.state.email)
+    API.resendConfirmation(this.state.lastEmailChecked)
     .then(() => {
       //NOTE: make the snackbar popup
+      this.setState({
+        open: true,
+        snackbarText: 'Email sent',
+      })
     })
   };
 
@@ -88,7 +101,10 @@ class Login extends Component {
       .then(user => window.location.reload())
       .catch(err => {
         if (err.response.data.emailNotConfirmed) {
-          this.setState({ emailNotConfirmed: true })
+          this.setState({
+            emailNotConfirmed: true,
+            lastEmailChecked: email,
+          })
         }
       })
     }
@@ -97,10 +113,7 @@ class Login extends Component {
   handleChange = event => {
     const { name, value } = event.target;
     // hide the 'resend email' button too
-    this.setState({
-      [name]: value,
-      emailNotConfirmed: false,
-    })
+    this.setState({ [name]: value })
   };
 
   render() {
@@ -117,14 +130,14 @@ class Login extends Component {
         <Snackbar
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'left',
+            horizontal: 'center',
           }}
           open={this.state.open}
-          autoHideDuration={5000}
+          autoHideDuration={6000}
           onClose={this.toggleSnackbar}
           ContentProps={{ 'aria-describedby': 'message-id' }}
           message={(
-            <span id="message-id">Email confirmed! You may login now</span>
+            <span id="message-id">{this.state.snackbarText}</span>
           )}
           action={[
             <IconButton
@@ -163,6 +176,7 @@ class Login extends Component {
                       onClick={this.resendEmail}
                     >
                       Resend Email Verification
+                      <SendIcon className={classes.rightIcon} />
                     </Button>
                   </div>
                 )}
@@ -183,8 +197,19 @@ class Login extends Component {
                   value={this.state.password}
                   onChange={this.handleChange}
                 />
+                <Grid container justify="flex-end">
+                  <Button
+                    className={classes.link}
+                    component={Link}
+                    to="/forgot"
+                    size="small"
+                  >
+                    Forgot password
+                    {/* <ChevronRightIcon fontSize="inherit" /> */}
+                  </Button>
+                </Grid>
               </CardContent>
-              <CardContent>
+              <CardContent style={{ paddingTop: 0 }}>
                 <Button
                   className={classes.button}
                   variant="contained"
@@ -196,23 +221,16 @@ class Login extends Component {
                 <Button
                   className={classes.button + ' ' + classes.link}
                   component={Link}
-                  to="/forgot"
+                  to="/signup"
                 >
-                  Forgot password
+                  Don't have an account? Sign up
                 </Button>
               </CardContent>
             </form>
           </Card>
         </Grid>
         <Grid item xs={12}>
-          <Button
-            className={classes.button + ' ' + classes.link}
-            component={Link}
-            to="/signup"
-          >
-            Don't have an account? Sign up
-            {/* <ChevronRightIcon fontSize="inherit" /> */}
-          </Button>
+
         </Grid>
       </Grid>
     );

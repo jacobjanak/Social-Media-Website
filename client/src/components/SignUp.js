@@ -97,7 +97,7 @@ class SignUp extends Component {
                   <TextField
                     label="First name"
                     name="firstName"
-                    margin="normal"
+                    margin="dense"
                     fullWidth
                     value={this.state.firstName}
                     onChange={this.handleChange}
@@ -107,7 +107,7 @@ class SignUp extends Component {
                   <TextField
                     label="Last name"
                     name="lastName"
-                    margin="normal"
+                    margin="dense"
                     fullWidth
                     value={this.state.lastName}
                     onChange={this.handleChange}
@@ -117,7 +117,7 @@ class SignUp extends Component {
                   <TextField
                     label="Email"
                     name="email"
-                    margin="normal"
+                    margin="dense"
                     fullWidth
                     value={this.state.email}
                     onChange={this.handleChange}
@@ -128,7 +128,7 @@ class SignUp extends Component {
                     label="Password"
                     name="password"
                     type="password"
-                    margin="normal"
+                    margin="dense"
                     fullWidth
                     value={this.state.password}
                     onChange={this.handleChange}
@@ -139,7 +139,7 @@ class SignUp extends Component {
                     label="Confirm password"
                     name="confirmPassword"
                     type="password"
-                    margin="normal"
+                    margin="dense"
                     fullWidth
                     value={this.state.confirmPassword}
                     onChange={this.handleChange}

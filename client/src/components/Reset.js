@@ -26,7 +26,7 @@ class Reset extends Component {
 
     if (password === confirmPassword) {
       API.changePassword(password, key)
-      .then(res => console.log(res))
+      .then(res => this.props.history.push('/login'))
       .catch(err => console.log(err))
     }
   }
