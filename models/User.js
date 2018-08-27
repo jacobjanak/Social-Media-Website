@@ -6,7 +6,7 @@ const random = require('../utils/random');
 const UserSchema = new Schema({
   url: {
     type: String,
-    default: random.string(6),
+    default: random.string(8),
   },
   email: {
     type: String,

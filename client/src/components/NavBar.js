@@ -17,6 +17,15 @@ const styles = theme => ({
   flex: {
     flexGrow: 1,
   },
+  logo: {
+    marginTop: -4,
+    marginBottom: -4,
+    marginLeft: 20,
+    height: 48,
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 0,
+    },
+  },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
@@ -60,11 +69,11 @@ class MenuAppBar extends Component {
   };
 
   render() {
-    const { classes, mobile } = this.props;
+    const { classes, styleProps, mobile, position } = this.props;
     const { user, open } = this.state;
 
     return (
-      <AppBar position="static">
+      <AppBar position={position || 'static'} style={styleProps}>
         <Toolbar>
           <Button
             className={classes.link}
@@ -72,52 +81,49 @@ class MenuAppBar extends Component {
             to="/"
             color="inherit"
           >
-            <Typography variant="title" color="inherit">
+            {/* <Typography variant="title" color="inherit">
               InnovationsCity
-            </Typography>
+            </Typography> */}
+            <img className={classes.logo} src="img/logo.png" alt="logo" />
           </Button>
           <span className={classes.flex}></span>
-          { mobile ? null : (
+          { user ? (
             <React.Fragment>
-              { user ? (
-                <React.Fragment>
-                  <Button
-                    className={classes.link}
-                    component={Link}
-                    to="/entrepreneur"
-                    color="inherit"
-                  >
-                    Entrepreneur
-                  </Button>
-                  <Button
-                    className={classes.link}
-                    component={Link}
-                    to="/dashboard"
-                    color="inherit"
-                  >
-                    Dashboard
-                  </Button>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <Button
-                    className={classes.link}
-                    component={Link}
-                    to="/login"
-                    color="inherit"
-                  >
-                    Login
-                  </Button>
-                  <Button
-                    className={classes.link}
-                    component={Link}
-                    to="/signup"
-                    color="inherit"
-                  >
-                    Sign Up
-                  </Button>
-                </React.Fragment>
-              )}
+              <Button
+                className={classes.link}
+                component={Link}
+                to="/entrepreneur"
+                color="inherit"
+              >
+                Entrepreneur
+              </Button>
+              <Button
+                className={classes.link}
+                component={Link}
+                to="/dashboard"
+                color="inherit"
+              >
+                Dashboard
+              </Button>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Button
+                className={classes.link}
+                component={Link}
+                to="/login"
+                color="inherit"
+              >
+                Login
+              </Button>
+              <Button
+                className={classes.link}
+                component={Link}
+                to="/signup"
+                color="inherit"
+              >
+                Sign Up
+              </Button>
             </React.Fragment>
           )}
           { user && (

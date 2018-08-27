@@ -18,6 +18,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/innovations')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('client/build'))
+app.use(express.static('public'))
 app.use(morgan('dev'))
 
 // routing

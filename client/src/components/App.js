@@ -6,8 +6,10 @@ import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import theme from '../theme/theme';
 import Grid from '@material-ui/core/Grid';
+import Spacer from './Spacer';
+import theme from '../theme/theme';
+
 
 // components
 import NavBar from './NavBar';
@@ -25,6 +27,7 @@ import StartBusinessBuilder from './BusinessBuilder/Start'
 import BusinessBuilder from './BusinessBuilder'
 import Entrepreneur from './Entrepreneur'
 
+//NOTE: probably don't need this
 if (localStorage.getItem('id_token')) {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('id_token')}`;
 }
@@ -37,7 +40,6 @@ const styles = theme => ({
   },
   app: {
     flexGrow: 1,
-    marginBottom: 4 * theme.spacing.unit,
   }
 });
 
@@ -91,7 +93,6 @@ class App extends Component {
 
               {/* for footer
               <div style={{ flexGrow: 3 }}></div> */}
-              {/* <Footer /> */}
 
             </div>
           </Router>
