@@ -38,7 +38,6 @@ const styles = theme => ({
   },
   error: {
     marginTop: 2 * theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
     color: theme.palette.error.main,
   },
 });
@@ -57,6 +56,8 @@ class Login extends Component {
       password: '',
       emailNotConfirmed: false,
       lastEmailChecked: '',
+      error: false,
+      errorMessage: '',
     };
   }
 
@@ -86,15 +87,20 @@ class Login extends Component {
     .then(() => {
       //NOTE: make the snackbar popup
       this.setState({
+        emailNotConfirmed: false,
+        lastEmailChecked: '',
         open: true,
         snackbarText: 'Email sent',
       })
     })
     .catch(err => {
       if (err.response) {
-        console.log(err.response.data.err)
-        console.log(err.response.data.message)
-        console.log(err.response.data.address)
+        this.setState({
+          emailNotConfirmed: false,
+          lastEmailChecked: '',
+          error: true,
+          errorMessage: err.response.data.message
+        })
       }
     })
   };
@@ -107,11 +113,22 @@ class Login extends Component {
       this.Auth.login(email, password)
       .then(user => window.location.reload())
       .catch(err => {
-        if (err.response.data.emailNotConfirmed) {
-          this.setState({
-            emailNotConfirmed: true,
-            lastEmailChecked: email,
-          })
+        if (err.response) {
+          if (err.response.data.emailNotConfirmed) {
+            this.setState({
+              emailNotConfirmed: true,
+              lastEmailChecked: email,
+              error: true,
+              errorMessage: 'You must confirm your email address before you can login.',
+            })
+          } else {
+            this.setState({
+              emailNotConfirmed: false,
+              lastEmailChecked: '',
+              error: true,
+              errorMessage: err.response.data.message
+            })
+          }
         }
       })
     }
@@ -120,12 +137,12 @@ class Login extends Component {
   handleChange = event => {
     const { name, value } = event.target;
     // hide the 'resend email' button too
-    this.setState({ [name]: value })
+    this.setState({ [name]: value, error: false })
   };
 
   render() {
     const { classes } = this.props;
-    const { emailNotConfirmed } = this.state;
+    const { error, errorMessage, emailNotConfirmed } = this.state;
 
     return this.state.key ? (
       <div>
@@ -170,10 +187,17 @@ class Login extends Component {
                 <Typography variant="display1" color="primary">
                   Login
                 </Typography>
+                { (error && !emailNotConfirmed) && (
+                  <div className={classes.error}>
+                    <Typography color="inherit">
+                      { errorMessage }
+                    </Typography>
+                  </div>
+                )}
                 { emailNotConfirmed && (
                   <div className={classes.error}>
                     <Typography color="inherit">
-                      You must confirm your email address before you can login.
+                      { errorMessage }
                     </Typography>
                     <Button
                       className={classes.button}

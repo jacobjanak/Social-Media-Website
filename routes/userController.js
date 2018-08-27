@@ -48,16 +48,22 @@ router.post('/signup', (req, res) => {
       entrepreneur: req.body.role.entrepreneur,
     }
   })
-  .then(user => emailer.confirmEmail(user))
-  .then(() => res.sendStatus(200))
+  .then(user => {
+    emailer.confirmEmail(user)
+    .then(() => res.sendStatus(200))
+    .catch(err => {
+      user.remove()
+      res.status(401).json({
+        err: err,
+        message: err.message || 'Error verifying your email'
+      })
+    })
+  })
   .catch(err => {
-    if (err.message) {
-      console.log(err.message)
-      res.status(401).json({ message: err.message })
-    } else {
-      console.log(err)
-      res.sendStatus(500)
-    }
+    res.status(500).json({
+      err: err,
+      message: err.message || 'Unable to create account. Please try again later'
+    })
   })
 })
 
@@ -92,16 +98,12 @@ router.post('/login', (req, res) => {
         }
       } else {
         // wrong password
-        res.sendStatus(401)
+        res.status(401).json({ err: err, message: "Incorrect password" })
       }
     })
   })
   .catch(err => {
-    res.status(404).json({
-      success: false,
-      message: "User not found",
-      error: err
-    })
+    res.status(404).json({ err: err, message: "User not found" })
   })
 })
 

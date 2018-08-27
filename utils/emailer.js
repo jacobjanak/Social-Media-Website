@@ -36,7 +36,7 @@ const emailer = {
             if (!err) {
               resolve()
             } else {
-              reject({ message: "Unable to send emails to that email address." })
+              reject({ message: "Unable to send emails to that email address" })
             }
           })
         })
@@ -73,7 +73,7 @@ const emailer = {
               reject({
                 err: err,
                 address: process.env.EMAIL_NAME,
-                message: "Unable to send emails to that email address."
+                message: "Unable to send emails to that email address"
               })
             }
           })

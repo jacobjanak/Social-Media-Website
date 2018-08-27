@@ -29,7 +29,11 @@ const styles = theme => ({
   },
   link: {
     textTransform: 'none'
-  }
+  },
+  error: {
+    marginTop: 2 * theme.spacing.unit,
+    color: theme.palette.error.main,
+  },
 });
 
 class SignUp extends Component {
@@ -43,7 +47,9 @@ class SignUp extends Component {
       password: '',
       confirmPassword: '',
       entrepreneur: false,
-      investor: false
+      investor: false,
+      error: false,
+      errorMessage: '',
     };
   }
 
@@ -51,19 +57,39 @@ class SignUp extends Component {
     event.preventDefault();
     const { email, password, confirmPassword } = this.state;
 
-    if (email && password && password === confirmPassword) {
-      this.Auth.signUp(
-        email,
-        password,
-        this.state.firstName,
-        this.state.lastName,
-        {
-          entrepreneur: this.state.entrepreneur,
-          investor: this.state.investor
-        }
-      )
-      .then(() => {
-        alert('do stuff')
+    if (email && password) {
+      if (password === confirmPassword) {
+        this.Auth.signUp(
+          email,
+          password,
+          this.state.firstName,
+          this.state.lastName,
+          {
+            entrepreneur: this.state.entrepreneur,
+            investor: this.state.investor
+          }
+        )
+        .then(() => {
+          alert('do stuff')
+        })
+        .catch(err => {
+          if (err.response) {
+            this.setState({
+              error: true,
+              errorMessage: err.response.data.message,
+            })
+          }
+        })
+      } else {
+        this.setState({
+          error: true,
+          errorMessage: 'Passwords must match'
+        })
+      }
+    } else {
+      this.setState({
+        error: true,
+        errorMessage: 'Please fill out all the fields'
       })
     }
   }
@@ -75,11 +101,12 @@ class SignUp extends Component {
 
   handleChange = event => {
     const {name, value} = event.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value, error: false });
   }
 
   render() {
     const { classes } = this.props;
+    const { error, errorMessage } = this.state;
 
     return (
       <Grid item xs={12} sm={8} md={6} lg={4}>
@@ -92,6 +119,13 @@ class SignUp extends Component {
               <Typography variant="display1" color="primary">
                 Sign Up
               </Typography>
+              { error && (
+                <div className={classes.error}>
+                  <Typography color="inherit">
+                    { errorMessage }
+                  </Typography>
+                </div>
+              )}
               <Grid container>
                 <Grid item xs={12} sm={6}>
                   <TextField

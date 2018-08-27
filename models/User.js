@@ -112,6 +112,14 @@ UserSchema.pre('save', function(callback) {
   })
 })
 
+UserSchema.post('save', function(error, doc, next) {
+  if (error.name === 'MongoError' && error.code === 11000) {
+    next(new Error('There is already an account with that email'))
+  } else {
+    next(error)
+  }
+})
+
 UserSchema.methods.verifyPassword = function(password, cb) {
   bcrypt.compare(password, this.password, function(err, isMatch) {
     if (err) return cb(err);
