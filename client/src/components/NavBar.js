@@ -17,14 +17,16 @@ const styles = theme => ({
   flex: {
     flexGrow: 1,
   },
-  logo: {
-    marginTop: -4,
-    marginBottom: -4,
+  logoButton: {
     marginLeft: 20,
-    height: 48,
     [theme.breakpoints.down('xs')]: {
       marginLeft: 0,
     },
+  },
+  logo: {
+    marginTop: -4,
+    marginBottom: -4,
+    height: 48,
   },
   menuButton: {
     marginLeft: -12,
@@ -76,7 +78,7 @@ class MenuAppBar extends Component {
       <AppBar position={position || 'static'} style={styleProps}>
         <Toolbar>
           <Button
-            className={classes.link}
+            className={classes.link + ' ' + classes.logoButton}
             component={Link}
             to="/"
             color="inherit"

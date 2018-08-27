@@ -90,13 +90,41 @@ const styles = theme => ({
 });
 
 class Home extends Component {
+  state = {
+    navbarPosition: 'sticky',
+  };
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll, { passive: true })
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
+  handleScroll = event => {
+    if (window.scrollY >= 100) {
+      this.setState({ navbarPosition: 'fixed' })
+    } else {
+      this.setState({ navbarPosition: 'sticky' })
+    }
+  };
+
   render() {
     const { classes } = this.props;
+    const { navbarPosition } = this.state;
+
+    const styleProps = navbarPosition === 'sticky' ? {
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      transition: '0.5s'
+    } : {
+      transition: '0.5s'
+    };
 
     return (
       <Grid container justify="center">
         <div className={classes.landing}>
-          <NavBar position="fixed" styleProps={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }} />
+          <NavBar position={navbarPosition} styleProps={styleProps} />
           <div className={classes.background}></div>
           <video
             className={classes.video}
@@ -107,9 +135,9 @@ class Home extends Component {
             loop>
           </video>
           <div className={classes.banner}>
-            {/* <Typography variant="subheading" style={{ color: '#14c7ff' }}>
+            <Typography variant="subheading" style={{ color: '#8CFEFE' }}>
               Transforming Early-Stage Entrepreneur's Success
-            </Typography> */}
+            </Typography>
             <Typography
               className={classes.headline}
               variant="display3"

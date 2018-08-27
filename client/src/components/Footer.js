@@ -17,7 +17,10 @@ const styles = theme => ({
     backgroundImage: 'linear-gradient(to right, black, #002171)'
   },
   column: {
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingLeft: 2 * theme.spacing.unit,
+    paddingRight: 2 * theme.spacing.unit,
+    marginBottom: 4 * theme.spacing.unit,
   },
   icon: {
     fontSize: 16,
@@ -34,7 +37,7 @@ const Footer = props => {
         <Grid item xs={12}>
           <Spacer half />
           <Grid container>
-            <Grid className={classes.column} item xs={12} md={4}>
+            <Grid className={classes.column} item xs={12} sm={4}>
               <img
                 src="/img/logo.png"
                 alt="logo"
@@ -47,7 +50,7 @@ const Footer = props => {
                 Innovations City is a web-based platform helping Early-Stage Entrepreneurs to effectively build successful businesses through intelligent research automation.
               </Typography>
             </Grid>
-            <Grid className={classes.column} item xs={12} md={4}>
+            <Grid className={classes.column} item xs={12} sm={4}>
               <Typography variant="title" color="inherit">
                 Links
               </Typography>
@@ -85,7 +88,7 @@ const Footer = props => {
                 Press Release
               </Typography>
             </Grid>
-            <Grid className={classes.column} item xs={12} md={4}>
+            <Grid className={classes.column} item xs={12} sm={4}>
               <Typography variant="title" color="inherit">
                 Contact
               </Typography>
@@ -115,7 +118,6 @@ const Footer = props => {
       </IconButton>
       */}
         <Grid item xs={12}>
-          <Spacer half />
           <Divider style={{ background: '#A9A9A9' }} />
           <Spacer half />
         </Grid>
