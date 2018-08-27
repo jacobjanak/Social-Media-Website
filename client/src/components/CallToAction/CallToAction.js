@@ -7,7 +7,13 @@ class CallToAction extends Component {
   render() {
     return (
       <button className="raise">
-        <Typography variant="subheading" color="inherit" component={Link} to="/signup">
+        <Typography
+          variant="subheading"
+          color="inherit"
+          component={Link}
+          to="/signup"
+          style={{ padding: '8px 16px' }}
+        >
           Sign Up Now
         </Typography>
       </button>

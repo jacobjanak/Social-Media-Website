@@ -24,17 +24,23 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    minlength: [6, 'Password must be at least 6 characters long'],
+    maxlength: [32, 'Password must be no longer than 32 characters long']
   },
   firstName: {
     type: String,
     trim: true,
-    required: true
+    required: true,
+    minength: [1, 'First name must be at least 1 character long'],
+    maxlength: [50, 'First name must be no longer than 50 characters long']
   },
   lastName: {
     type: String,
     trim: true,
-    required: true
+    required: true,
+    minength: [1, 'Last name must be at least 1 character long'],
+    maxlength: [50, 'Last name must be no longer than 50 characters long']
   },
   img: {
     type: String,

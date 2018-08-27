@@ -12,9 +12,9 @@ import Spacer from './Spacer';
 
 const styles = theme => ({
   root: {
-    background: 'grey',
+    background: 'black',
     color: '#d0d0d0',
-    backgroundImage: 'linear-gradient(to right, black, #002171)'
+    // backgroundImage: 'linear-gradient(to right, black, #002171)'
   },
   column: {
     textAlign: 'center',
