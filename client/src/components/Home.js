@@ -126,14 +126,29 @@ class Home extends Component {
         <div className={classes.landing}>
           <NavBar position={navbarPosition} styleProps={styleProps} />
           <div className={classes.background}></div>
-          <video
+          {/* <iframe src="//players.brightcove.net/5827336622001/default_default/index.html?videoId=5827538830001"
+  allowfullscreen
+  webkitallowfullscreen
+  mozallowfullscreen></iframe> src="videos/background.mp4" */}
+
+  <video
+    className={'video-js ' + classes.video}
+    type="video/mp4"
+    data-video-id="5827595817001"
+    data-account="5827336622001"
+    data-player="default"
+    data-embed="default"
+    data-application-id
+    autoPlay
+    muted
+    loop>
+  </video>
+
+          {/* <iframe
             className={classes.video}
-            src="/videos/background.mp4"
-            type="video/mp4"
-            autoPlay
-            muted
-            loop>
-          </video>
+            src=""
+            frameborder="0"
+          ></iframe> */}
           <div className={classes.banner}>
             <Typography variant="subheading" style={{ color: '#8CFEFE' }}>
               Transforming Early-Stage Entrepreneur's Success
