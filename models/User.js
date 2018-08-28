@@ -26,7 +26,6 @@ const UserSchema = new Schema({
     type: String,
     required: true,
     minlength: [6, 'Password must be at least 6 characters long'],
-    maxlength: [32, 'Password must be no longer than 32 characters long']
   },
   firstName: {
     type: String,
@@ -104,6 +103,13 @@ UserSchema.pre('save', function(callback) {
   const user = this;
   if (!user.isModified('password')) {
     return callback()
+  }
+
+  if (user.password.length > 50) {
+    return callback({
+      success: false,
+      message: 'Password must be no longer than 50 characters',
+    })
   }
 
   // if password changed we need to hash it

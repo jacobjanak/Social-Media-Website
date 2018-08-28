@@ -153,7 +153,11 @@ router.post('/confirm', (req, res) => {
     return user.save();
   })
   .then(user => res.sendStatus(200))
-  .catch(err => res.sendStatus(404))
+  .catch(err => {
+    console.log(err)
+    console.log(err.message)
+    res.sendStatus(404)
+  })
 })
 
 module.exports = router;
