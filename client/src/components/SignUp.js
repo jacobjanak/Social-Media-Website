@@ -69,9 +69,7 @@ class SignUp extends Component {
             investor: this.state.investor
           }
         )
-        .then(() => {
-          alert('do stuff')
-        })
+        .then(() => this.props.history.push('/welcome'))
         .catch(err => {
           if (err.response) {
             this.setState({

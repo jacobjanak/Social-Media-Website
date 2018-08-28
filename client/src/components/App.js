@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid';
 import Spacer from './Spacer';
 import theme from '../theme/theme';
 
-
 // components
 import NavBar from './NavBar';
 import MobileNav from './MobileNav';
@@ -22,10 +21,11 @@ import Login from './Login';
 import Forgot from './Forgot';
 import Reset from './Reset';
 import Profile from './Profile';
-import Dashboard from './Dashboard'
-import StartBusinessBuilder from './BusinessBuilder/Start'
-import BusinessBuilder from './BusinessBuilder'
-import Entrepreneur from './Entrepreneur'
+import Dashboard from './Dashboard';
+import StartBusinessBuilder from './BusinessBuilder/Start';
+import BusinessBuilder from './BusinessBuilder';
+import Entrepreneur from './Entrepreneur';
+import Welcome from './Welcome';
 
 //NOTE: probably don't need this
 if (localStorage.getItem('id_token')) {
@@ -76,6 +76,7 @@ class App extends Component {
                   <Route exact path="/(login|confirm)/" component={withoutAuth(Login)} />
                   <Route exact path="/forgot" component={withoutAuth(Forgot)} />
                   <Route path="/reset" component={withoutAuth(Reset)} />
+                  <Route exact path="/welcome" component={withoutAuth(Welcome)} />
                   <Route exact path="/entrepreneur" component={withAuth(Entrepreneur)} />
                   <Route exact path="/dashboard" component={withAuth(Dashboard, { changeBusiness: this.changeBusiness })} />
                   <Route exact path="/profile/:id" component={withAuth(Profile)} />
