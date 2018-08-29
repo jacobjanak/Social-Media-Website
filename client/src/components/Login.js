@@ -254,7 +254,7 @@ class Login extends Component {
                   component={Link}
                   to="/signup"
                 >
-                  Don't have an account? Sign up
+                  Don't have an account?
                 </Button>
               </CardContent>
             </form>

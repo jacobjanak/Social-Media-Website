@@ -18,7 +18,7 @@ class Welcome extends Component {
         </Typography>
         <Spacer half />
         <Typography variant="subheading">
-          An activation email has been sent to your email address. Please check your inbox or spam folder in order to access your InnovationsCity account.
+          An activation email has been sent to your email address. Please check your inbox or spam folder and activate your account in order to access your InnovationsCity account.
         </Typography>
         <Spacer half />
         <Button

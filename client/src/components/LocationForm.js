@@ -23,6 +23,7 @@ const renderInputComponent = inputProps => {
     <TextField
       margin="dense"
       fullWidth
+      required
       InputProps={{
         inputRef: node => {
           ref(node);

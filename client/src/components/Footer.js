@@ -12,7 +12,7 @@ import Spacer from './Spacer';
 
 const styles = theme => ({
   root: {
-    background: 'black',
+    background: '#263238',
     color: '#d0d0d0',
     // backgroundImage: 'linear-gradient(to right, black, #002171)'
   },

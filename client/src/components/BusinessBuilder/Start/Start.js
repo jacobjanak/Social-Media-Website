@@ -69,6 +69,7 @@ class Start extends Component {
           </Button>
         </Grid>
 
+        <Spacer />
       </Grid>
     )
   }

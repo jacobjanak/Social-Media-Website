@@ -72,6 +72,10 @@ const styles = theme => ({
     margin: '50% 0 0 50%',
     transform: 'translate(-50%, -50%)',
   },
+  error: {
+    marginTop: 2 * theme.spacing.unit,
+    color: theme.palette.error.main,
+  },
 });
 
 class Entrepreneur extends Component {
@@ -94,35 +98,66 @@ class Entrepreneur extends Component {
       city: '',
       state: '',
       country: '',
+      error: false,
+      errors: [],
     };
   }
 
   componentDidMount() {
     API.getUser()
     .then(res => this.setState({ ...res.data, imgPreview: res.data.img }))
-    .catch(err => console.log(err))
+    .catch(err => window.location.reload())
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    API.editUser({
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      gender: this.state.gender,
-      birthday: this.state.birthday,
-      interests: this.state.interests,
-      bio: this.state.bio,
-      education: this.state.education,
-      ethnicity: this.state.ethnicity,
-      img: this.state.img,
-      street: this.state.street,
-      zip: this.state.zip,
-      city: this.state.city,
-      state: this.state.state,
-      country: this.state.country,
-    })
-    .then(res => this.props.history.push('/business-builder'))
-    .catch(err => console.log(err))
+    const {
+      firstName,
+      lastName,
+      gender,
+      birthday,
+      interests,
+      bio,
+      education,
+      ethnicity,
+      img,
+      street,
+      zip,
+      city,
+      state,
+      country,
+    } = this.state;
+
+    const errors = [];
+    if (!Number(zip) || zip.indexOf('e') >= 0) {
+      errors.push("Zip code must only contain numbers")
+    }
+    if (zip.length !== 5) {
+      errors.push("Zip code must be exactly 5 numbers")
+    }
+
+    if (errors.length === 0) {
+      API.editUser({
+        firstName,
+        lastName,
+        gender,
+        birthday,
+        interests,
+        bio,
+        education,
+        ethnicity,
+        img,
+        street,
+        zip,
+        city,
+        state,
+        country,
+      })
+      .then(res => this.props.history.push('/business-builder'))
+      .catch(err => console.log(err))
+    } else {
+      this.setState({ errors })
+    }
   };
 
   changeState = (newState, cb) => {
@@ -148,7 +183,7 @@ class Entrepreneur extends Component {
 
   render() {
     const { classes } = this.props;
-    const { imgPreview } = this.state;
+    const { imgPreview, errors } = this.state;
 
     const profilePic = `url(${this.state.imgPreview || '/img/user/default.jpg'})`;
 
@@ -161,11 +196,30 @@ class Entrepreneur extends Component {
           <form onSubmit={this.handleSubmit}>
             <Grid container>
               <Grid item xs={12}>
-                <Typography variant="display1" align="center" color="primary">
-                  Entrepreneur Signup
+                <Typography
+                  variant="display1"
+                  align="center"
+                  color="primary"
+                  gutterBottom
+                >
+                  Entrepreneur Profile
                 </Typography>
               </Grid>
-              <Spacer half={true} />
+              <Grid item xs={12}>
+                <Typography variant="subheading" align="center">
+                  Complete your entrepreneur profile before creating a business
+                </Typography>
+              </Grid>
+              { errors.length > 0 && (
+                <div className={classes.error}>
+                  { errors.map(error => (
+                    <Typography color="inherit">
+                      { error }
+                    </Typography>
+                  ))}
+                </div>
+              )}
+              <Spacer half />
 
               {/* Picture */}
               <Grid container className={classes.flex}>
@@ -192,6 +246,7 @@ class Entrepreneur extends Component {
                       name="firstName"
                       margin="dense"
                       fullWidth
+                      required
                       value={this.state.firstName}
                       onChange={this.handleChange}
                     />
@@ -202,6 +257,7 @@ class Entrepreneur extends Component {
                       name="lastName"
                       margin="dense"
                       fullWidth
+                      required
                       value={this.state.lastName}
                       onChange={this.handleChange}
                     />
@@ -223,28 +279,30 @@ class Entrepreneur extends Component {
                   className={classes.formControl}
                   component="fieldset"
                   margin="normal"
+                  required
                 >
                   <FormLabel component="legend">Gender</FormLabel>
                   <RadioGroup
                     className={classes.group}
                     aria-label="Gender"
                     name="gender"
+                    required
                     value={this.state.gender}
                     onChange={this.handleChange}
                   >
                     <FormControlLabel
                       value="male"
-                      control={<Radio />}
+                      control={<Radio required />}
                       label="Male"
                     />
                     <FormControlLabel
                       value="female"
-                      control={<Radio />}
+                      control={<Radio required />}
                       label="Female"
                     />
                     <FormControlLabel
                       value="other"
-                      control={<Radio />}
+                      control={<Radio required />}
                       label="Other"
                     />
                   </RadioGroup>
@@ -258,11 +316,10 @@ class Entrepreneur extends Component {
                   name="birthday"
                   type="date"
                   margin="dense"
+                  required
                   value={this.state.birthday}
                   onChange={this.handleChange}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  InputLabelProps={{ shrink: true }}
                   style={{ width: '100%' }}
                 />
               </Grid>
@@ -270,8 +327,12 @@ class Entrepreneur extends Component {
               {/* Education */}
               <Grid item xs={12}>
                 <FormControl className={classes.formControl} margin="dense">
-                  <InputLabel htmlFor="education">Education</InputLabel>
+                  <InputLabel htmlFor="education" shrink>
+                    Education *
+                  </InputLabel>
                   <Select
+                    native
+                    required
                     value={this.state.education}
                     onChange={this.handleChange}
                     inputProps={{
@@ -279,10 +340,11 @@ class Entrepreneur extends Component {
                       id: 'education',
                     }}
                   >
+                    <option value="" disabled>None</option>
                     {education.map((level, i) => (
-                      <MenuItem value={level} key={i}>
+                      <option value={level} key={i}>
                         {level}
-                      </MenuItem>
+                      </option>
                     ))}
                   </Select>
                 </FormControl>
@@ -291,8 +353,12 @@ class Entrepreneur extends Component {
               {/* Ethnicity */}
               <Grid item xs={12}>
                 <FormControl className={classes.formControl} margin="dense">
-                  <InputLabel htmlFor="ethnicity">Race or ethnicity</InputLabel>
+                  <InputLabel htmlFor="ethnicity" shrink>
+                    Race or ethnicity *
+                  </InputLabel>
                   <Select
+                    native
+                    required
                     value={this.state.ethnicity}
                     onChange={this.handleChange}
                     inputProps={{
@@ -300,16 +366,18 @@ class Entrepreneur extends Component {
                       id: 'ethnicity',
                     }}
                   >
+                    <option value="" disabled>None</option>
                     {ethnicities.map((ethnicity, i) => (
-                      <MenuItem value={ethnicity} key={i}>
+                      <option value={ethnicity} key={i}>
                         {ethnicity}
-                      </MenuItem>
+                      </option>
                     ))}
                   </Select>
                 </FormControl>
               </Grid>
 
               {/* Interests */}
+              {/*
               <Grid item xs={12}>
                 <FormControl className={classes.formControl} margin="dense">
                   <InputLabel htmlFor="interests">Interests</InputLabel>
@@ -325,6 +393,7 @@ class Entrepreneur extends Component {
                   </Select>
                 </FormControl>
               </Grid>
+              */}
 
               {/* Bio */}
               <Grid item xs={12}>
@@ -366,7 +435,7 @@ class Entrepreneur extends Component {
                   color="primary"
                   type="submit"
                 >
-                  Submit
+                  Continue
                 </Button>
               </Grid>
 

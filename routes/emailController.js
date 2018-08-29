@@ -1,75 +1,27 @@
 const router = require('express').Router()
 const exjwt = require('express-jwt');
-const path = require('path');
-const fs = require('fs');
 const db = require('../models');
 const emailer = require('../utils/emailer');
-
-//NOTE: remove this
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_NAME,
-    pass: process.env.EMAIL_PASS
-  }
-});
 
 const isAuthenticated = exjwt({ secret: 'swag' });
 
 router.post('/reset-password', (req, res) => {
   const email = req.body.email;
-
   db.User.findOne({ email: email })
   .then(user => {
     if (user) {
-      db.Reset.create({ user: user._id })
-      .then(reset => {
-        const pathToHTML = path.join(__dirname, '../emails/password_reset.html');
-        fs.readFile(pathToHTML, (err, data) => {
-          const resetUrl = `https://innovationscity.herokuapp.com/reset?key=${reset.key}`;
-
-          const result = data
-            .toString()
-            .replace(/{{name}}/g, user.firstName || '')
-            .replace(/{{action_url}}/g, resetUrl);
-
-          const options = {
-            to: email,
-            subject: 'Reset Your Password',
-            html: result
-          };
-
-          transporter.sendMail(options, (err, info) => {
-            if (!err) {
-              res.json(email)
-            } else {
-              res.status(500).json({
-                err: err,
-                message: "Unable to send password recovery info to that email address."
-              })
-            }
-          })
-        })
-      })
+      return emailer.resetPassword(user);
     } else {
-      res.status(404).json({
-        err: err,
-        message: "No account found with that email address."
-      })
+      res.status(404).json({ message: "No account found with that email address." })
     }
   })
-  .catch(err => {
-    res.status(404).json({
-      err: err,
-      message: "No account found with that email address."
-    })
-  })
+  .then(email => res.json(email))
+  .catch(err => res.status(500).json({ err: err, message: err.message }))
 })
 
 router.post('/confirm', (req, res) => {
-  // this is for re-sending the confirmation email NOTE: rename to /confirm/resend?
+  // this is for re-sending the confirmation email
+  // NOTE: rename to /confirm/resend?
   db.User.findOne({ email: req.body.email })
   .then(user => {
     if (user) {
@@ -79,9 +31,13 @@ router.post('/confirm', (req, res) => {
     }
   })
   .then(() => res.sendStatus(200))
-  .catch(err => {
-    res.status(500).json({ err: err, message: err.message })
-  })
+  .catch(err => res.status(500).json({ err: err, message: err.message }))
+})
+
+router.post('/contact-us', (req, res) => {
+  emailer.contactUs(req.body)
+  .then(() => res.sendStatus(200))
+  .catch(err => res.status(500).json({ err: err, message: "There was an issue sending your message" }))
 })
 
 module.exports = router;

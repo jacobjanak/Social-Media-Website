@@ -19,15 +19,6 @@
   transform: translateY(-0.25em);
 }
 
-@media screen and (max-width: 599px) {
-  .raise {
-    margin-left: 50%;
-    transform: translateX(-50%);
-  }
+@media screen and (max-width: 959px) {
 
-  .raise:hover,
-  .raise:focus {
-    -webkit-transform: translate(-50%, -0.25em);
-    transform: translate(-50%, -0.25em);
-  }
 }

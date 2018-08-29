@@ -38,6 +38,17 @@ const styles = theme => ({
     height: 200,
     marginBottom: 2 * theme.spacing.unit,
     overflow: 'hidden',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  fileInput: {
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '50%',
+      paddingLeft: 40,
+      transform: 'translateX(-50%)'
+    },
   },
   preview: {
     minWidth: '100%',
@@ -108,6 +119,7 @@ class Details extends Component {
         </Grid>
         <Grid item xs={12}>
           <input
+            className={classes.fileInput}
             type="file"
             name="logo"
             accept=".png, .jpg, .jpeg"

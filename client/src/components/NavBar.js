@@ -14,6 +14,9 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const styles = theme => ({
+  root: {
+    backgroundColor: '#263238',
+  },
   flex: {
     flexGrow: 1,
   },
@@ -75,40 +78,34 @@ class MenuAppBar extends Component {
     const { user, open } = this.state;
 
     return (
-      <AppBar position={position || 'static'} style={styleProps}>
+      <AppBar
+        className={classes.root}
+        position={position || 'static'}
+        style={styleProps}
+      >
         <Toolbar>
           <Button
             className={classes.link + ' ' + classes.logoButton}
             component={Link}
             to="/"
             color="inherit"
+            disableRipple
           >
             {/* <Typography variant="title" color="inherit">
               InnovationsCity
             </Typography> */}
-            <img className={classes.logo} src="img/logo.png" alt="logo" />
+            <img className={classes.logo} src="/img/logo.png" alt="logo" />
           </Button>
           <span className={classes.flex}></span>
-          { user ? (
-            <React.Fragment>
-              <Button
-                className={classes.link}
-                component={Link}
-                to="/entrepreneur"
-                color="inherit"
-              >
-                Entrepreneur
-              </Button>
-              <Button
-                className={classes.link}
-                component={Link}
-                to="/dashboard"
-                color="inherit"
-              >
-                Dashboard
-              </Button>
-            </React.Fragment>
-          ) : (
+          <Button
+            className={classes.link}
+            component={Link}
+            to="/contact"
+            color="inherit"
+          >
+            Contact
+          </Button>
+          { !user && (
             <React.Fragment>
               <Button
                 className={classes.link}

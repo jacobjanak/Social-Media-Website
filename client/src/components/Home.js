@@ -7,7 +7,7 @@ import CallToAction from './CallToAction';
 import ImportantDevicesIcon from '@material-ui/icons/ImportantDevicesOutlined';
 import BarChartIcon from '@material-ui/icons/BarChartOutlined';
 import ForumIcon from '@material-ui/icons/ForumOutlined';
-import BusinessIcon from '@material-ui/icons/BusinessOutlined';
+import StoreIcon from '@material-ui/icons/StoreOutlined';
 import Background from './Background';
 import NavBar from './NavBar';
 import Footer from './Footer';
@@ -62,18 +62,24 @@ const styles = theme => ({
   },
   banner: {
     position: 'absolute',
-    top: 80,
+    top: 90,
     left: 60,
     bottom: 60,
     maxWidth: '100%',
-    marginTop: '64',
-    padding: 4 * theme.spacing.unit,
     borderRadius: 4 * theme.spacing.unit,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.up('lg')]: {
+      left: 120,
+    },
+    [theme.breakpoints.down('sm')]: {
       width: '100%',
+      height: '100%',
+      top: 0,
+      bottom: 0,
       left: 0,
-    }
+      paddingTop: 100, // for navbar
+      backgroundColor: 'rgba(0,0,0,0.6)',
+      textAlign: 'center',
+    },
   },
   headline: {
     color: 'white',
@@ -83,6 +89,10 @@ const styles = theme => ({
     color: 'lightgrey',
     marginBottom: 32,
     width: 320,
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       paddingLeft: 2 * theme.spacing.unit,
@@ -138,62 +148,15 @@ class Home extends Component {
       <Grid container justify="center">
         <div className={classes.landing}>
           <NavBar position={navbarPosition} styleProps={styleProps} />
+
+          {/* Black background */}
           <div className={classes.background}></div>
 
+          {/* Video */}
           <Background />
 
           {/* cover is used to cover the youtube video with an unclickable div */}
-            {/*<div className={classes.cover}></div>
-
-          <div className={classes.video}>
-            <div style={{
-              position: 'absolute',
-              right: 0,
-              top: 0,
-              left: 0,
-              bottom: -50,
-
-              height: '100%',
-            }}>
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&loop=1&mute=1&showinfo=0&controls=0&disablekb=1&modestbranding=1&iv_load_policy=3"
-                gesture="media"
-                allow="encrypted-media"
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  border: 0
-                }}
-              ></iframe>
-            </div>
-          </div> */}
-
-          {/* <iframe src="//players.brightcove.net/5827336622001/default_default/index.html?videoId=5827538830001"
-  allowfullscreen
-  webkitallowfullscreen
-  mozallowfullscreen></iframe> src="videos/background.mp4"
-
-  <video
-    className={'video-js ' + classes.video}
-    type="video/mp4"
-    data-video-id="5827595817001"
-    data-account="5827336622001"
-    data-player="default"
-    data-embed="default"
-    data-application-id
-    autoPlay
-    muted
-    loop>
-  </video> */}
-
-          {/* <iframe
-            className={classes.video}
-            src=""
-            frameborder="0"
-          ></iframe> */}
+          {/* <div className={classes.cover}></div> */}
           <div className={classes.banner}>
             <Typography variant="subheading" style={{ color: '#8CFEFE' }}>
               Transforming Early-Stage Entrepreneur's Success
@@ -224,7 +187,11 @@ class Home extends Component {
             >
               InnovationsCity is a web-based platform helping Early-Stage Entrepreneurs effectively build successful businesses through intelligent research automation
             </Typography>
+            <Grid container justify="center">
+              <Grid item md={12}>
             <CallToAction className={classes.action} />
+            </Grid>
+          </Grid>
           </div>
         </div>
         <Spacer />
@@ -281,7 +248,7 @@ class Home extends Component {
               </Typography>
             </Grid>
             <Grid item className={classes.factoid} xs={12} sm={6} md={3}>
-              <BusinessIcon
+              <StoreIcon
                 className={classes.icon}
                 color="inherit"
                 style={{ color: '#4CAF50' }}

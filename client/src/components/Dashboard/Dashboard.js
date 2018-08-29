@@ -58,52 +58,49 @@ class Dashboard extends Component {
     const { businesses } = this.state;
 
     return (
-      <Grid container justify="center">
+      <Grid item xs={12} sm={11} md={10} lg={8}>
         <Spacer half />
-        <Grid item xs={12} sm={11} md={10} lg={8}>
-          <Typography variant="display1" color="primary" align="center" gutterBottom>
-            My Businesses
-          </Typography>
-          <Grid container justify="center" >
-
-            {businesses.map((business, i) => (
-              <Grid item xs={12} md={4} key={i}>
-                <Button
-                  className={'paper-button ' + classes.button}
-                  fullWidth
-                  onClick={() => this.editBusiness(i)}
-                >
-                  <Paper className={classes.paper}>
-                    <img
-                      src={business.logo}
-                      alt="logo"
-                      style={{
-                        height: 60,
-                        width: 60,
-                      }}
-                    />
-                    <Typography variant="subheading">
-                      {business.name}
-                    </Typography>
-                  </Paper>
-                </Button>
-              </Grid>
-            ))}
-
-            <Grid item xs={12} md={4}>
+        <Typography variant="display1" color="primary" align="center" gutterBottom>
+          My Businesses
+        </Typography>
+        <Grid container justify="center">
+          {businesses.map((business, i) => (
+            <Grid item xs={12} md={4} key={i}>
               <Button
                 className={'paper-button ' + classes.button}
-                component={Link}
-                to="/business-builder"
                 fullWidth
+                onClick={() => this.editBusiness(i)}
               >
                 <Paper className={classes.paper}>
-                  <Grid className={classes.center} container>
-                    <AddCircle className={classes.icon} />
-                  </Grid>
+                  <img
+                    src={business.logo}
+                    alt="logo"
+                    style={{
+                      height: 60,
+                      width: 60,
+                    }}
+                  />
+                  <Typography variant="subheading">
+                    {business.name}
+                  </Typography>
                 </Paper>
               </Button>
             </Grid>
+          ))}
+
+          <Grid item xs={12} md={4}>
+            <Button
+              className={'paper-button ' + classes.button}
+              component={Link}
+              to="/entrepreneur"
+              fullWidth
+            >
+              <Paper className={classes.paper}>
+                <Grid className={classes.center} container>
+                  <AddCircle className={classes.icon} />
+                </Grid>
+              </Paper>
+            </Button>
           </Grid>
         </Grid>
       </Grid>

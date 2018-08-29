@@ -17,6 +17,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import SettingsIcon from '@material-ui/icons/SettingsSharp';
 import PeopleIcon from '@material-ui/icons/People';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import CancelIcon from '@material-ui/icons/Cancel';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -106,7 +107,7 @@ class AccountMenu extends Component {
                     className={classes.statistic}
                     variant="display1"
                   >
-                    92
+                    0
                   </Typography>
                   <Typography variant="body1">Connections</Typography>
                 </ListItemText>
@@ -128,7 +129,7 @@ class AccountMenu extends Component {
                     className={classes.statistic}
                     variant="display1"
                   >
-                    223
+                    0
                   </Typography>
                   <Typography variant="body1">Views</Typography>
                 </ListItemText>
@@ -145,9 +146,22 @@ class AccountMenu extends Component {
               <PersonIcon />
             </ListItemIcon>
             <ListItemText primaryTypographyProps={liProps}>
-              My Profile
+              Profile
             </ListItemText>
           </ListItem>
+          <ListItem
+            component={Link}
+            to={'/'}
+            button
+          >
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primaryTypographyProps={liProps}>
+              My Dashboard
+            </ListItemText>
+          </ListItem>
+          {/*
           <ListItem
             component={Link}
             to="/messages"
@@ -174,6 +188,7 @@ class AccountMenu extends Component {
               Settings
             </ListItemText>
           </ListItem>
+          */}
           <ListItem
             button
             onClick={logout}
