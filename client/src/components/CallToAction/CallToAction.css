@@ -12,9 +12,9 @@
 
 .raise:hover,
 .raise:focus {
-  border-color: #B927A6;
+  border-color: #B832AA;
   color: #fff;
-  box-shadow: 0 0.5em 0.5em -0.4em #B927A6;
+  box-shadow: 0 0.5em 0.5em -0.4em #B832AA;
   -webkit-transform: translateY(-0.25em);
   transform: translateY(-0.25em);
 }

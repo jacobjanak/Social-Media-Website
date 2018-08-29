@@ -21,7 +21,7 @@ const styles = theme => ({
     minHeight: 600,
     overflow: 'hidden',
     marginTop: -64,
-    zIndex: 10000, // covers navbar
+    zIndex: 1150, // covers navbar but not tooltips
     [theme.breakpoints.down('xs')]: {
       marginTop: -56,
     },

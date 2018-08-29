@@ -7,11 +7,33 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Typography from '@material-ui/core/Typography';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
+import Hidden from '@material-ui/core/Hidden';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
+const links = [
+  {
+    label: 'Contact',
+    url: '/contact',
+    auth: false,
+  },
+  {
+    label: 'Login',
+    url: '/login',
+    noAuth: true,
+  },
+  {
+    label: 'Sign Up',
+    url: '/signup',
+    noAuth: true,
+  },
+];
 
 const styles = theme => ({
   root: {
@@ -31,12 +53,11 @@ const styles = theme => ({
     marginBottom: -4,
     height: 48,
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
   link: {
     textTransform: 'none'
+  },
+  mobileMenu: {
+
   },
   avatar: {
     marginLeft: theme.spacing.unit
@@ -50,6 +71,7 @@ class MenuAppBar extends Component {
     this.state = {
       user: false,
       open: false,
+      anchorEl: null,
     };
   }
 
@@ -65,17 +87,27 @@ class MenuAppBar extends Component {
 
   logout = () => {
     this.Auth.logout()
-    // reload window to redirect if they're on a protected route
     window.location.reload()
   };
 
+  // for mobile menu
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget })
+  };
+
+  // for mobile menu
+  handleClose = () => {
+    this.setState({ anchorEl: null })
+  };
+
+  // for account menu
   toggleMenu = bool => {
     this.setState({ open: bool })
   };
 
   render() {
     const { classes, styleProps, mobile, position } = this.props;
-    const { user, open } = this.state;
+    const { user, open, anchorEl } = this.state;
 
     return (
       <AppBar
@@ -97,34 +129,54 @@ class MenuAppBar extends Component {
             <img className={classes.logo} src="/img/logo.png" alt="logo" />
           </Button>
           <span className={classes.flex}></span>
-          <Button
-            className={classes.link}
-            component={Link}
-            to="/contact"
-            color="inherit"
-          >
-            Contact
-          </Button>
-          { !user && (
-            <React.Fragment>
+
+          {/* Links */}
+          <Hidden xsDown>
+            { links.map((link, i) => link.noAuth || !user ? (
               <Button
                 className={classes.link}
                 component={Link}
-                to="/login"
+                to={link.url}
                 color="inherit"
+                key={i}
               >
-                Login
+                {link.label}
               </Button>
-              <Button
-                className={classes.link}
-                component={Link}
-                to="/signup"
-                color="inherit"
-              >
-                Sign Up
-              </Button>
-            </React.Fragment>
-          )}
+            ) : null)}
+          </Hidden>
+
+          <Hidden smUp>
+
+            <Button
+              aria-owns={anchorEl ? 'simple-menu' : null}
+              aria-haspopup="true"
+              color="inherit"
+              onClick={this.handleClick}
+            >
+              Menu
+            </Button>
+
+            <Menu
+              className={classes.mobileMenu}
+              id="menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={this.handleClose}
+            >
+              { links.map((link, i) => link.noAuth || !user ? (
+                <MenuItem
+                  component={Link}
+                  to={link.url}
+                  onClick={this.handleClose}
+                >
+                  { link.label }
+                </MenuItem>
+              ) : null)}
+            </Menu>
+          </Hidden>
+
+
+          {/* Account menu */}
           { user && (
             <div>
               <IconButton
