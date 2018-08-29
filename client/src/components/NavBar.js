@@ -26,12 +26,12 @@ const links = [
   {
     label: 'Login',
     url: '/login',
-    noAuth: true,
+    auth: true,
   },
   {
     label: 'Sign Up',
     url: '/signup',
-    noAuth: true,
+    auth: true,
   },
 ];
 
@@ -130,9 +130,9 @@ class MenuAppBar extends Component {
           </Button>
           <span className={classes.flex}></span>
 
-          {/* Links */}
+          {/* Menu (desktop) */}
           <Hidden xsDown>
-            { links.map((link, i) => link.noAuth || !user ? (
+            { links.map((link, i) => !link.auth || !user ? (
               <Button
                 className={classes.link}
                 component={Link}
@@ -145,8 +145,8 @@ class MenuAppBar extends Component {
             ) : null)}
           </Hidden>
 
+          {/* Mobile menu */}
           <Hidden smUp>
-
             <Button
               aria-owns={anchorEl ? 'simple-menu' : null}
               aria-haspopup="true"
@@ -155,7 +155,6 @@ class MenuAppBar extends Component {
             >
               Menu
             </Button>
-
             <Menu
               className={classes.mobileMenu}
               id="menu"
@@ -163,7 +162,7 @@ class MenuAppBar extends Component {
               open={Boolean(anchorEl)}
               onClose={this.handleClose}
             >
-              { links.map((link, i) => link.noAuth || !user ? (
+              { links.map((link, i) => !link.auth || !user ? (
                 <MenuItem
                   component={Link}
                   to={link.url}
