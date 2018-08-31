@@ -12,6 +12,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import LargeTextField from '../../LargeTextField';
 import TeamMembers from './TeamMembers';
 import Spacer from '../../Spacer';
 
@@ -64,10 +65,12 @@ class Strategy extends Component {
             value={this.props.exitStrategy}
             onChange={handleChange}
           />
+        <LargeTextField fullWidth />
         </Grid>
         <Spacer />
 
         {/* Team */}
+        {/*
         <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
             Team
@@ -76,6 +79,7 @@ class Strategy extends Component {
         <Grid item xs={12}>
           <TeamMembers team={team} addTeamMember={addTeamMember} />
         </Grid>
+        */}
 
       </Grid>
     );

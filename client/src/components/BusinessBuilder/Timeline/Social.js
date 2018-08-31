@@ -11,7 +11,8 @@ const styles = theme => ({
     paddingTop: 5,
     paddingBottom: 5,
     paddingRight: 5,
-    cursor: 'pointer',
+    // cursor: 'pointer',
+    cursor: 'not-allowed',
     [theme.breakpoints.up('sm')]: {
       marginRight: theme.spacing.unit,
       marginLeft: theme.spacing.unit,

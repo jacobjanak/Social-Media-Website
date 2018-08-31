@@ -1,0 +1,4 @@
+.large-text-field::before,
+.large-text-field::after {
+  display: none;
+}

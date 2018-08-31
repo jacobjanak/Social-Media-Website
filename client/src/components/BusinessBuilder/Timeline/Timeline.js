@@ -55,7 +55,7 @@ class Timeline extends Component {
         </Grid>
         <Grid item xs={12}>
           <Typography variant="body1">
-            Connect social media accounts to establish your online traction.
+            Connect social media accounts to establish your online traction (coming soon)
           </Typography>
         </Grid>
         <Grid item xs={12}>
