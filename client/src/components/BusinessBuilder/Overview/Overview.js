@@ -20,6 +20,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Hidden from '@material-ui/core/Hidden';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
+import ContainedTextField from '../../ContainedTextField';
 
 const styles = theme => ({
   list: {
@@ -54,11 +55,11 @@ class Overview extends Component {
         {/* Description */}
         <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
-            Full Description
+            Full Company Description
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <TextField
+          <ContainedTextField
             name="description"
             margin="dense"
             multiline
@@ -76,10 +77,11 @@ class Overview extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <TextField
+          <ContainedTextField
             name="problem"
             margin="dense"
             placeholder="What problem is your business solving?"
+            rows="4"
             fullWidth
             value={this.props.problem}
             onChange={handleChange}
@@ -92,10 +94,11 @@ class Overview extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <TextField
+          <ContainedTextField
             name="solution"
             margin="dense"
             placeholder="How is your business solving the problem?"
+            rows="4"
             fullWidth
             value={this.props.solution}
             onChange={handleChange}
@@ -108,10 +111,11 @@ class Overview extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <TextField
+          <ContainedTextField
             name="benefits"
             margin="dense"
             placeholder="What benefits are you giving your audience?"
+            rows="4"
             fullWidth
             value={this.props.benefits}
             onChange={handleChange}

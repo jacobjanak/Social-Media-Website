@@ -1,4 +1,4 @@
-.large-text-field::before,
-.large-text-field::after {
+.contained-text-field > div::before,
+.contained-text-field > div::after {
   display: none;
 }

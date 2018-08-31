@@ -39,7 +39,7 @@ class Strategy extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} style={{ marginTop: 4 }}>
-          <TextField
+          <ContainedTextField
             name="impact"
             margin="dense"
             fullWidth
@@ -57,7 +57,7 @@ class Strategy extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} style={{ marginTop: 4 }}>
-          <TextField
+          <ContainedTextField
             name="exitStrategy"
             margin="dense"
             fullWidth
@@ -65,12 +65,12 @@ class Strategy extends Component {
             value={this.props.exitStrategy}
             onChange={handleChange}
           />
-        <ContainedTextField fullWidth />
         </Grid>
-        <Spacer />
+
 
         {/* Team */}
         {/*
+                  <Spacer />
         <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
             Team

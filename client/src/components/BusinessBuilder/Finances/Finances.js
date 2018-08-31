@@ -15,6 +15,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import ContainedTextField from '../../ContainedTextField';
 import Spacer from '../../Spacer';
 import currencies from '../../../data/currencies.json';
 
@@ -33,7 +34,12 @@ const styles = theme => ({
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: 0,
-  }
+  },
+  group: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline',
+    },
+  },
 });
 
 class Finances extends Component {
@@ -48,84 +54,6 @@ class Finances extends Component {
 
     return (
       <Grid container>
-
-        {/* Sales plan */}
-        <Grid item xs={12}>
-          <Typography variant="headline">
-            Sales Plan
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl component="fieldset">
-            <RadioGroup
-              aria-label=""
-              name="salesPlanLength"
-              value={this.props.salesPlanLength}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="5"
-                label="5 year plan"
-                control={<Radio />}
-              />
-              <FormControlLabel
-                value="3"
-                label="3 year plan"
-                control={<Radio />}
-              />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Description"
-            name="salesPlan"
-            multiline
-            fullWidth
-            value={this.props.salesPlan}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Spacer />
-
-        {/* Marketing plan */}
-        <Grid item xs={12}>
-          <Typography variant="headline">
-            Marketing Plan
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl component="fieldset">
-            <RadioGroup
-              aria-label=""
-              name="marketingPlanLength"
-              value={this.props.marketingPlanLength}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="5"
-                label="5 year plan"
-                control={<Radio />}
-              />
-              <FormControlLabel
-                value="3"
-                label="3 year plan"
-                control={<Radio />}
-              />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Description"
-            name="marketingPlan"
-            multiline
-            fullWidth
-            value={this.props.marketingPlan}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Spacer />
 
         {/* Currency */}
         <Grid item xs={12}>
@@ -158,6 +86,86 @@ class Finances extends Component {
         </Grid>
         <Spacer />
 
+
+        {/* Sales plan */}
+        <Grid item xs={12}>
+          <Typography variant="headline">
+            Sales Plan
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl component="fieldset">
+            <RadioGroup
+              className={classes.group}
+              aria-label="Length of sales plan"
+              name="salesPlanLength"
+              value={this.props.salesPlanLength}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value="3"
+                label="3 year plan"
+                control={<Radio />}
+              />
+              <FormControlLabel
+                value="5"
+                label="5 year plan"
+                control={<Radio />}
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <ContainedTextField
+            placeholder="Description"
+            name="salesPlan"
+            multiline
+            fullWidth
+            value={this.props.salesPlan}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Spacer />
+
+        {/* Marketing plan */}
+        <Grid item xs={12}>
+          <Typography variant="headline">
+            Marketing Plan
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl component="fieldset">
+            <RadioGroup
+              className={classes.group}
+              aria-label="Length of marketing plan"
+              name="marketingPlanLength"
+              value={this.props.marketingPlanLength}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value="3"
+                label="3 year plan"
+                control={<Radio />}
+              />
+              <FormControlLabel
+                value="5"
+                label="5 year plan"
+                control={<Radio />}
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <ContainedTextField
+            placeholder="Description"
+            name="marketingPlan"
+            multiline
+            fullWidth
+            value={this.props.marketingPlan}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Spacer />
 
         {/* Streams of revenue */}
         <Grid item xs={12}>
