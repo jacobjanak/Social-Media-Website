@@ -74,14 +74,21 @@ router.post('/edit', isAuthenticated, upload.single('logo'), (req, res) => {
       return res.status(404).json({ message: "Business not found" })
     }
 
+    console.log(req.body.team)
+
     const paths = db.Business.schema.paths;
     for (let k in paths) {
       const value = req.body[k];
 
-      if (paths[k].instance === 'String'
-       || paths[k].instance === 'Array') {
+      if (paths[k].instance === 'String') {
         if (value) {
           business[k] = value;
+        }
+      }
+      else if (paths[k].instance === 'Array') {
+        const arr = JSON.parse(value)
+        if (arr) {
+          business[k] = arr;
         }
       }
       else if (paths[k].instance === 'Number') {

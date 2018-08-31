@@ -87,7 +87,7 @@ class Dashboard extends Component {
 
     return (
       <React.Fragment>
-        <Grid item xs={12} sm={10} md={6} lg={5}>
+        <Grid item xs={12} sm={10} md={6} lg={5} xl={4}>
           <Paper className={classes.paper}>
             <Spacer half />
             <Grid container className={classes.title}>
