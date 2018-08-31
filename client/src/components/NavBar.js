@@ -19,6 +19,11 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const links = [
   {
+    label: 'Team',
+    url: '/team',
+    auth: false,
+  },
+  {
     label: 'Contact',
     url: '/contact',
     auth: false,
@@ -41,12 +46,6 @@ const styles = theme => ({
   },
   flex: {
     flexGrow: 1,
-  },
-  logoButton: {
-    marginLeft: 20,
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: 0,
-    },
   },
   logo: {
     marginTop: -4,
@@ -117,7 +116,7 @@ class MenuAppBar extends Component {
       >
         <Toolbar>
           <Button
-            className={classes.link + ' ' + classes.logoButton}
+            className={classes.link}
             component={Link}
             to="/"
             color="inherit"
@@ -167,6 +166,7 @@ class MenuAppBar extends Component {
                   component={Link}
                   to={link.url}
                   onClick={this.handleClose}
+                  key={i}
                 >
                   { link.label }
                 </MenuItem>

@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const random = require('../utils/random');
 
 const BusinessSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  url: {
+    type: String,
+    default: random.string(8),
   },
   name: {
     type: String
@@ -13,7 +18,8 @@ const BusinessSchema = new Schema({
     type: String
   },
   logo: {
-    type: String
+    type: String,
+    default: '/img/business/default.jpg'
   },
   fundStage: {
     type: String
@@ -28,6 +34,9 @@ const BusinessSchema = new Schema({
     type: String
   },
   industries: {
+    type: String
+  },
+  street: {
     type: String
   },
   city: {

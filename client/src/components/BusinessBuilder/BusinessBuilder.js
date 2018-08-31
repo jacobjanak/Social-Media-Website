@@ -79,12 +79,14 @@ class BusinessBuilder extends React.Component {
   constructor(props) {
     super()
     const { id, firstName, lastName } = props.user;
+    const { key } = props.match.params;
 
     const companyName = firstName && lastName
       ? `${firstName} ${lastName}'s Company`
       : '';
 
     this.state = {
+      key: key || false,
       // stuff for step counter
       activeStep: 0,
       skipped: new Set(),
@@ -100,87 +102,87 @@ class BusinessBuilder extends React.Component {
       isTablet: true,
       // form data
       owner: id,
-      name: props.business.name || companyName,
+      name: companyName,
       logo: '',
-      logoPreview: props.business.logo || '',
-      fundStage: props.business.fundStage || null,
-      businessStage: props.business.businessStage || null,
-      product: props.business.product || false,
-      service: props.business.service || false,
-      industries: props.business.industries || [],
-      city: props.business.city || '',
-      zip: props.business.zip || '',
-      bio: props.business.bio || '',
-      description: props.business.description || '',
-      problem: props.business.problem || '',
-      benefits: props.business.benefits || '',
-      solution: props.business.solution || '',
-      market1: props.business.market1 || '',
-      market2: props.business.market2 || '',
-      market3: props.business.market3 || '',
-      market4: props.business.market4 || '',
-      competitor1: props.business.competitor1 || '',
-      competitor2: props.business.competitor2 || '',
-      competitor3: props.business.competitor3 || '',
-      competitor4: props.business.competitor4 || '',
-      tested: props.business.tested || '',
-      currency: props.business.currency || 'USD',
-      forecast: props.business.forecast || '',
-      salesPlan: props.business.salesPlan || '',
-      salesPlanLength: props.business.salesPlanLength || '',
-      marketingPlan: props.business.marketingPlan || '',
-      marketingPlanLength: props.business.marketingPlanLength || '',
-      website: props.business.website || '',
-      team: props.business.team || [],
-      stream1: props.business.stream1 || '',
-      stream2: props.business.stream2 || '',
-      stream3: props.business.stream3 || '',
-      costOfStream1: props.business.costOfStream1 || 0,
-      costOfStream2: props.business.costOfStream2 || 0,
-      costOfStream3: props.business.costOfStream3 || 0,
-      startOfStream1: props.business.startOfStream1 || '',
-      startOfStream2: props.business.startOfStream2 || '',
-      startOfStream3: props.business.startOfStream3 || '',
-      rent: props.business.rent || 0,
-      utilities: props.business.utilities || 0,
-      directCost: props.business.directCost || 0,
-      personnel: props.business.personnel || 0,
-      expenses: props.business.expenses || 0,
-      assets: props.business.assets || 0,
-      taxes: props.business.taxes || 0,
-      dividends: props.business.dividends || 0,
-      cashFlow: props.business.cashFlow || 0,
-      financials: props.business.financials || 0,
-      milestone1: props.business.milestone1 || '',
-      milestone2: props.business.milestone2 || '',
-      milestone3: props.business.milestone3 || '',
-      milestoneDate1: props.business.milestoneDate1 || '',
-      milestoneDate2: props.business.milestoneDate2 || '',
-      milestoneDate3: props.business.milestoneDate3 || '',
+      logoPreview: '',
+      fundStage: null,
+      businessStage: null,
+      product: false,
+      service: false,
+      industries: [],
+      street: '',
+      city: '',
+      zip: '',
+      country: '',
+      bio: '',
+      description: '',
+      problem: '',
+      benefits: '',
+      solution: '',
+      market1: '',
+      market2: '',
+      market3: '',
+      market4: '',
+      competitor1: '',
+      competitor2: '',
+      competitor3: '',
+      competitor4: '',
+      tested: '',
+      currency: 'USD',
+      forecast: '',
+      salesPlan: '',
+      salesPlanLength: '',
+      marketingPlan: '',
+      marketingPlanLength: '',
+      website: '',
+      team: [],
+      stream1: '',
+      stream2: '',
+      stream3: '',
+      costOfStream1: 0,
+      costOfStream2: 0,
+      costOfStream3: 0,
+      startOfStream1: '',
+      startOfStream2: '',
+      startOfStream3: '',
+      rent: 0,
+      utilities: 0,
+      directCost: 0,
+      personnel: 0,
+      expenses: 0,
+      assets: 0,
+      taxes: 0,
+      dividends: 0,
+      cashFlow: 0,
+      financials: 0,
+      milestone1: '',
+      milestone2: '',
+      milestone3: '',
+      milestoneDate1: '',
+      milestoneDate2: '',
+      milestoneDate3: '',
       country: {
-        value: props.business.country || 'United States',
-        label: props.business.country || 'United States',
+        value: 'United States',
+        label: 'United States',
       },
     };
   }
 
-  // componentWillMount() {
-  //   // // example: site.com/business-builder/4 takes user to step 4
-  //   // const { step } = this.props.match.params;
-  //   // const num = Number(step);
-  //   //
-  //   // if (num && Number.isInteger(num) && (
-  //   //   // validate the size of the number
-  //   //   0 < num && num <= this.state.steps.length
-  //   // )) {
-  //   //   this.setState({ activeStep: num - 1 })
-  //   // } else {
-  //   //   // default to step 1
-  //   //   this.updateURL()
-  //   // }
-  // }
-
   componentDidMount() {
+    if (this.state.key) {
+      API.getBusiness(this.state.key)
+      .then(res => {
+        this.setState({
+          ...res.data,
+          logoPreview: res.data.logo,
+          country: {
+            label: res.data.country,
+            value: res.data.country,
+          },
+        })
+      })
+      .catch(err => console.log(err))
+    }
     this.updateDimensions();
     window.addEventListener('resize', this.updateDimensions);
   }
@@ -190,12 +192,15 @@ class BusinessBuilder extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    // fires whenever props change
     // example: site.com/business-builder/4 takes user to step 4
     const { step } = props.match.params;
     const num = Number(step);
 
     if (num && Number.isInteger(num) && 0 < num && num <= state.steps.length) {
       return { activeStep: num - 1 };
+    } else {
+      return null;
     }
   }
 
@@ -217,9 +222,12 @@ class BusinessBuilder extends React.Component {
   };
 
   updateURL = step => {
-    if (step || step === 0) step++;
-    const url = `/business-builder/${step || this.state.activeStep + 1}`;
-    this.props.history.push(url)
+    //NOTE: to save time I decided not to do fancy url stuff if we're editting
+    if (!this.state.key) {
+      if (step || step === 0) step++;
+      const url = `/business-builder/${step || this.state.activeStep + 1}`;
+      this.props.history.push(url)
+    }
   };
 
   getStepContent = step => {
@@ -308,8 +316,8 @@ class BusinessBuilder extends React.Component {
   };
 
   handleSubmit = () => {
-    // this.setState({ activeStep: 0 })
-    API.createBusiness({
+    const businessData = {
+      key: this.state.key,
       owner: this.state.owner,
       name: this.state.name,
       logo: this.state.logo,
@@ -318,6 +326,7 @@ class BusinessBuilder extends React.Component {
       product: this.state.product,
       service: this.state.service,
       industries: this.state.industries,
+      street: this.state.street,
       city: this.state.city,
       zip: this.state.zip,
       country: this.state.country.value,
@@ -367,11 +376,17 @@ class BusinessBuilder extends React.Component {
       milestoneDate1: this.state.milestoneDate1,
       milestoneDate2: this.state.milestoneDate2,
       milestoneDate3: this.state.milestoneDate3,
-    })
-    .then(business => {
-      this.props.history.push('/dashboard')
-    })
-    .catch(err => alert(err.message))
+    };
+
+    if (this.state.key) {
+      API.editBusiness(businessData)
+      .then(business => this.props.history.push('/'))
+      .catch(err => console.log(err.message))
+    } else {
+      API.createBusiness(businessData)
+      .then(business => this.props.history.push('/'))
+      .catch(err => console.log(err.message))
+    }
   };
 
   isStepSkipped = step => this.state.skipped.has(step);
@@ -419,6 +434,24 @@ class BusinessBuilder extends React.Component {
   render() {
     const { classes, user } = this.props;
     const { isDesktop, isTablet, steps, activeStep } = this.state;
+
+    const buttons = activeStep !== steps.length - 1 ? (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={this.handleNext}
+      >
+        Next
+      </Button>
+    ) : (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={this.handleSubmit}
+      >
+        Finish
+      </Button>
+    );
 
     return (
       <div className={classes.root}>
@@ -517,23 +550,7 @@ class BusinessBuilder extends React.Component {
                         Skip
                       </Button>
                     )}
-                    {activeStep !== steps.length - 1 ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleNext}
-                      >
-                        Next
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleSubmit}
-                      >
-                        Finish
-                      </Button>
-                    )}
+                    { buttons }
                   </Grid>
                 )}
                 {/* End next/back buttons */}
@@ -565,15 +582,8 @@ class BusinessBuilder extends React.Component {
                       Skip
                     </Button>
                   )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleNext}
-                  >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
+                  { buttons }
                 </Grid>
-                {/* End next/back buttons */}
 
               </Paper>
             </Grid>

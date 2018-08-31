@@ -77,7 +77,7 @@ const styles = theme => ({
       bottom: 0,
       left: 0,
       paddingTop: 100, // for navbar
-      backgroundColor: 'rgba(0,0,0,0.6)',
+      backgroundColor: 'rgba(0,0,0,0.4)',
       textAlign: 'center',
     },
   },

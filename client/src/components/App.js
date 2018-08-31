@@ -84,6 +84,7 @@ class App extends Component {
                   <Route exact path="/contact" component={Contact} />
                   <Route exact path="/entrepreneur" component={withAuth(Entrepreneur)} />
                   <Route exact path="/profile/:id" component={withAuth(Profile)} />
+                  <Route exact path="/business/edit/:key" component={withAuth(BusinessBuilder)} />
                   <Route exact path="/business-builder" component={withAuth(StartBusinessBuilder)} />
                   <Route exact path="/business-builder/:step" component={withAuth(BusinessBuilder, { business })} />
                 </Grid>
