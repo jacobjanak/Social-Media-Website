@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import './LargeTextField.css';
+import './ContainedTextField.css';
 
 const styles = theme => ({
   root: {
@@ -9,7 +9,7 @@ const styles = theme => ({
   },
 });
 
-class LargeTextField extends Component {
+class ContainedTextField extends Component {
   render() {
     const { classes } = this.props;
 
@@ -24,4 +24,4 @@ class LargeTextField extends Component {
   }
 }
 
-export default withStyles(styles)(LargeTextField);
+export default withStyles(styles)(ContainedTextField);

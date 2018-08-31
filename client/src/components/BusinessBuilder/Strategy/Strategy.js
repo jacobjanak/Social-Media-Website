@@ -12,7 +12,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import LargeTextField from '../../LargeTextField';
+import ContainedTextField from '../../ContainedTextField';
 import TeamMembers from './TeamMembers';
 import Spacer from '../../Spacer';
 
@@ -65,7 +65,7 @@ class Strategy extends Component {
             value={this.props.exitStrategy}
             onChange={handleChange}
           />
-        <LargeTextField fullWidth />
+        <ContainedTextField fullWidth />
         </Grid>
         <Spacer />
 
