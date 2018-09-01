@@ -13,7 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 // for Google Places API
 import axios from 'axios';
 const CORS = 'https://cors-anywhere.herokuapp.com/';
-const proxy = process.env.NODE_ENV === 'development' ? CORS : '';
+const proxy = CORS;
 const key = 'AIzaSyC-_mgd4Vs9X83tJlxKur1V8lmjhQCyh0I';
 
 const renderInputComponent = inputProps => {
