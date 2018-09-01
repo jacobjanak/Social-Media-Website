@@ -40,7 +40,6 @@ class Profile extends Component {
       <div className="container Profile">
         <h1>Profile</h1>
         <p>Name: {user.firstName + ' ' + user.lastName}</p>
-        <p>Email: {user.email}</p>
       </div>
     )
   }
