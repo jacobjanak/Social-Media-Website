@@ -106,7 +106,10 @@ class Entrepreneur extends Component {
   componentDidMount() {
     API.getUser()
     .then(res => this.setState({ ...res.data, imgPreview: res.data.img }))
-    .catch(err => window.location.reload())
+    .catch(res => {
+      console.log(res.data)
+      console.log(res.data.err)
+    })
   }
 
   handleSubmit = e => {
@@ -154,7 +157,10 @@ class Entrepreneur extends Component {
         country,
       })
       .then(res => this.props.history.push('/business-builder'))
-      .catch(err => console.log(err))
+      .catch(res => {
+        console.log(res.data)
+        console.log(res.data.err)
+      })
     } else {
       this.setState({ errors })
     }

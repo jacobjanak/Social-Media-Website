@@ -130,7 +130,7 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
     if (req.body.country) user.country = req.body.country;
     user.save()
     .then(user => res.json(user))
-    .catch(err => res.sendStatus(500))
+    .catch(err => res.status(500).json({ err: err }))
   })
 })
 
@@ -147,7 +147,13 @@ router.post('/edit/password', (req, res) => {
 
 router.post('/confirm', (req, res) => {
   db.Confirm.findOne({ key: req.body.key })
-  .then(confirm => db.User.findOne({ _id: confirm.user }))
+  .then(confirm => {
+    if (confirm) {
+      return db.User.findOne({ _id: confirm.user });
+    } else {
+      res.status(401).json({ message: 'Wrong key in the url' })
+    }
+  })
   .then(user => {
     user.emailConfirmed = true;
     return user.save();
