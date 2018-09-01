@@ -4,11 +4,11 @@ const fs = require('fs');
 const db = require('../models');
 
 const transporter = nodemailer.createTransport({
-  name: 'innovationscity.herokuapp.com',
+  name: 'http://innovationscity.us-east-2.elasticbeanstalk.com',
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_NAME,
-    pass: process.env.EMAIL_PASS
+    user: 'tech@innovationscity.com',
+    pass: 'ICtech2019!',
   }
 });
 
@@ -21,7 +21,7 @@ const emailer = {
         fs.readFile(pathToHTML, (err, data) => {
           if (err) reject({ err: err });
 
-          const confirmUrl = `https://innovationscity.herokuapp.com/confirm?key=${confirm.key}`;
+          const confirmUrl = `http://innovationscity.us-east-2.elasticbeanstalk.com/confirm?key=${confirm.key}`;
           const result = data
             .toString()
             .replace(/{{name}}/g, user.firstName || '')
@@ -55,7 +55,7 @@ const emailer = {
         fs.readFile(pathToHTML, (err, data) => {
           if (err) reject({ err: err });
 
-          const confirmUrl = `https://innovationscity.herokuapp.com/confirm?key=${confirm.key}`;
+          const confirmUrl = `http://innovationscity.us-east-2.elasticbeanstalk.com/confirm?key=${confirm.key}`;
           const result = data
             .toString()
             .replace(/{{name}}/g, user.firstName || '')
@@ -85,7 +85,7 @@ const emailer = {
       .then(reset => {
         const pathToHTML = path.join(__dirname, '../emails/password_reset.html');
         fs.readFile(pathToHTML, (err, data) => {
-          const resetUrl = `https://innovationscity.herokuapp.com/reset?key=${reset.key}`;
+          const resetUrl = `http://innovationscity.us-east-2.elasticbeanstalk.com/reset?key=${reset.key}`;
 
           const result = data
             .toString()
