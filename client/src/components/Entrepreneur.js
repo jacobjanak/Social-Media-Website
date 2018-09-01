@@ -157,10 +157,7 @@ class Entrepreneur extends Component {
         country,
       })
       .then(res => this.props.history.push('/business-builder'))
-      .catch(res => {
-        console.log(res.data)
-        console.log(res.data.err)
-      })
+      .catch(err => console.log(err))
     } else {
       this.setState({ errors })
     }
