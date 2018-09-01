@@ -18,11 +18,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const links = [
-  {
-    label: 'Team',
-    url: '/team',
-    auth: false,
-  },
+  // {
+  //   label: 'Team',
+  //   url: '/team',
+  //   auth: false,
+  // },
   {
     label: 'Contact',
     url: '/contact',

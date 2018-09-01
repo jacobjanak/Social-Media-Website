@@ -4,10 +4,14 @@ const toFormData = obj => {
   // all this formData stuff is necessary for images
   const formData = new FormData();
   for (let key in obj) {
-    if (obj[key].constructor === Array) {
-      formData.append(key, JSON.stringify(obj[key]))
+    if (obj[key]) {
+      if (obj[key].constructor === Array) {
+        formData.append(key, JSON.stringify(obj[key]))
+      } else {
+        formData.append(key, obj[key])
+      }
     } else {
-      formData.append(key, obj[key])
+      console.log(key, obj[key])
     }
   }
   return formData;

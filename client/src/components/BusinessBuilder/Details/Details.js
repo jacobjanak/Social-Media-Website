@@ -183,19 +183,13 @@ class Details extends Component {
         <Spacer />
 
         {/* Industry */}
+        {/*
         <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
             Industries
           </Typography>
         </Grid>
         <Grid item xs={6}>
-          {/* <FormControl> */}
-            {/*
-            <FormLabel component="legend">
-              We profit mainly from
-            </FormLabel>
-            */}
-            {/* <FormGroup> */}
           <FormControlLabel
             label="We sell a product"
             control={
@@ -218,8 +212,6 @@ class Details extends Component {
               />
             }
           />
-            {/* </FormGroup> */}
-          {/* </FormControl> */}
         </Grid>
         <Grid item xs={12}>
           <IndustrySelect
@@ -248,7 +240,7 @@ class Details extends Component {
             onChange={handleChange}
           />
         </Grid>
-        <Spacer />
+        <Spacer /> */}
 
         {/* Location */}
         <Grid item xs={12}>

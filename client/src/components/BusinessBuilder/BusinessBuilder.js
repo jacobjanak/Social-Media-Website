@@ -119,14 +119,8 @@ class BusinessBuilder extends React.Component {
       problem: '',
       benefits: '',
       solution: '',
-      market1: '',
-      market2: '',
-      market3: '',
-      market4: '',
-      competitor1: '',
-      competitor2: '',
-      competitor3: '',
-      competitor4: '',
+      markets: [],
+      competitors: [],
       tested: '',
       currency: 'USD',
       forecast: '',
@@ -136,15 +130,16 @@ class BusinessBuilder extends React.Component {
       marketingPlanLength: '',
       website: '',
       team: [],
-      stream1: '',
-      stream2: '',
-      stream3: '',
-      costOfStream1: 0,
-      costOfStream2: 0,
-      costOfStream3: 0,
-      startOfStream1: '',
-      startOfStream2: '',
-      startOfStream3: '',
+      streamsOfRevenue: [],
+      // stream1: '',
+      // stream2: '',
+      // stream3: '',
+      // costOfStream1: 0,
+      // costOfStream2: 0,
+      // costOfStream3: 0,
+      // startOfStream1: '',
+      // startOfStream2: '',
+      // startOfStream3: '',
       rent: 0,
       utilities: 0,
       directCost: 0,
@@ -161,6 +156,8 @@ class BusinessBuilder extends React.Component {
       milestoneDate1: '',
       milestoneDate2: '',
       milestoneDate3: '',
+      impact: '',
+      exitStrategy: '',
       country: {
         value: 'United States',
         label: 'United States',
@@ -175,6 +172,16 @@ class BusinessBuilder extends React.Component {
         this.setState({
           ...res.data,
           logoPreview: res.data.logo,
+          salesPlanLength: (
+            res.data.salesPlanLength
+            ? res.data.salesPlanLength.toString()
+            : ''
+          ),
+          marketingPlanLength: (
+            res.data.marketingPlanLength
+            ? res.data.marketingPlanLength.toString()
+            : ''
+          ),
           country: {
             label: res.data.country,
             value: res.data.country,
@@ -247,6 +254,7 @@ class BusinessBuilder extends React.Component {
         return (
           <Overview
             { ...this.state }
+            changeState={this.changeState}
             handleChange={this.handleChange}
           />
         );
@@ -254,6 +262,7 @@ class BusinessBuilder extends React.Component {
         return (
           <Finances
             { ...this.state }
+            changeState={this.changeState}
             handleChange={this.handleChange}
           />
         );
@@ -261,6 +270,7 @@ class BusinessBuilder extends React.Component {
         return (
           <Timeline
             { ...this.state }
+            changeState={this.changeState}
             handleChange={this.handleChange}
           />
         );
@@ -335,14 +345,8 @@ class BusinessBuilder extends React.Component {
       problem: this.state.problem,
       benefits: this.state.benefits,
       solution: this.state.solution,
-      market1: this.state.market1,
-      market2: this.state.market2,
-      market3: this.state.market3,
-      market4: this.state.market4,
-      competitor1: this.state.competitor1,
-      competitor2: this.state.competitor2,
-      competitor3: this.state.competitor3,
-      competitor4: this.state.competitor4,
+      markets: this.state.markets,
+      competitors: this.state.competitors,
       tested: this.state.tested,
       currency: this.state.currency,
       salesPlan: this.state.salesPlan,
@@ -351,15 +355,16 @@ class BusinessBuilder extends React.Component {
       marketingPlanLength: this.state.marketingPlanLength,
       website: this.state.website,
       team: this.state.team,
-      stream1: this.state.stream1,
-      stream2: this.state.stream2,
-      stream3: this.state.stream3,
-      costOfStream1: this.state.costOfStream1,
-      costOfStream2: this.state.costOfStream2,
-      costOfStream3: this.state.costOfStream3,
-      startOfStream1: this.state.startOfStream1,
-      startOfStream2: this.state.startOfStream2,
-      startOfStream3: this.state.startOfStream3,
+      streamsOfRevenue: this.state.streamsOfRevenue,
+      // stream1: this.state.stream1,
+      // stream2: this.state.stream2,
+      // stream3: this.state.stream3,
+      // costOfStream1: this.state.costOfStream1,
+      // costOfStream2: this.state.costOfStream2,
+      // costOfStream3: this.state.costOfStream3,
+      // startOfStream1: this.state.startOfStream1,
+      // startOfStream2: this.state.startOfStream2,
+      // startOfStream3: this.state.startOfStream3,
       rent: this.state.rent,
       utilities: this.state.utilities,
       directCost: this.state.directCost,
@@ -376,6 +381,8 @@ class BusinessBuilder extends React.Component {
       milestoneDate1: this.state.milestoneDate1,
       milestoneDate2: this.state.milestoneDate2,
       milestoneDate3: this.state.milestoneDate3,
+      impact: this.state.impact,
+      exitStrategy: this.state.exitStrategy,
     };
 
     if (this.state.key) {
@@ -406,6 +413,10 @@ class BusinessBuilder extends React.Component {
       prevState.team.push(person)
       return prevState;
     })
+  };
+
+  changeState = newState => {
+    this.setState(newState)
   };
 
   handleUpload = event => {

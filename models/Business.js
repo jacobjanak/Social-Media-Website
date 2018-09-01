@@ -60,30 +60,12 @@ const BusinessSchema = new Schema({
   benefits: {
     type: String
   },
-  market1: {
+  markets: [{
     type: String
-  },
-  market2: {
+  }],
+  competitors : [{
     type: String
-  },
-  market3: {
-    type: String
-  },
-  market4: {
-    type: String
-  },
-  competitor1: {
-    type: String
-  },
-  competitor2: {
-    type: String
-  },
-  competitor3: {
-    type: String
-  },
-  competitor4: {
-    type: String
-  },
+  }],
   tested: {
     type: String
   },
@@ -125,15 +107,9 @@ const BusinessSchema = new Schema({
       type: String
     }
   }],
-  stream1: {
+  streamsOfRevenue: [{
     type: String
-  },
-  stream2: {
-    type: String
-  },
-  stream3: {
-    type: String
-  },
+  }],
   costOfStream1: {
     type: Number
   },
@@ -204,6 +180,12 @@ const BusinessSchema = new Schema({
   },
   milestoneDate3: {
     // should be date
+    type: String
+  },
+  impact: {
+    type: String
+  },
+  exitStrategy: {
     type: String
   },
   createdAt: {

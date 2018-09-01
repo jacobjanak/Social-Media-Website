@@ -18,18 +18,25 @@ import './Dashboard.css';
 
 const styles = theme => ({
   paper: {
-    paper: {
-      paddingTop: 4 * theme.spacing.unit,
-      paddingLeft: 4 * theme.spacing.unit,
-      paddingRight: 4 * theme.spacing.unit,
-      paddingBottom: 4 * theme.spacing.unit,
-      [theme.breakpoints.down('xs')]: {
-        borderRadius: 0,
-        width: '100%',
-        paddingLeft: '5%',
-        paddingRight: '5%',
-      },
+    paddingTop: 4 * theme.spacing.unit,
+    paddingLeft: 4 * theme.spacing.unit,
+    paddingRight: 4 * theme.spacing.unit,
+    paddingBottom: 4 * theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      borderRadius: 0,
+      width: '100%',
+      paddingLeft: '5%',
+      paddingRight: '5%',
     },
+  },
+  businessContainer: {
+    // neutralizing the padding from paper
+    // marginLeft: -(4 * theme.spacing.unit),
+    // marginRight: -(4 * theme.spacing.unit),
+    // [theme.breakpoints.down('xs')]: {
+    //   marginLeft: 0,
+    //   marginRight: 0,
+    // },
   },
   business: {
     margin: 4 * theme.spacing.unit,
@@ -45,12 +52,15 @@ const styles = theme => ({
     alignItems: 'center',
     flexWrap: 'nowrap',
   },
+  noBusiness: {
+
+  },
   grow: {
     flexGrow: 1,
   },
   title: {
-    paddingLeft: 4 * theme.spacing.unit,
-    paddingRight: 4 * theme.spacing.unit,
+    // paddingLeft: 4 * theme.spacing.unit,
+    // paddingRight: 4 * theme.spacing.unit,
   },
   icon: {
     color: theme.palette.text.secondary,
@@ -75,21 +85,14 @@ class Dashboard extends Component {
     .catch(err => console.log(err))
   }
 
-  editBusiness = id => {
-    const business = this.state.businesses[id];
-    this.props.changeBusiness(business)
-    this.props.history.push('/business-builder/1')
-  }
-
   render() {
     const { classes } = this.props;
     const { businesses } = this.state;
 
     return (
       <React.Fragment>
-        <Grid item xs={12} sm={10} md={6} lg={5} xl={4}>
+        <Grid item xs={12} sm={10} md={7} lg={5} xl={4}>
           <Paper className={classes.paper}>
-            <Spacer half />
             <Grid container className={classes.title}>
               <Typography
                 className={classes.grow}
@@ -106,7 +109,7 @@ class Dashboard extends Component {
                     <Button
                       variant="outlined"
                       component={Link}
-                      to="/business-builder/1"
+                      to="/business-builder"
                     >
                       <AddCircle
                         className={classes.leftIcon}
@@ -118,7 +121,7 @@ class Dashboard extends Component {
                 </Hidden>
               )}
             </Grid>
-            <Grid container>
+            <Grid className={classes.businessContainer} container>
               { businesses.length > 0 ? (
                 <React.Fragment>
                   { businesses.map((business, i) => (
@@ -149,12 +152,13 @@ class Dashboard extends Component {
                   ))}
                 </React.Fragment>
               ) : (
-                <Grid item xs={12}>
-                  <Paper className={classes.paper}>
-                    <Typography variant="headline" gutterBottom>
-                      No business yet
-                    </Typography>
-                    <Spacer half />
+                <Grid className={classes.noBusiness} item xs={12}>
+                  <Spacer half />
+                  <Typography variant="headline" align="center" gutterBottom>
+                    No business yet
+                  </Typography>
+                  <Spacer half />
+                  <Grid container justify="center">
                     <Button
                       color="primary"
                       variant="contained"
@@ -164,7 +168,10 @@ class Dashboard extends Component {
                       <AddIcon className={classes.leftIcon} />
                       Create yours now
                     </Button>
-                  </Paper>
+                  </Grid>
+                  <Hidden smUp>
+                    <Spacer />
+                  </Hidden>
                 </Grid>
               )}
             </Grid>

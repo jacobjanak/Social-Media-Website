@@ -16,6 +16,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import ContainedTextField from '../../ContainedTextField';
+import Iterator from '../../Iterator';
 import Spacer from '../../Spacer';
 import currencies from '../../../data/currencies.json';
 
@@ -55,37 +56,6 @@ class Finances extends Component {
     return (
       <Grid container>
 
-        {/* Currency */}
-        <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Currency
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          {/* <FormControl className={classes.formControl}> */}
-            {/* <InputLabel htmlFor="currency">Currency</InputLabel> */}
-            <Select
-              value={this.props.currency}
-              style={{
-                marginTop: 16,
-                width: '100%'
-              }}
-              onChange={handleChange}
-              inputProps={{
-                name: 'currency',
-                id: 'currency'
-              }}
-            >
-              {Object.keys(currencies).map((key, i) => (
-                <MenuItem value={key} key={i}>
-                  {currencies[key].name}
-                </MenuItem>
-              ))}
-            </Select>
-          {/* </FormControl> */}
-        </Grid>
-        <Spacer />
-
 
         {/* Sales plan */}
         <Grid item xs={12}>
@@ -119,6 +89,7 @@ class Finances extends Component {
           <ContainedTextField
             placeholder="Description"
             name="salesPlan"
+            rows="4"
             multiline
             fullWidth
             value={this.props.salesPlan}
@@ -159,6 +130,7 @@ class Finances extends Component {
           <ContainedTextField
             placeholder="Description"
             name="marketingPlan"
+            rows="4"
             multiline
             fullWidth
             value={this.props.marketingPlan}
@@ -167,12 +139,53 @@ class Finances extends Component {
         </Grid>
         <Spacer />
 
-        {/* Streams of revenue */}
+        {/* Revenue */}
+        <Grid item xs={12}>
+          <Typography variant="headline" margin="normal">
+            Revenue
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="currency">Currency</InputLabel>
+            <Select
+              value={this.props.currency}
+              style={{
+                width: '100%'
+              }}
+              onChange={handleChange}
+              inputProps={{
+                name: 'currency',
+                id: 'currency'
+              }}
+            >
+              {Object.keys(currencies).map((key, i) => (
+                <MenuItem value={key} key={i}>
+                  {currencies[key].name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <Iterator
+            arr={this.props.streamsOfRevenue}
+            textFieldProps={{ label: 'Streams of revenue' }}
+            updateArr={streamsOfRevenue => {
+              this.props.changeState({ streamsOfRevenue })
+            }}
+          />
+        </Grid>
+        <Spacer />
+
+        {/* Streams of revenue
         <Grid item xs={12}>
           <Typography variant="headline" margin="normal">
             Streams of Revenue
           </Typography>
         </Grid>
+
+        {/*
         <Grid item xs={12}>
           <List className={classes.list}>
             {[1, 2, 3].map(i => (
@@ -229,8 +242,8 @@ class Finances extends Component {
             ))}
           </List>
         </Grid>
-        {/* using half since all list items have bottom padding */}
-        <Spacer half />
+        */}
+        {/* <Spacer half /> using half since all list items have bottom padding */}
 
         {/* Expenses */}
         <Grid item xs={12}>

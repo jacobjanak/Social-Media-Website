@@ -21,6 +21,7 @@ import Hidden from '@material-ui/core/Hidden';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import ContainedTextField from '../../ContainedTextField';
+import Iterator from '../../Iterator';
 
 const styles = theme => ({
   list: {
@@ -32,6 +33,7 @@ const styles = theme => ({
   },
   formControl: {
     marginTop: 2 * theme.spacing.unit,
+    width: '100%',
   },
 });
 
@@ -54,81 +56,80 @@ class Overview extends Component {
 
         {/* Description */}
         <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Full Company Description
+          <Typography variant="headline">
+            Description
           </Typography>
         </Grid>
+
         <Grid item xs={12}>
-          <ContainedTextField
-            name="description"
-            margin="dense"
-            multiline
-            fullWidth
-            value={this.props.description}
-            onChange={handleChange}
-          />
+          <FormControl className={classes.formControl}>
+            <ContainedTextField
+              name="description"
+              label="Full company description"
+              rows="8"
+              fullWidth
+              value={this.props.description}
+              onChange={handleChange}
+            />
+          </FormControl>
         </Grid>
         <Spacer />
 
         {/* Problem and solution */}
         <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Problem
+          <Typography variant="headline">
+            Problem & Solution
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <ContainedTextField
-            name="problem"
-            margin="dense"
-            placeholder="What problem is your business solving?"
-            rows="4"
-            fullWidth
-            value={this.props.problem}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Spacer half={true} />
-        <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Solution
-          </Typography>
+          <FormControl className={classes.formControl}>
+            <ContainedTextField
+              name="problem"
+              label="Problem"
+              placeholder="What problem is your business solving?"
+              rows="4"
+              fullWidth
+              value={this.props.problem}
+              onChange={handleChange}
+            />
+          </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <ContainedTextField
-            name="solution"
-            margin="dense"
-            placeholder="How is your business solving the problem?"
-            rows="4"
-            fullWidth
-            value={this.props.solution}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Spacer half={true} />
-        <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Benefits to Audience
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <ContainedTextField
-            name="benefits"
-            margin="dense"
-            placeholder="What benefits are you giving your audience?"
-            rows="4"
-            fullWidth
-            value={this.props.benefits}
-            onChange={handleChange}
-          />
+          <FormControl className={classes.formControl}>
+            <ContainedTextField
+              name="solution"
+              label="Solution"
+              placeholder="How is your business solving the problem?"
+              rows="4"
+              fullWidth
+              value={this.props.solution}
+              onChange={handleChange}
+            />
+          </FormControl>
         </Grid>
         <Spacer />
 
-        {/* Markets */}
+        {/* Industry */}
         <Grid item xs={12}>
           <Typography variant="headline">
-            Target Markets
+            Industry
           </Typography>
-          <List className={classes.list}>
+        </Grid>
+        <Grid item xs={12}>
+          <Iterator
+            arr={this.props.markets}
+            updateArr={markets => this.props.changeState({ markets })}
+            textFieldProps={{ label: 'Target markets' }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Iterator
+            arr={this.props.competitors}
+            updateArr={competitors => this.props.changeState({ competitors })}
+            textFieldProps={{ label: 'Competitors' }}
+          />
+        </Grid>
+          {/* <List className={classes.list}>
             {[1, 2, 3].map(i => (
               <ListItem className={classes.listItem} key={i}>
                 <TextField
@@ -144,15 +145,10 @@ class Overview extends Component {
                 />
               </ListItem>
             ))}
-          </List>
-        </Grid>
-        <Spacer />
+          </List> */}
 
         {/* Competitors */}
-        <Grid item xs={12}>
-          <Typography variant="headline">
-            Competitors
-          </Typography>
+          {/*
           <List className={classes.list}>
             {[1, 2, 3].map(i => (
               <ListItem className={classes.listItem} key={i}>
@@ -170,18 +166,27 @@ class Overview extends Component {
               </ListItem>
             ))}
           </List>
+          */}
+
+        {/* Benefits to Audience */}
+        <Grid item xs={12}>
+          <FormControl className={classes.formControl}>
+            <ContainedTextField
+              name="benefits"
+              placeholder="What benefits are you giving your audience over your competitors?"
+              label="Benefits to audience"
+              rows="4"
+              fullWidth
+              value={this.props.benefits}
+              onChange={handleChange}
+            />
+          </FormControl>
         </Grid>
-        <Spacer />
 
         {/* Tested */}
         <Grid item xs={12}>
-          <Typography variant="headline" margin="normal">
-            Testing
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
           <FormControl className={classes.formControl} component="fieldset">
-            <FormLabel component="legend">Choose one</FormLabel>
+            <FormLabel component="legend">Testing</FormLabel>
             <RadioGroup
               aria-label="Have you tested or surveyed?"
               name="tested"

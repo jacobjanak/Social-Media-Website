@@ -2,3 +2,7 @@
 .contained-text-field > div::after {
   display: none;
 }
+
+.primaryDark {
+  color: #002171 !important;
+}

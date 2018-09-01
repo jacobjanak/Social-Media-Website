@@ -35,13 +35,15 @@ class Strategy extends Component {
         {/* Impact */}
         <Grid item xs={12}>
           <Typography variant="headline">
-            Impact / Why
+            Impact/Purpose
           </Typography>
         </Grid>
         <Grid item xs={12} style={{ marginTop: 4 }}>
           <ContainedTextField
             name="impact"
+            placeholder="Description"
             margin="dense"
+            rows="4"
             fullWidth
             multiline
             value={this.props.impact}
@@ -59,7 +61,9 @@ class Strategy extends Component {
         <Grid item xs={12} style={{ marginTop: 4 }}>
           <ContainedTextField
             name="exitStrategy"
+            placeholder="Description"
             margin="dense"
+            rows="4"
             fullWidth
             multiline
             value={this.props.exitStrategy}

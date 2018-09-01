@@ -35,8 +35,7 @@ class Start extends Component {
           Building a business has never been easier.
         </Typography>
 
-        <Spacer half={true} />
-
+        {/*
         <Grid item xs={11} sm={9} md={7} lg={6} xl={4}>
           <div className={classes.videoWrapper}>
             <iframe
@@ -56,17 +55,19 @@ class Start extends Component {
         </Typography>
 
         <Spacer half={true} />
+        */}
 
         <Grid container justify="center">
-          <Button
-            variant="raised"
-            color="primary"
-            size="large"
-            component={Link}
-            to="/business-builder/1"
-          >
-            Get Started
-          </Button>
+          <div>
+            <Button
+              variant="raised"
+              color="primary"
+              component={Link}
+              to="/business-builder/1"
+            >
+              Get Started
+            </Button>
+          </div>
         </Grid>
 
         <Spacer />
