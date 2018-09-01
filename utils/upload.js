@@ -4,8 +4,9 @@
 */
 
 const multer = require('multer');
+const path = require('path');
 
-const uploadPath = './public/uploads/';
+const uploadPath = path.join(__dirname, '../public/uploads/');
 
 const upload = multer({
   limit: {
