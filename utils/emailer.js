@@ -4,6 +4,7 @@ const fs = require('fs');
 const db = require('../models');
 
 const transporter = nodemailer.createTransport({
+  name: 'innovationscity.herokuapp.com',
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_NAME,

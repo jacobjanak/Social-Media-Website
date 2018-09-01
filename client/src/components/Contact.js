@@ -6,7 +6,10 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
 import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import PlaceIcon from '@material-ui/icons/Place';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -50,7 +53,12 @@ class Contact extends Component {
     email: '',
     subject: '',
     message: '',
+    open: false, // snackbar
   };
+
+  toggleSnackbar = () => {
+    this.setState({ open: !this.state.open })
+  }
 
   handleSubmit = event => {
     event.preventDefault()
@@ -60,6 +68,16 @@ class Contact extends Component {
       subject: this.state.subject,
       message: this.state.message,
     })
+    .then(() => {
+      this.setState({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        open: true,
+      })
+    })
+    .catch(err => console.log(err))
   };
 
   handleChange = event => {
@@ -73,6 +91,28 @@ class Contact extends Component {
     return (
       <React.Fragment>
         <Grid item xs={12} md={10} lg={8}>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            open={this.state.open}
+            autoHideDuration={6000}
+            onClose={this.toggleSnackbar}
+            ContentProps={{ 'aria-describedby': 'message-id' }}
+            message={( <span id="message-id">Message Sent</span> )}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                className={classes.close}
+                onClick={this.toggleSnackbar}
+              >
+                <CloseIcon />
+              </IconButton>,
+            ]}
+          />
           <Paper className={classes.paper}>
             <Grid container>
               <Grid item xs={12}>

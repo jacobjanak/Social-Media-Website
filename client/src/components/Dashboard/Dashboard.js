@@ -31,12 +31,14 @@ const styles = theme => ({
   },
   businessContainer: {
     // neutralizing the padding from paper
-    // marginLeft: -(4 * theme.spacing.unit),
-    // marginRight: -(4 * theme.spacing.unit),
-    // [theme.breakpoints.down('xs')]: {
-    //   marginLeft: 0,
-    //   marginRight: 0,
-    // },
+    marginLeft: -(4 * theme.spacing.unit),
+    marginRight: -(4 * theme.spacing.unit),
+    width: `calc(100% + ${8 * theme.spacing.unit}px)`,
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 0,
+      marginRight: 0,
+      width: '100%',
+    },
   },
   business: {
     margin: 4 * theme.spacing.unit,
