@@ -130,7 +130,10 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
     if (req.body.country) user.country = req.body.country;
     user.save()
     .then(user => res.json(user))
-    .catch(err => res.status(500).json({ err: err }))
+    .catch(err => {
+      console.log(err)
+      res.status(404).json({ err: err })
+    })
   })
 })
 
