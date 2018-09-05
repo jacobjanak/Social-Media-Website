@@ -5,7 +5,7 @@ const db = require('../models');
 const emailer = require('../utils/emailer');
 const upload = require('../utils/upload');
 
-const isAuthenticated = exjwt({ secret: 'swag' });
+const isAuthenticated = exjwt({ secret: process.env.SECRET });
 
 router.get('/', isAuthenticated, (req, res) => {
   db.User.findById(req.user.id)
@@ -82,7 +82,7 @@ router.post('/login', (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             img: user.img
-          }, 'swag', {
+          }, process.env.SECRET, {
             expiresIn: 12960000
           });
 

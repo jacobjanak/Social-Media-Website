@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // db
-mongoose.connect('mongodb://jacobjanak:tyfdna2eo3ijaf432sd@ds141972.mlab.com:41972/innovationscity' || 'mongodb://localhost/innovations')
+mongoose.connect(process.env.MONGODB_URI)
 
 // middleware
 app.use(bodyParser.json())

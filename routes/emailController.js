@@ -3,7 +3,7 @@ const exjwt = require('express-jwt');
 const db = require('../models');
 const emailer = require('../utils/emailer');
 
-const isAuthenticated = exjwt({ secret: 'swag' });
+const isAuthenticated = exjwt({ secret: process.env.SECRET });
 
 router.post('/reset-password', (req, res) => {
   const email = req.body.email;

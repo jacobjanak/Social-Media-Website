@@ -1,14 +1,17 @@
 const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 const db = require('../models');
 
+const url = 'http://innovationscity.us-west-1.elasticbeanstalk.com';
+
 const transporter = nodemailer.createTransport({
-  name: 'http://innovationscity.us-east-2.elasticbeanstalk.com',
+  name: os.hostname(),
   service: 'gmail',
   auth: {
-    user: 'tech@innovationscity.com',
-    pass: 'ICtech2019!',
+    user: process.env.EMAIL_NAME,
+    pass: process.env.EMAIL_PASS,
   }
 });
 
@@ -21,7 +24,7 @@ const emailer = {
         fs.readFile(pathToHTML, (err, data) => {
           if (err) reject({ err: err });
 
-          const confirmUrl = `http://innovationscity.us-east-2.elasticbeanstalk.com/confirm?key=${confirm.key}`;
+          const confirmUrl = `${url}/confirm?key=${confirm.key}`;
           const result = data
             .toString()
             .replace(/{{name}}/g, user.firstName || '')
@@ -29,6 +32,7 @@ const emailer = {
 
           const options = {
             to: user.email,
+            from: process.env.EMAIL_NAME,
             subject: 'Confirm Your Email',
             html: result
           };
@@ -46,7 +50,7 @@ const emailer = {
     })
   },
 
-  //NOTE: pretty lame that I just copy+pasted this
+  //NOTE: pretty lame that I just copy+pasted this... let's change that
   resendConfirmEmail: user => {
     return new Promise((resolve, reject) => {
       db.Confirm.findOne({ user: user._id })
@@ -55,7 +59,7 @@ const emailer = {
         fs.readFile(pathToHTML, (err, data) => {
           if (err) reject({ err: err });
 
-          const confirmUrl = `http://innovationscity.us-east-2.elasticbeanstalk.com/confirm?key=${confirm.key}`;
+          const confirmUrl = `${url}/confirm?key=${confirm.key}`;
           const result = data
             .toString()
             .replace(/{{name}}/g, user.firstName || '')
@@ -63,6 +67,7 @@ const emailer = {
 
           const options = {
             to: user.email,
+            from: process.env.EMAIL_NAME,
             subject: 'Confirm Your Email',
             html: result
           };
@@ -85,7 +90,9 @@ const emailer = {
       .then(reset => {
         const pathToHTML = path.join(__dirname, '../emails/password_reset.html');
         fs.readFile(pathToHTML, (err, data) => {
-          const resetUrl = `http://innovationscity.us-east-2.elasticbeanstalk.com/reset?key=${reset.key}`;
+          if (err) reject({ err: err, message: "Error creating email" });
+
+          const resetUrl = `${url}/reset?key=${reset.key}`;
 
           const result = data
             .toString()
@@ -94,16 +101,14 @@ const emailer = {
 
           const options = {
             to: user.email,
+            from: process.env.EMAIL_NAME,
             subject: 'Reset Your Password',
             html: result
           };
 
           transporter.sendMail(options, (err, info) => {
-            if (!err) {
-              resolve(user.email)
-            } else {
-              reject({ err: err, message: "Unable to send password recovery info to that email address." })
-            }
+            if (!err) resolve(user.email);
+            else reject({ err: err, message: "Unable to send password recovery info to that email address." });
           })
         })
       })
@@ -114,6 +119,7 @@ const emailer = {
     return new Promise((resolve, reject) => {
       const options = {
         to: 'info@innovationscity.com',
+        from: process.env.EMAIL_NAME,
         subject: 'User mail: ' + data.subject,
         text: 'name: ' + data.name +
               '\nemail: ' + data.email +

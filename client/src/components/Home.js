@@ -126,7 +126,7 @@ class Home extends Component {
   }
 
   handleScroll = event => {
-    if (window.scrollY >= 100) {
+    if (window.scrollY >= 200) {
       this.setState({ navbarPosition: 'fixed' })
     } else {
       this.setState({ navbarPosition: 'sticky' })
@@ -158,7 +158,7 @@ class Home extends Component {
           {/* cover is used to cover the youtube video with an unclickable div */}
           {/* <div className={classes.cover}></div> */}
           <div className={classes.banner}>
-            <Typography variant="subheading" style={{ color: '#8CFEFE' }}>
+            <Typography variant="subheading" style={{ color: '#00E8FC' }}>
               Transforming Early-Stage Entrepreneur's Success
             </Typography>
             <Typography

@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Hidden from '@material-ui/core/Hidden';
 import Spacer from './Spacer';
 
@@ -28,7 +29,18 @@ const styles = theme => ({
     }
   },
   link: {
-    textTransform: 'none'
+    textTransform: 'none',
+  },
+  buttonWrapper: {
+    position: 'relative',
+    display: 'inline',
+  },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
   },
   error: {
     marginTop: 2 * theme.spacing.unit,
@@ -48,6 +60,7 @@ class SignUp extends Component {
       confirmPassword: '',
       entrepreneur: false,
       investor: false,
+      loading: false,
       error: false,
       errorMessage: '',
     };
@@ -59,24 +72,31 @@ class SignUp extends Component {
 
     if (email && password) {
       if (password === confirmPassword) {
-        this.Auth.signUp(
-          email,
-          password,
-          this.state.firstName,
-          this.state.lastName,
-          {
-            entrepreneur: this.state.entrepreneur,
-            investor: this.state.investor
-          }
-        )
-        .then(() => this.props.history.push('/welcome'))
-        .catch(err => {
-          if (err.response) {
-            this.setState({
-              error: true,
-              errorMessage: err.response.data.message,
-            })
-          }
+        this.setState({ loading: true }, () => {
+          this.Auth.signUp({
+            email,
+            password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            role: {
+              entrepreneur: this.state.entrepreneur,
+              investor: this.state.investor
+            }
+          })
+          .then(() => this.props.history.push('/welcome'))
+          .catch(err => {
+            if (err.response) {
+              this.setState({
+                error: true,
+                loading: false,
+                errorMessage: (
+                  err.response
+                  ? err.response.data.message
+                  : "There was an error creating your account and sending a confirmation email."
+                )
+              })
+            }
+          })
         })
       } else {
         this.setState({
@@ -94,17 +114,18 @@ class SignUp extends Component {
 
   handleCheck = event => {
     // for when a checkbox is checked
-    this.setState({ [event.target.name]: event.target.checked });
+    const { name, checked } = event.target;
+    this.setState({ [name]: checked });
   }
 
   handleChange = event => {
-    const {name, value} = event.target;
+    const { name, value } = event.target;
     this.setState({ [name]: value, error: false });
   }
 
   render() {
     const { classes } = this.props;
-    const { error, errorMessage } = this.state;
+    const { loading, error, errorMessage } = this.state;
 
     return (
       <Grid item xs={12} sm={8} md={6} lg={4}>
@@ -216,14 +237,23 @@ class SignUp extends Component {
             </CardContent>
             */}
             <CardContent>
-              <Button
-                className={classes.button}
-                variant="contained"
-                type="submit"
-                color="primary"
-              >
-                Sign Up
-              </Button>
+              <div className={classes.buttonWrapper}>
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                  disabled={loading}
+                >
+                  Sign Up
+                </Button>
+                { loading && (
+                  <CircularProgress
+                    className={classes.buttonProgress}
+                    size={24}
+                  />
+                )}
+              </div>
               <Button
                 className={classes.button + ' ' + classes.link}
                 component={Link}

@@ -3,7 +3,7 @@ const exjwt = require('express-jwt');
 const db = require('../models');
 const upload = require('../utils/upload');
 
-const isAuthenticated = exjwt({ secret: 'swag' });
+const isAuthenticated = exjwt({ secret: process.env.SECRET });
 
 // get all businesses associated with the logged in user
 router.get('/', isAuthenticated, (req, res) => {

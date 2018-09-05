@@ -97,9 +97,6 @@ const Footer = props => {
                 <b>Address:</b> P.O. Box 33075 San Diego, CA 92163
               </Typography>
               <Typography variant="body1" gutterBottom color="inherit">
-                <b>Website:</b> innovationscity.com
-              </Typography>
-              <Typography variant="body1" gutterBottom color="inherit">
                 <b>Email:</b> info@innovationscity.com
               </Typography>
               <Typography variant="body1" gutterBottom color="inherit">
@@ -109,14 +106,15 @@ const Footer = props => {
           </Grid>
         </Grid>
 
-      {/*
-      <IconButton href="https://twitter.com/" target="_blank">
-        <FontAwesome className={classes.icon} name="twitter" />
-      </IconButton>
-      <IconButton href="https://www.facebook.com/" target="_blank">
-        <FontAwesome className={classes.icon} name="facebook" />
-      </IconButton>
-      */}
+        {/*
+        <IconButton href="https://twitter.com/" target="_blank">
+          <FontAwesome className={classes.icon} name="twitter" />
+        </IconButton>
+        <IconButton href="https://www.facebook.com/" target="_blank">
+          <FontAwesome className={classes.icon} name="facebook" />
+        </IconButton>
+        */}
+        
         <Grid item xs={12}>
           <Divider style={{ background: '#A9A9A9' }} />
           <Spacer half />
