@@ -2,7 +2,7 @@
   background: none;
   border: 2px solid;
   border-radius: 4px;
-  line-height: 1;
+  /* line-height: 1; */
   margin: 0.5em;
   color: #00E8FC;
   transition: 0.25s;
@@ -16,9 +16,8 @@
   color: #fff;
   box-shadow: 0 0.5em 0.5em -0.4em #B832AA;
   -webkit-transform: translateY(-0.25em);
+  -moz-transform: translateY(-0.25em);
+  -ms-transform: translateY(-0.25em);
+  -o-transform: translateY(-0.25em);
   transform: translateY(-0.25em);
-}
-
-@media screen and (max-width: 959px) {
-
 }

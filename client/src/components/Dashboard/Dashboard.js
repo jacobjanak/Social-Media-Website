@@ -102,7 +102,7 @@ class Dashboard extends Component {
                 color="primary"
                 gutterBottom
               >
-                My { businesses.length > 1 ? 'Businesses' : 'Business' }
+                My Businesses
               </Typography>
               { businesses.length > 0 && (
                 <Hidden xsDown>

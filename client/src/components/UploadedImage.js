@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   container: {
@@ -21,28 +22,30 @@ const styles = theme => ({
 
 class UploadedImage extends Component {
   render() {
-    const { classes, img, alt, large, small, fill } = this.props;
+    const { classes, img, alt, large, fill, rounded, border } = this.props;
 
-    const containerStyles = {};
-    if (large) {
-      containerStyles.height = 200;
-      containerStyles.width = 200;
+    const styles = {
+      height: large ? 160 : 80,
+      width: large ? 160 : 80,
+      border: border ? '6px solid white' : 'none',
+    };
+
+    if (rounded) {
+      styles.borderRadius = '100%';
     }
-    else if (small) {
-      containerStyles.height = 80;
-      containerStyles.width = 80;
-    }
-    else if (fill) {
-      containerStyles.position = 'relative';
-      containerStyles.height = 0;
-      containerStyles.width = '100%';
-      containerStyles.paddingTop = '100%';
+
+    if (fill) {
+      styles.position = 'relative';
+      styles.height = 0;
+      styles.width = '100%';
+      styles.paddingTop = '100%';
     }
 
     return (
-      <div
+      <Paper
         className={classes.container}
-        style={containerStyles}
+        elevation={border ? 12 : 0}
+        style={styles}
       >
         <img
           className={classes.img}
@@ -54,7 +57,7 @@ class UploadedImage extends Component {
             left: 0,
           })}
         />
-      </div>
+      </Paper>
     );
   }
 }

@@ -201,9 +201,9 @@ class Home extends Component {
             </Typography>
             <Grid container justify="center">
               <Grid item md={12}>
-            <CallToAction className={classes.action} />
+                <CallToAction />
+              </Grid>
             </Grid>
-          </Grid>
           </div>
         </div>
         <Spacer />
