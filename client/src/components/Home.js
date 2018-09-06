@@ -3,12 +3,13 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import CallToAction from './CallToAction';
+import Hidden from '@material-ui/core/Hidden';
 import ImportantDevicesIcon from '@material-ui/icons/ImportantDevicesOutlined';
 import BarChartIcon from '@material-ui/icons/BarChartOutlined';
 import ForumIcon from '@material-ui/icons/ForumOutlined';
 import StoreIcon from '@material-ui/icons/StoreOutlined';
 import Background from './Background';
+import CallToAction from './CallToAction';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import Spacer from './Spacer';
@@ -37,27 +38,21 @@ const styles = theme => ({
     zIndex: -1,
   },
   cover: {
+    // cover is used to make the text more visible by fading the video
     position: 'absolute',
+    top: 0,
     left: 0,
-    top: 0,
-    height: '100%',
-    width: '100%',
-    backgroundColor: 'transparent',
-    zIndex: 20000,
-  },
-  video: {
-    position: 'absolute',
-    top: 0,
     right: 0,
-    left: 'initial',
-    height: '100%',
-    width: '100%',
+    bottom: 0,
+    zIndex: 1, // go above the video
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
     [theme.breakpoints.down('sm')]: {
-      left: 0,
-      right: 'initial',
+      backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.5), rgba(0,0,0,0))',
+    },
+    [theme.breakpoints.up('md')]: {
+      backgroundImage: 'linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0.75), rgba(0,0,0,0), rgba(0,0,0,0))',
     },
   },
   banner: {
@@ -67,6 +62,7 @@ const styles = theme => ({
     bottom: 60,
     maxWidth: '100%',
     borderRadius: 4 * theme.spacing.unit,
+    zIndex: 2, // higher than "cover"
     [theme.breakpoints.up('lg')]: {
       left: 120,
     },
@@ -80,6 +76,12 @@ const styles = theme => ({
       backgroundColor: 'rgba(0,0,0,0.4)',
       textAlign: 'center',
     },
+  },
+  mobileBackground: {
+    minHeight: '100%',
+    minWidth: '100%',
+    height: '100%',
+    width: 'auto',
   },
   headline: {
     color: 'white',
@@ -149,14 +151,24 @@ class Home extends Component {
         <div className={classes.landing}>
           <NavBar position={navbarPosition} styleProps={styleProps} />
 
-          {/* Black background */}
+          {/* Backgrounds */}
           <div className={classes.background}></div>
+          <div className={classes.cover}></div>
 
-          {/* Video */}
-          <Background />
+          {/* Video - hidden on mobile since it can't autoplay */}
+          <Hidden xsDown>
+            <Background />
+          </Hidden>
 
-          {/* cover is used to cover the youtube video with an unclickable div */}
-          {/* <div className={classes.cover}></div> */}
+          {/* GIF for mobile users */}
+          <Hidden smUp>
+            <img
+              className={classes.mobileBackground}
+              src="img/stars.gif"
+              alt="night sky"
+            />
+          </Hidden>
+
           <div className={classes.banner}>
             <Typography variant="subheading" style={{ color: '#00E8FC' }}>
               Transforming Early-Stage Entrepreneur's Success

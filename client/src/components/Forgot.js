@@ -9,9 +9,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
-import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Alert from './Alert';
 import Spacer from './Spacer';
 
 const styles = theme => ({
@@ -26,9 +26,7 @@ class Forgot extends Component {
     open: false,
   };
 
-  toggleSnackbar = () => {
-    this.setState({ open: !this.state.open })
-  };
+  closeAlert = () => this.setState({ open: false });
 
   handleSubmit = () => {
     API.resetPassword(this.state.email)
@@ -45,29 +43,10 @@ class Forgot extends Component {
 
     return (
       <Grid item xs={12} sm={8} md={6} lg={4}>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
+        <Alert
+          message="Email sent! Check your inbox"
           open={this.state.open}
-          autoHideDuration={6000}
-          onClose={this.toggleSnackbar}
-          ContentProps={{ 'aria-describedby': 'message-id' }}
-          message={(
-            <span id="message-id">Email sent! Check your inbox</span>
-          )}
-          action={[
-            <IconButton
-              key="close"
-              aria-label="Close"
-              color="inherit"
-              className={classes.close}
-              onClick={this.toggleSnackbar}
-            >
-              <CloseIcon />
-            </IconButton>,
-          ]}
+          closeAlert={this.closeAlert}
         />
         <Hidden xsDown>
           <Spacer />

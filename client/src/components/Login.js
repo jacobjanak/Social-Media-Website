@@ -12,11 +12,11 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
-import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SendIcon from '@material-ui/icons/Send';
+import Alert from './Alert';
 import Spacer from './Spacer';
 
 const styles = theme => ({
@@ -51,7 +51,7 @@ class Login extends Component {
     this.state = {
       key: params.key || false, // used to confirm email
       open: false,
-      snackbarText: 'Email confirmed! You may login now',
+      alertText: 'Email confirmed! You may login now',
       email: '',
       password: '',
       emailNotConfirmed: false,
@@ -69,7 +69,7 @@ class Login extends Component {
       .then(() => {
         this.setState({
           key: false,
-          snackbarText: 'Email confirmed! You may login now',
+          alertText: 'Email confirmed! You may login now',
           open: true
         }, () => {
           this.props.history.replace('/login')
@@ -78,9 +78,7 @@ class Login extends Component {
     }
   }
 
-  toggleSnackbar = () => {
-    this.setState({ open: !this.state.open })
-  }
+  closeAlert = () => this.setState({ open: false });
 
   resendEmail = () => {
     API.resendConfirmation(this.state.lastEmailChecked)
@@ -90,7 +88,7 @@ class Login extends Component {
         emailNotConfirmed: false,
         lastEmailChecked: '',
         open: true,
-        snackbarText: 'Email sent',
+        alertText: 'Email sent',
       })
     })
     .catch(err => {
@@ -151,29 +149,10 @@ class Login extends Component {
       </div>
     ) : (
       <Grid item xs={12} sm={8} md={6} lg={4}>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
+        <Alert
+          message={this.state.alertText}
           open={this.state.open}
-          autoHideDuration={6000}
-          onClose={this.toggleSnackbar}
-          ContentProps={{ 'aria-describedby': 'message-id' }}
-          message={(
-            <span id="message-id">{this.state.snackbarText}</span>
-          )}
-          action={[
-            <IconButton
-              key="close"
-              aria-label="Close"
-              color="inherit"
-              className={classes.close}
-              onClick={this.toggleSnackbar}
-            >
-              <CloseIcon />
-            </IconButton>,
-          ]}
+          closeAlert={this.closeAlert}
         />
         <Grid item xs={12}>
           <Hidden xsDown>
