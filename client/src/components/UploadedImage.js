@@ -44,7 +44,7 @@ class UploadedImage extends Component {
     return (
       <Paper
         className={classes.container}
-        elevation={border ? 12 : 0}
+        elevation={border ? 8 : 0}
         style={styles}
       >
         <img

@@ -40,7 +40,7 @@ const styles = theme => ({
   },
   header: {
     flexDirection: 'row-reverse',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   nameContainer: {
     flexGrow: 1,
@@ -239,12 +239,12 @@ class Profile extends Component {
               </Grid>
             </Grid>
             <Spacer half />
-            <Divider />
-            <Spacer half />
 
             {/* Businesses */}
             { businesses.length > 0 && (
               <React.Fragment>
+                <Divider />
+                <Spacer half />
                 <Typography variant="headline" gutterBottom>
                   Businesses
                 </Typography>

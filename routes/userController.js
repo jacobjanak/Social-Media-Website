@@ -55,7 +55,7 @@ router.post('/signup', (req, res) => {
       user.remove()
       res.status(401).json({
         err: err,
-        message: err.message || 'Error verifying your email'
+        message: err.message || 'Error verifying your email address'
       })
     })
   })
@@ -130,10 +130,7 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
     if (req.body.country) user.country = req.body.country;
     user.save()
     .then(user => res.json(user))
-    .catch(err => {
-      console.log(err)
-      res.status(404).json({ err: err })
-    })
+    .catch(err => res.status(404).json({ err: err }))
   })
 })
 
@@ -151,6 +148,7 @@ router.post('/edit/password', (req, res) => {
 router.post('/confirm', (req, res) => {
   db.Confirm.findOne({ key: req.body.key })
   .then(confirm => {
+    console.log('confirm', confirm)
     if (confirm) {
       return db.User.findOne({ _id: confirm.user });
     } else {
@@ -159,14 +157,14 @@ router.post('/confirm', (req, res) => {
   })
   .then(user => {
     user.emailConfirmed = true;
+    console.log('user', user)
     return user.save();
   })
-  .then(user => res.sendStatus(200))
-  .catch(err => {
-    console.log(err)
-    console.log(err.message)
-    res.sendStatus(404)
+  .then(user => {
+    console.log('post-save user', user)
+    res.sendStatus(200)
   })
+  .catch(err => res.sendStatus(404))
 })
 
 module.exports = router;

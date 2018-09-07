@@ -9,7 +9,7 @@ const BusinessSchema = new Schema({
   },
   url: {
     type: String,
-    default: random.string(8),
+    default: () => random.string(8),
   },
   name: {
     type: String

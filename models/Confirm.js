@@ -9,7 +9,7 @@ const ConfirmSchema = new Schema({
   },
   key: {
     type: String,
-    default: random.string(24)
+    default: () => random.string(24),
   },
   createdAt: {
     type: Date,
