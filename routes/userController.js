@@ -22,11 +22,22 @@ router.get('/', isAuthenticated, (req, res) => {
   .catch(err => res.status(400).send(err))
 })
 
-router.get('/:key', (req, res) => {
-  db.User.findOne({ url: req.params.key })
-  .then(data => {
-    if (data) {
-      res.json(data)
+router.get('/:idOrKey', (req, res) => {
+  db.User.findOne({
+    $or: [
+      { url: req.params.idOrKey },
+      // mongoose needs the id to be at least 12 chars long or error
+      { _id: req.params.idOrKey.length >= 12
+        ? req.params.idOrKey
+        : '111111111111'
+      }
+    ]
+  })
+  .exec((err, user) => {
+    console.log(user)
+    console.log(err)
+    if (user && !err) {
+      res.json(user)
     } else {
       res.status(404).send({
         success: false,
@@ -34,7 +45,6 @@ router.get('/:key', (req, res) => {
       })
     }
   })
-  .catch(err => res.status(400).send(err))
 })
 
 router.post('/signup', (req, res) => {

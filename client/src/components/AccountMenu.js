@@ -10,6 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
+import UploadedImage from './UploadedImage';
 
 // icons
 import PersonIcon from '@material-ui/icons/Person';
@@ -25,11 +26,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 const styles = {
   list: {
     width: 250,
-  },
-  avatar: {
-    maxWidth: '100%',
-    width: 90,
-    height: 'auto'
   },
   bio: {
     textAlign: 'center'
@@ -72,11 +68,7 @@ class AccountMenu extends Component {
           <ListItem style={user.bio ? { padding: 0 } : {}}>
             <Grid container justify="center">
               <Link to={'/profile/' + user.url}>
-                <Avatar
-                  className={classes.avatar}
-                  src={window.location.origin + user.img}
-                  alt="profile picture"
-                />
+                <UploadedImage img={user.img} alt="profile picture" rounded />
               </Link>
             </Grid>
           </ListItem>
@@ -97,6 +89,7 @@ class AccountMenu extends Component {
                 component={Link}
                 to="/connections"
                 button
+                disabled
                 style={{ paddingRight: 0 }}
               >
                 <ListItemText primaryTypographyProps={{
@@ -119,6 +112,7 @@ class AccountMenu extends Component {
                 component={Link}
                 to="/views"
                 button
+                disabled
                 style={{ paddingRight: 0 }}
               >
                 <ListItemText primaryTypographyProps={{

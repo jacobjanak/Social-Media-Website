@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import AuthService from './AuthService';
+import API from '../API';
+import validateProfile from '../utils/validateProfile';
 
 function withAuth(AuthComponent, props) {
   const Auth = new AuthService();
@@ -9,8 +11,17 @@ function withAuth(AuthComponent, props) {
 
     componentWillMount() {
       const user = Auth.user();
+
       if (user) {
-        this.setState({ user })
+        API.getUser(user.id)
+        .then(res => {
+          if (window.location.pathname === '/profile/edit'
+            || validateProfile(res.data)) {
+            this.setState({ user: res.data })
+          } else {
+            this.props.history.replace('/profile/edit')
+          }
+        })
       } else {
         this.props.history.replace('/');
       }

@@ -25,8 +25,8 @@ class UploadedImage extends Component {
     const { classes, img, alt, large, fill, rounded, border } = this.props;
 
     const styles = {
-      height: large ? 160 : 80,
-      width: large ? 160 : 80,
+      height: large ? 160 : 112,
+      width: large ? 160 : 112,
       border: border ? '6px solid white' : 'none',
     };
 

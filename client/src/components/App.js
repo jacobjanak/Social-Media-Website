@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import withAuth from './withAuth';
 import withoutAuth from './withoutAuth';
 import axios from 'axios';
@@ -75,18 +75,20 @@ class App extends Component {
 
               <ScrollToTop>
                 <Grid className={classes.app} justify="center" container>
-                  <Route exact path="/" component={this.Auth.user() ? withAuth(Dashboard) : Home} />
-                  <Route exact path="/signup" component={withoutAuth(SignUp)} />
-                  <Route exact path="/(login|confirm)/" component={withoutAuth(Login)} />
-                  <Route exact path="/forgot" component={withoutAuth(Forgot)} />
-                  <Route path="/reset" component={withoutAuth(Reset)} />
-                  <Route exact path="/welcome" component={withoutAuth(Welcome)} />
-                  <Route exact path="/contact" component={Contact} />
-                  <Route exact path="/entrepreneur" component={withAuth(Entrepreneur)} />
-                  <Route exact path="/profile/:id" component={withAuth(Profile)} />
-                  <Route exact path="/business/edit/:key" component={withAuth(BusinessBuilder)} />
-                  <Route exact path="/business-builder" component={withAuth(StartBusinessBuilder)} />
-                  <Route exact path="/business-builder/:step" component={withAuth(BusinessBuilder, { business })} />
+                  <Switch>
+                    <Route exact path="/" component={this.Auth.user() ? withAuth(Dashboard) : Home} />
+                    <Route exact path="/signup" component={withoutAuth(SignUp)} />
+                    <Route exact path="/(login|confirm)/" component={withoutAuth(Login)} />
+                    <Route exact path="/forgot" component={withoutAuth(Forgot)} />
+                    <Route path="/reset" component={withoutAuth(Reset)} />
+                    <Route exact path="/welcome" component={withoutAuth(Welcome)} />
+                    <Route exact path="/contact" component={Contact} />
+                    <Route exact path="/profile/edit" component={withAuth(Entrepreneur)} />
+                    <Route exact path="/profile/:id" component={withAuth(Profile)} />
+                    <Route exact path="/business/edit/:key" component={withAuth(BusinessBuilder)} />
+                    <Route exact path="/business-builder" component={withAuth(StartBusinessBuilder)} />
+                    <Route exact path="/business-builder/:step" component={withAuth(BusinessBuilder, { business })} />
+                  </Switch>
                 </Grid>
               </ScrollToTop>
 

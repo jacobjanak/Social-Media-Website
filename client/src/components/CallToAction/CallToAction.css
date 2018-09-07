@@ -4,7 +4,7 @@
   border-radius: 4px;
   /* line-height: 1; */
   margin: 0.5em;
-  color: #00E8FC;
+  color: #03A9F4;
   transition: 0.25s;
   text-transform: uppercase;
   cursor: pointer;
@@ -12,9 +12,9 @@
 
 .raise:hover,
 .raise:focus {
-  border-color: #B832AA;
+  border-color: #9C27B0;
   color: #fff;
-  box-shadow: 0 0.5em 0.5em -0.4em #B832AA;
+  box-shadow: 0 0.5em 0.5em -0.4em #9C27B0;
   -webkit-transform: translateY(-0.25em);
   -moz-transform: translateY(-0.25em);
   -ms-transform: translateY(-0.25em);

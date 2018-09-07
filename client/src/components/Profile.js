@@ -11,6 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import UploadedImage from './UploadedImage';
@@ -26,11 +27,18 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SchoolIcon from '@material-ui/icons/School';
 
 const styles = theme => ({
+  loading: {
+    marginTop: 8 * theme.spacing.unit,
+  },
   paper: {
     paddingTop: 4 * theme.spacing.unit,
     paddingLeft: 8 * theme.spacing.unit,
     paddingRight: 8 * theme.spacing.unit,
     paddingBottom: 4 * theme.spacing.unit,
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: 4 * theme.spacing.unit,
+      paddingRight: 4 * theme.spacing.unit,
+    },
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       paddingLeft: '5%',
@@ -39,13 +47,14 @@ const styles = theme => ({
     },
   },
   header: {
-    flexDirection: 'row-reverse',
+    // flexDirection: 'row-reverse',
     alignItems: 'flex-end',
   },
   nameContainer: {
     flexGrow: 1,
     [theme.breakpoints.up('sm')]: {
       paddingRight: 4 * theme.spacing.unit,
+      paddingLeft: 4 * theme.spacing.unit,
       flexBasis: 0,
     },
     [theme.breakpoints.down('xs')]: {
@@ -133,14 +142,22 @@ class Profile extends Component {
     const { classes } = this.props;
     const { user, businesses, isOwner } = this.state;
 
+    if (!user) {
+      return (
+        <CircularProgress className={classes.loading} />
+      );
+    }
+
     let location = ''
     if (user.city) location += `${user.city}, `;
     if (user.state) location += `${user.state}, `;
     if (user.country) location += `${user.country}`;
 
+    const connections = '0 connections' + (isOwner ? '' : ' \u2022 0 mutual');
+
     return (
       <React.Fragment>
-        <Grid item xs={12} md={7} lg={6}>
+        <Grid item xs={12} sm={10} md={7} lg={6}>
           <Paper className={classes.paper}>
 
             {/* Header */}
@@ -152,7 +169,7 @@ class Profile extends Component {
               {/* Name and bio */}
               <div className={classes.nameContainer}>
                 <Typography
-                  variant="display1"
+                  variant="title"
                   color="textPrimary"
                   gutterBottom
                 >
@@ -168,10 +185,10 @@ class Profile extends Component {
                 { isOwner ? (
                   <Button
                     className={classes.actionButton}
-                    variant="contained"
+                    variant="outlined"
                     color="primary"
                     component={Link}
-                    to="/entrepreneur"
+                    to="/profile/edit"
                   >
                     <EditIcon className={classes.leftIcon} />
                     Edit Profile
@@ -182,6 +199,7 @@ class Profile extends Component {
                       className={classes.actionButton}
                       variant="contained"
                       color="primary"
+                      disabled
                       style={{ marginRight: 8 }}
                     >
                       <MailIcon className={classes.leftIcon} />
@@ -191,6 +209,7 @@ class Profile extends Component {
                       className={classes.actionButton}
                       variant="contained"
                       color="primary"
+                      disabled
                     >
                       <GroupAddIcon className={classes.leftIcon} />
                       Connect
@@ -217,7 +236,7 @@ class Profile extends Component {
                     <Avatar>
                       <GroupIcon />
                     </Avatar>
-                    <ListItemText primary="0 connections &bull; 0 mutual" />
+                    <ListItemText primary={connections} />
                   </ListItem>
                   { location && (
                     <ListItem>

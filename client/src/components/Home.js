@@ -170,7 +170,7 @@ class Home extends Component {
           </Hidden>
 
           <div className={classes.banner}>
-            <Typography variant="subheading" style={{ color: '#00E8FC' }}>
+            <Typography variant="subheading" style={{ color: '#03A9F4' }}>
               Transforming Early-Stage Entrepreneur's Success
             </Typography>
             <Typography

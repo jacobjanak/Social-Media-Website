@@ -131,7 +131,7 @@ class MenuAppBar extends Component {
 
           {/* Menu (desktop) */}
           <Hidden xsDown>
-            { links.map((link, i) => !link.auth || !user ? (
+            { links.map((link, i) => (!link.auth || !user) ? (
               <Button
                 className={classes.link}
                 component={Link}
@@ -161,7 +161,7 @@ class MenuAppBar extends Component {
               open={Boolean(anchorEl)}
               onClose={this.handleClose}
             >
-              { links.map((link, i) => !link.auth || !user ? (
+              { links.map((link, i) => (!link.auth || !user) ? (
                 <MenuItem
                   component={Link}
                   to={link.url}

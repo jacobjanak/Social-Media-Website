@@ -132,11 +132,13 @@ class Entrepreneur extends Component {
     } = this.state;
 
     const errors = [];
-    if (!Number(zip) || zip.indexOf('e') >= 0) {
-      errors.push("Zip code must only contain numbers")
-    }
-    if (zip.length !== 5) {
-      errors.push("Zip code must be exactly 5 numbers")
+    if (zip) {
+      if (!Number(zip) || zip.indexOf('e') >= 0) {
+        errors.push("Zip code must only contain numbers")
+      }
+      if (zip.length !== 5) {
+        errors.push("Zip code must be exactly 5 numbers")
+      }
     }
 
     if (errors.length === 0) {
@@ -156,7 +158,7 @@ class Entrepreneur extends Component {
         state,
         country,
       })
-      .then(res => this.props.history.push('/business-builder'))
+      .then(res => this.props.history.push('/profile/' + res.data.url))
       .catch(err => {
         console.log(err)
         console.log(err.err)
@@ -210,12 +212,12 @@ class Entrepreneur extends Component {
                   color="primary"
                   gutterBottom
                 >
-                  Entrepreneur Profile
+                  Edit Profile
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="subheading" align="center">
-                  Complete your entrepreneur profile before creating a business
+                  A valid profile is required to access the full site
                 </Typography>
               </Grid>
               { errors.length > 0 && (
@@ -443,7 +445,7 @@ class Entrepreneur extends Component {
                   color="primary"
                   type="submit"
                 >
-                  Continue
+                  Update
                 </Button>
               </Grid>
 

@@ -97,7 +97,7 @@ class Contact extends Component {
           <Paper className={classes.paper}>
             <Grid container>
               <Grid item xs={12}>
-                <Typography variant="display1" align="center" color="primary">
+                <Typography variant="display1" align="center" color="textPrimary">
                   Get in Touch
                 </Typography>
               </Grid>
@@ -170,7 +170,7 @@ class Contact extends Component {
                       color="primary"
                       type="submit"
                     >
-                      Send message
+                      Send us a message
                     </Button>
                   </Grid>
                 </form>

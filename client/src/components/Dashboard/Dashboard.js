@@ -165,7 +165,7 @@ class Dashboard extends Component {
                       color="primary"
                       variant="contained"
                       component={Link}
-                      to="/entrepreneur"
+                      to="/business-builder"
                     >
                       <AddIcon className={classes.leftIcon} />
                       Create yours now
