@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import API from '../utils/API';
+import API from '../API';
 import qs from 'qs';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';

@@ -10,7 +10,7 @@ import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircle from '@material-ui/icons/AddCircle';
 import AddIcon from '@material-ui/icons/Add';
-import API from '../../utils/API';
+import API from '../../API';
 import UploadedImage from '../UploadedImage'
 import Footer from '../Footer'
 import Spacer from '../Spacer';

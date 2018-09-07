@@ -29,7 +29,7 @@ const API = {
     'Content-Type': 'multipart/form-data'
   }),
   getBusiness: key => axios.get('/business/' + key),
-  getBusinesses: key => axios.get('/business/'),
+  getBusinesses: (user = '') => axios.get('/business/' + user),
   resendConfirmation: email => axios.post('/email/confirm', { email }),
   confirmEmail: key => axios.post('/user/confirm', { key }),
   resetPassword: email => axios.post('/email/reset-password', { email }),

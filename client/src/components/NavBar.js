@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import API from '../utils/API';
+import API from '../API';
 import AuthService from './AuthService';
 import AccountMenu from './AccountMenu';
 import { withStyles } from '@material-ui/core/styles';

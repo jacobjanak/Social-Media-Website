@@ -12,6 +12,12 @@ router.get('/', isAuthenticated, (req, res) => {
   .catch(err => res.status(404).json({ err: err, message: "Unable to retrieve businesses" }))
 })
 
+router.get('/:userId', (req, res) => {
+  db.Business.find({ owner: req.params.userId })
+  .then(businesses => res.json(businesses || []))
+  .catch(err => res.status(404).json({ err: err, message: "Unable to retrieve businesses" }))
+})
+
 router.get('/:key', (req, res) => {
   db.Business.findOne({ url: req.params.key })
   .then(data => {

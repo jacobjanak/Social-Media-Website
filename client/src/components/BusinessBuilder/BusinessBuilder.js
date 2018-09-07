@@ -16,7 +16,7 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Spacer from '../Spacer'
-import API from '../../utils/API';
+import API from '../../API';
 
 // steps
 import Details from './Details';
