@@ -19,6 +19,7 @@ const toFormData = obj => {
 
 const API = {
   getUser: (user = '') => axios.get('/user/' + user),
+  getUsers: (search = '') => axios.get('/user/search'),
   editUser: user => axios.post('/user/edit', toFormData(user), {
     'Content-Type': 'multipart/form-data',
   }),

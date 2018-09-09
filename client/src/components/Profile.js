@@ -118,7 +118,7 @@ class Profile extends Component {
 
   componentDidMount() {
     // get user from db
-    var user;
+    let user;
     API.getUser(this.state.key)
     .then(res => {
       user = res.data;
@@ -143,9 +143,7 @@ class Profile extends Component {
     const { user, businesses, isOwner } = this.state;
 
     if (!user) {
-      return (
-        <CircularProgress className={classes.loading} />
-      );
+      return <CircularProgress className={classes.loading} />;
     }
 
     let location = ''

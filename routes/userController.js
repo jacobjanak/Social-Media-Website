@@ -22,29 +22,15 @@ router.get('/', isAuthenticated, (req, res) => {
   .catch(err => res.status(400).send(err))
 })
 
-router.get('/:idOrKey', (req, res) => {
-  db.User.findOne({
-    $or: [
-      { url: req.params.idOrKey },
-      // mongoose needs the id to be at least 12 chars long or error
-      { _id: req.params.idOrKey.length >= 12
-        ? req.params.idOrKey
-        : '111111111111'
-      }
-    ]
-  })
-  .exec((err, user) => {
-    console.log(user)
-    console.log(err)
-    if (user && !err) {
-      res.json(user)
-    } else {
-      res.status(404).send({
-        success: false,
-        message: 'No user found'
-      })
-    }
-  })
+// get an array of users with an optional search param
+router.get('/search/:search*?', (req, res) => {
+  if (req.params.search) {
+    res.sendStatus(200)
+  } else {
+    db.User.find()
+    .then(users => res.json({ users: users }))
+    .catch(err => res.status(500).json({ err: err }))
+  }
 })
 
 router.post('/signup', (req, res) => {
@@ -158,7 +144,6 @@ router.post('/edit/password', (req, res) => {
 router.post('/confirm', (req, res) => {
   db.Confirm.findOne({ key: req.body.key })
   .then(confirm => {
-    console.log('confirm', confirm)
     if (confirm) {
       return db.User.findOne({ _id: confirm.user });
     } else {
@@ -167,14 +152,34 @@ router.post('/confirm', (req, res) => {
   })
   .then(user => {
     user.emailConfirmed = true;
-    console.log('user', user)
     return user.save();
   })
-  .then(user => {
-    console.log('post-save user', user)
-    res.sendStatus(200)
-  })
+  .then(user => res.sendStatus(200))
   .catch(err => res.sendStatus(404))
+})
+
+// get user by their id or url key (should be at bottom of userController)
+router.get('/:idOrKey', (req, res) => {
+  db.User.findOne({
+    $or: [
+      { url: req.params.idOrKey },
+      // mongoose needs the id to be at least 12 chars long or error
+      { _id: req.params.idOrKey.length >= 12
+        ? req.params.idOrKey
+        : '111111111111'
+      }
+    ]
+  })
+  .exec((err, user) => {
+    if (user && !err) {
+      res.json(user)
+    } else {
+      res.status(404).send({
+        success: false,
+        message: 'No user found'
+      })
+    }
+  })
 })
 
 module.exports = router;

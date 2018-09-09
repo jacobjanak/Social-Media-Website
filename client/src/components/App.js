@@ -23,6 +23,7 @@ import Forgot from './Forgot';
 import Reset from './Reset';
 import Profile from './Profile';
 import Dashboard from './Dashboard';
+import Search from './Search';
 import StartBusinessBuilder from './BusinessBuilder/Start';
 import BusinessBuilder from './BusinessBuilder';
 import Entrepreneur from './Entrepreneur';
@@ -83,6 +84,7 @@ class App extends Component {
                     <Route path="/reset" component={withoutAuth(Reset)} />
                     <Route exact path="/welcome" component={withoutAuth(Welcome)} />
                     <Route exact path="/contact" component={Contact} />
+                    <Route exact path="/search" component={Search} />
                     <Route exact path="/profile/edit" component={withAuth(Entrepreneur)} />
                     <Route exact path="/profile/:id" component={withAuth(Profile)} />
                     <Route exact path="/business/edit/:key" component={withAuth(BusinessBuilder)} />

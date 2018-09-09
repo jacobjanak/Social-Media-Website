@@ -9,20 +9,25 @@ import Toolbar from '@material-ui/core/Toolbar';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Hidden from '@material-ui/core/Hidden';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SearchIcon from '@material-ui/icons/Search';
 
 const links = [
-  // {
-  //   label: 'Team',
-  //   url: '/team',
-  //   auth: false,
-  // },
+  {
+    label: 'Team',
+    url: '/team',
+    auth: false,
+  },
   {
     label: 'Contact',
     url: '/contact',
@@ -53,14 +58,20 @@ const styles = theme => ({
     height: 48,
   },
   link: {
-    textTransform: 'none'
+    textTransform: 'none',
   },
-  mobileMenu: {
-
+  search: {
+    marginRight: theme.spacing.unit,
+    width: 200,
+    borderBottom: '1px solid rgba(255, 255, 254, 1)',
+    color: 'white',
   },
   avatar: {
-    marginLeft: theme.spacing.unit
-  }
+    marginLeft: 2 * theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
 });
 
 class MenuAppBar extends Component {
@@ -115,6 +126,8 @@ class MenuAppBar extends Component {
         style={styleProps}
       >
         <Toolbar>
+
+          {/* Logo */}
           <Button
             className={classes.link}
             component={Link}
@@ -122,15 +135,36 @@ class MenuAppBar extends Component {
             color="inherit"
             disableRipple
           >
-            {/* <Typography variant="title" color="inherit">
-              InnovationsCity
-            </Typography> */}
             <img className={classes.logo} src="/img/logo.png" alt="logo" />
           </Button>
+
+          {/* Flex span to push links to right of navbar */}
           <span className={classes.flex}></span>
 
+          {/* Seach bar */}
+          <Hidden smDown>
+            <Input
+              className={classes.search}
+              placeholder="Search"
+              inputProps={{ 'aria-label': 'search' }}
+              disableUnderline
+              endAdornment={(
+                <InputAdornment position="end" style={{ color: 'inherit' }}>
+                  <IconButton
+                    color="inherit"
+                    aria-label="search"
+                    component={Link}
+                    to="/search"
+                  >
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              )}
+            />
+          </Hidden>
+
           {/* Menu (desktop) */}
-          <Hidden xsDown>
+          <Hidden smDown>
             { links.map((link, i) => (!link.auth || !user) ? (
               <Button
                 className={classes.link}
@@ -145,9 +179,9 @@ class MenuAppBar extends Component {
           </Hidden>
 
           {/* Mobile menu */}
-          <Hidden smUp>
+          <Hidden mdUp>
             <Button
-              aria-owns={anchorEl ? 'simple-menu' : null}
+              aria-owns={anchorEl ? 'mobile-menu' : null}
               aria-haspopup="true"
               color="inherit"
               onClick={this.handleClick}
@@ -155,12 +189,18 @@ class MenuAppBar extends Component {
               Menu
             </Button>
             <Menu
-              className={classes.mobileMenu}
-              id="menu"
+              id="mobile-menu"
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={this.handleClose}
             >
+              <MenuItem
+                component={Link}
+                to={"/search"}
+              >
+                Search
+                <SearchIcon className={classes.rightIcon} />
+              </MenuItem>
               { links.map((link, i) => (!link.auth || !user) ? (
                 <MenuItem
                   component={Link}
