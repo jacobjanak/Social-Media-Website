@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-class Alert extends React.Component {
+class Alert extends Component {
   render() {
     const { open, message, closeAlert } = this.props;
 

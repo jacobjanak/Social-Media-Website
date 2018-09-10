@@ -28,6 +28,7 @@ import StartBusinessBuilder from './BusinessBuilder/Start';
 import BusinessBuilder from './BusinessBuilder';
 import Entrepreneur from './Entrepreneur';
 import Welcome from './Welcome';
+import Team from './Team';
 import Contact from './Contact';
 
 //NOTE: probably don't need this
@@ -84,9 +85,10 @@ class App extends Component {
                     <Route path="/reset" component={withoutAuth(Reset)} />
                     <Route exact path="/welcome" component={withoutAuth(Welcome)} />
                     <Route exact path="/contact" component={Contact} />
+                    <Route exact path="/team" component={Team} />
                     <Route exact path="/search" component={Search} />
                     <Route exact path="/profile/edit" component={withAuth(Entrepreneur)} />
-                    <Route exact path="/profile/:id" component={withAuth(Profile)} />
+                    <Route exact path="/profile/:id" component={Profile} />
                     <Route exact path="/business/edit/:key" component={withAuth(BusinessBuilder)} />
                     <Route exact path="/business-builder" component={withAuth(StartBusinessBuilder)} />
                     <Route exact path="/business-builder/:step" component={withAuth(BusinessBuilder, { business })} />

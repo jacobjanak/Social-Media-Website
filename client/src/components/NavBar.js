@@ -22,28 +22,23 @@ import Hidden from '@material-ui/core/Hidden';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SearchIcon from '@material-ui/icons/Search';
 
-const links = [
-  {
-    label: 'Team',
-    url: '/team',
-    auth: false,
-  },
-  {
-    label: 'Contact',
-    url: '/contact',
-    auth: false,
-  },
-  {
-    label: 'Login',
-    url: '/login',
-    auth: true,
-  },
-  {
-    label: 'Sign Up',
-    url: '/signup',
-    auth: true,
-  },
-];
+const links = [{
+  label: 'Our team',
+  url: '/team',
+  auth: false,
+}, {
+  label: 'Contact',
+  url: '/contact',
+  auth: false,
+}, {
+  label: 'Login',
+  url: '/login',
+  auth: true,
+}, {
+  label: 'Sign up',
+  url: '/signup',
+  auth: true,
+}];
 
 const styles = theme => ({
   root: {

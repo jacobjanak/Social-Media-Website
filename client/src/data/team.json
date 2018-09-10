@@ -1,0 +1,77 @@
+[{
+  "name": "Vilavanh Sanginthirath",
+  "role": "Founder & CEO",
+  "img": "vilavanh.jpg",
+  "experience": 15,
+  "email": "info@innovationscity.com",
+  "phone": "(858) 381-2505",
+  "summary": "Vilavanh Sanginthirath is the Founder and CEO of Innovations City and the mastermind behind the Innovations City and Empowered TV brands. Her vision lead to the innovative new platform helping Early-Stage Entrepreneurs and Business Owners by empowering the creation of a diverse entrepreneurial ecosystem. The California burrito lover and former High School Girls Head Basketball Coach is no stranger to taking risks and using her knowledge and competitive advantage to help others compete with a ‘stay local, think global’ mindset.\nShe has a proven track record with 15 years of experience as a high performing strategist in marketing, sales, and operations within Fortune 500 companies and industries ranging from healthcare, technology and retail.\nAs an ambitious and driven individual, Vilavanh grew up in an underserved and poverty community as the first-generation immigrant of refugee parents. Creating her own pathway to success, she fought every step of the way and built her career from the ground up. Now engaged in the development of cool new ventures; Vilavanh is a Strategic Advisor for startups, an advocate for women business owners, a Board Member for ARTS and Business For Good San Diego, a Public Speaker at multiple conferences and events including the U.S. News STEAM Solutions Conference, and a 2017 finalist for San Diego’s Woman of the Year.\nWith a book of business generating over $10 million, this self-made visionary has a love for disruptive technologies and challenging the status quo which lead to creating new pathways for women and minorities a-like.",
+  "linkedin": "https://www.linkedin.com/in/vilavanh/",
+  "twitter": "https://twitter.com/Vilavanh",
+  "facebook": "https://www.facebook.com/VilavanhS",
+  "instagram": "https://www.instagram.com/vilavanh/",
+  "chronology": [{
+    "start": "2018",
+    "end": "present",
+    "text": "Founder & CEO, Innovations City"
+  }, {
+    "start": "2018",
+    "end": "present",
+    "text": "Strategic Advisor, Angel Shave Club"
+  }, {
+    "start": "2017",
+    "end": "2018",
+    "text": "Founder & CEO, Powerhouse Business Solutions"
+  }, {
+    "start": "2017",
+    "end": "2017",
+    "text": "Co-Managing Director & Director of Marketing and PR, Girls in Tech San Diego"
+  }, {
+    "start": "2016",
+    "end": "2017",
+    "text": "Director of Marketing and Operations, Gerson Institute"
+  }]
+}, {
+  "name": "Julius Alejandro",
+  "role": "Community Manager",
+  "img": "julius.jpg",
+  "experience": 11,
+  "email": "programs@innovationscity.com",
+  "phone": "(858) 381-2505",
+  "summary": "Julius Alejandro is the Community Manager at Innovations City and strives for creative and innovative new approaches to solving social issues. As the Owner of Julius Alejandro Consulting, his expertise lies in the creation and cultivation of Organizational Leadership. He has over ten years of experiences in grassroots organizing, the nonprofit sector, and social entrepreneurship that have crossed intersections from economic development and health disparities that affect communities of color. He received his master’s in organizational leadership from National University and bachelor’s degree in sociology from San Diego State University. In addition, he has professional certificates from Accion and Notre Dame University on entrepreneurship and business strategy. He has been recognized by public officials on the local, state, and federal level for his community services and youth mentorships.",
+  "linkedin": "https://www.linkedin.com/in/julius-alejandro-m-s-45b5bb22/",
+  "twitter": "https://twitter.com/juls_alejandro",
+  "chronology": [{
+    "start": "2018",
+    "end": "Present",
+    "text": "Community Manager, Innovations City"
+  }, {
+    "start": "2018",
+    "end": "Present",
+    "text": "Owner, Julius Alejandro Consulting"
+  }, {
+    "start": "2017",
+    "end": "2018",
+    "text": "Program Assistant, Suicide Prevention Council, CHIP"
+  }, {
+    "start": "2014",
+    "end": "2016",
+    "text": "AmeriCorps Member, MAAC"
+  }]
+}, {
+  "name": "Cathy Kaczmarczyk",
+  "role": "Marketing Coordinator",
+  "img": "cathy.jpg",
+  "experience": 4,
+  "email": "info@innovationscity.com",
+  "summary": "Cathy Kaczmarczyk is a Marketing Coordinator at Innovations City. Her expertise lies in the launch of two successful nationwide programs at Sherwin Williams. She built both programs from the bottom up and drove numerous marketing initiatives to increase sales. Her background is in marketing, sales, training and recruiting. Recently, Cathy has become involved in the startup world and volunteers for StartUp San Diego in their digital marketing department. She has found a passion for helping small businesses and supporting the local community.",
+  "chronology": []
+}, {
+  "name": "Jeffrey Sadural",
+  "role": "Head of Data Science",
+  "img": "jeffrey.jpg",
+  "experience": 20,
+  "email": "info@innovationscity.com",
+  "summary": "",
+  "chronology": []
+}]
