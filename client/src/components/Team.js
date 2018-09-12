@@ -3,9 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
+import TeamMembers from './TeamMembers';
 import UploadedImage from './UploadedImage';
+import SocialIcons from './SocialIcons';
 import Footer from './Footer';
 import Spacer from './Spacer';
 import team from '../data/team.json';
@@ -19,21 +20,6 @@ const styles = theme => ({
       width: '100%',
       paddingLeft: '5%',
       paddingRight: '5%',
-    },
-  },
-  person: {
-    paddingLeft: 4 * theme.spacing.unit,
-    paddingRight: 4 * theme.spacing.unit,
-    paddingBottom: 4 * theme.spacing.unit,
-  },
-  iconButton: {
-    fontSize: 16,
-    height: 32,
-    width: 32,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 24,
-      height: 48,
-      width: 48,
     },
   },
   activeImg: {
@@ -52,13 +38,19 @@ const styles = theme => ({
     },
   },
   activeText: {
-    marginLeft: 4 * theme.spacing.unit,
-    marginRight: 4 * theme.spacing.unit,
-  },
-  activeText: {
     paddingLeft: 4 * theme.spacing.unit,
     paddingRight: 4 * theme.spacing.unit,
     whiteSpace: 'pre-line'
+  },
+  socialContainer: {
+    display: 'inline',
+    [theme.breakpoints.only('sm')]: {
+      paddingLeft: 4 * theme.spacing.unit,
+    },
+    [theme.breakpoints.down('xs')]: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
   },
 });
 
@@ -147,6 +139,9 @@ class Team extends Component {
                     <b>Phone:</b> {active.phone}
                   </Typography>
                 )}
+                <Grid container className={classes.socialContainer}>
+                  <SocialIcons links={active} />
+                </Grid>
                 <Spacer half />
                 { active.summary && (
                   <React.Fragment>
@@ -172,66 +167,17 @@ class Team extends Component {
             {/* List of team members */}
             <Grid container justify="center">
               { active && <Spacer />}
-              <Typography variant="display1" color="textPrimary">
+              <Typography variant="display1" color="textPrimary" gutterBottom>
                 Our Team
               </Typography>
             </Grid>
-            <Spacer half />
-            <Grid container>
-              { team.map((person, i) => (
-                <Grid item className={classes.person} xs={12} sm={6} md={3} key={i}>
-                  <UploadedImage
-                    img={'/img/team/' + person.img}
-                    fill
-                    onClick={() => {
-                      this.props.history.push('/team/' + person.name.replace(' ', '-'))
-                    }}
-                  />
-                  <Typography
-                    variant="headline"
-                    align="center"
-                    onClick={() => {
-                      this.props.history.push('/team/' + person.name.replace(' ', '-'))
-                    }}
-                  >
-                    {person.name}
-                  </Typography>
-                  <Typography variant="subheading" align="center" color="primary">
-                    {person.role}
-                  </Typography>
-                  <Grid container justify="center">
-                    { person.linkedin && (
-                      <a href={person.linkedin} target="_blank">
-                        <IconButton className={classes.iconButton} aria-label="Delete">
-                          <span className="fa fa-linkedin"></span>
-                        </IconButton>
-                      </a>
-                    )}
-                    { person.twitter && (
-                      <a href={person.twitter} target="_blank">
-                        <IconButton className={classes.iconButton} aria-label="Delete">
-                          <span className="fa fa-twitter"></span>
-                        </IconButton>
-                      </a>
-                    )}
-                    { person.facebook && (
-                      <a href={person.facebook} target="_blank">
-                        <IconButton className={classes.iconButton} aria-label="Delete">
-                          <span className="fa fa-facebook"></span>
-                        </IconButton>
-                      </a>
-                    )}
-                    { person.instagram && (
-                      <a href={person.instagram} target="_blank">
-                        <IconButton className={classes.iconButton} aria-label="Delete">
-                          <span className="fa fa-instagram"></span>
-                        </IconButton>
-                      </a>
-                    )}
-                  </Grid>
-                </Grid>
-              ))}
-            </Grid>
+
+            {/* List every team member */}
+            <TeamMembers
+              history={this.props.history}
+              active={active ? active.name : false}
+            />
+
           </Paper>
         </Grid>
         <Hidden smDown>

@@ -10,6 +10,7 @@ import ForumIcon from '@material-ui/icons/ForumOutlined';
 import StoreIcon from '@material-ui/icons/StoreOutlined';
 import Background from './Background';
 import CallToAction from './CallToAction';
+import TeamMembers from './TeamMembers';
 import NavBar from './NavBar';
 import Footer from './Footer';
 import Spacer from './Spacer';
@@ -216,7 +217,12 @@ class Home extends Component {
                 Are you ready to get your BIG IDEA started? We're here to help!
               </Typography>
               <Spacer half />
-              <Typography variant="display2" align="center" gutterBottom style={{ color: 'black' }}>
+              <Typography
+                variant="display2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
                 How it Works
               </Typography>
             </Grid>
@@ -275,6 +281,24 @@ class Home extends Component {
           </Grid>
         </Grid>
         <Spacer />
+
+        {/* Third page starts */}
+        <Grid container justify="center">
+          <Grid item xs={12}>
+            <Typography
+              variant="display2"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
+              Meet the Team
+            </Typography>
+          </Grid>
+          <Grid item xs={12} lg={10} xl={8}>
+            <TeamMembers history={this.props.history} />
+          </Grid>
+        </Grid>
+
         <Spacer />
         <Footer />
       </Grid>

@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FontAwesome from 'react-fontawesome';
+import SocialIcons from './SocialIcons';
 import Spacer from './Spacer';
 
 const styles = theme => ({
@@ -102,6 +103,16 @@ const Footer = props => {
               <Typography variant="body1" gutterBottom color="inherit">
                 <b>Phone:</b> 858.381.2505
               </Typography>
+              <Grid container justify="center">
+                <SocialIcons
+                  color="white"
+                  links={{
+                    twitter: 'https://twitter.com/innovationscity',
+                    facebook: 'https://www.facebook.com/InnovationsCity/',
+                    instagram: 'https://www.instagram.com/innovationscity/',
+                  }}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
@@ -114,7 +125,7 @@ const Footer = props => {
           <FontAwesome className={classes.icon} name="facebook" />
         </IconButton>
         */}
-        
+
         <Grid item xs={12}>
           <Divider style={{ background: '#A9A9A9' }} />
           <Spacer half />
