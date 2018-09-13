@@ -54,7 +54,7 @@ class Forgot extends Component {
         <Card>
           <CardContent>
             <Typography variant="headline">
-              Reset password
+              Recover password
             </Typography>
             <TextField
               label="Your email"
@@ -72,7 +72,7 @@ class Forgot extends Component {
               color="primary"
               onClick={this.handleSubmit}
             >
-              Send recovery info
+              Send password reset info
             </Button>
           </CardContent>
         </Card>

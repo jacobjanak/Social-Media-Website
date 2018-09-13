@@ -57,9 +57,9 @@ const styles = theme => ({
   },
   search: {
     marginRight: theme.spacing.unit,
-    width: 200,
     borderBottom: '1px solid rgba(255, 255, 254, 1)',
     color: 'white',
+    transition: '0.25s',
   },
   avatar: {
     marginLeft: 2 * theme.spacing.unit,
@@ -77,6 +77,7 @@ class MenuAppBar extends Component {
       user: false,
       open: false,
       anchorEl: null,
+      searchFocus: false,
     };
   }
 
@@ -110,9 +111,13 @@ class MenuAppBar extends Component {
     this.setState({ open: bool })
   };
 
+  searchBlur = () => this.setState({ searchFocus: false });
+
+  searchFocus = () => this.setState({ searchFocus: true });
+
   render() {
     const { classes, styleProps, mobile, position } = this.props;
-    const { user, open, anchorEl } = this.state;
+    const { user, open, anchorEl, searchFocus } = this.state;
 
     return (
       <AppBar
@@ -142,7 +147,10 @@ class MenuAppBar extends Component {
               className={classes.search}
               placeholder="Search"
               inputProps={{ 'aria-label': 'search' }}
+              style={{ width: searchFocus ? 200 : 120 }}
               disableUnderline
+              onBlur={this.searchBlur}
+              onFocus={this.searchFocus}
               endAdornment={(
                 <InputAdornment position="end" style={{ color: 'inherit' }}>
                   <IconButton
