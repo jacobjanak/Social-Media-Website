@@ -6,13 +6,14 @@ import AuthService from './AuthService';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import Paper from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Hidden from '@material-ui/core/Hidden';
+import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
+import LockIcon from '@material-ui/icons/LockOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SendIcon from '@material-ui/icons/Send';
@@ -20,10 +21,26 @@ import Alert from './Alert';
 import Spacer from './Spacer';
 
 const styles = theme => ({
-  card: {
+  layout: {
+    width: 'auto',
+    display: 'block', // fix IE11 issue
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     [theme.breakpoints.down('xs')]: {
-      borderRadius: 0
-    }
+      marginTop: theme.spacing.unit * 3,
+    },
   },
   button: {
     [theme.breakpoints.down('xs')]: {
@@ -31,10 +48,24 @@ const styles = theme => ({
     }
   },
   link: {
-    textTransform: 'none'
+    textTransform: 'none',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing.unit,
+      textDecoration: 'underline',
+    }
+  },
+  submit: {
+    marginTop: 4 * theme.spacing.unit,
+    marginBottom: 2 * theme.spacing.unit,
   },
   rightIcon: {
     marginLeft: theme.spacing.unit,
+  },
+  avatar: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: theme.spacing.unit,
+    backgroundColor: theme.palette.primary.main,
   },
   error: {
     marginTop: 2 * theme.spacing.unit,
@@ -154,94 +185,93 @@ class Login extends Component {
           open={this.state.open}
           closeAlert={this.closeAlert}
         />
-        <Grid item xs={12}>
-          <Hidden xsDown>
-            <Spacer />
-          </Hidden>
-        </Grid>
-        <Grid item xs={12}>
-          <Card className={classes.card}>
-            <form noValidate onSubmit={this.handleSubmit}>
-              <CardContent>
-                <Typography variant="display1" color="primary">
-                  Login
-                </Typography>
-                { (error && !emailNotConfirmed) && (
-                  <div className={classes.error}>
-                    <Typography color="inherit">
-                      { errorMessage }
-                    </Typography>
-                  </div>
-                )}
-                { emailNotConfirmed && (
-                  <div className={classes.error}>
-                    <Typography color="inherit">
-                      { errorMessage }
-                    </Typography>
-                    <Button
-                      className={classes.button}
-                      variant="outlined"
-                      color="primary"
-                      style={{ marginTop: 8 }}
-                      onClick={this.resendEmail}
-                    >
-                      Resend Email Verification
-                      <SendIcon className={classes.rightIcon} />
-                    </Button>
-                  </div>
-                )}
-                <TextField
-                  label="Email"
-                  name="email"
-                  margin="normal"
-                  fullWidth
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                />
-                <TextField
-                  label="Password"
-                  name="password"
-                  type="password"
-                  margin="normal"
-                  fullWidth
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                />
-                <Grid container justify="flex-end">
+        <main className={classes.layout}>
+          <Paper className={classes.paper}>
+            <form onSubmit={this.handleSubmit}>
+              <Avatar className={classes.avatar}>
+                <LockIcon />
+              </Avatar>
+              <Typography variant="headline" align="center">
+                Login
+              </Typography>
+              { (error && !emailNotConfirmed) && (
+                <div className={classes.error}>
+                  <Typography color="inherit">
+                    { errorMessage }
+                  </Typography>
+                </div>
+              )}
+              { emailNotConfirmed && (
+                <div className={classes.error}>
+                  <Typography color="inherit">
+                    { errorMessage }
+                  </Typography>
                   <Button
-                    className={classes.link}
-                    component={Link}
-                    to="/forgot"
-                    size="small"
+                    className={classes.button}
+                    variant="outlined"
+                    color="primary"
+                    style={{ marginTop: 8 }}
+                    onClick={this.resendEmail}
                   >
-                    Forgot password
-                    {/* <ChevronRightIcon fontSize="inherit" /> */}
+                    Resend Email Verification
+                    <SendIcon className={classes.rightIcon} />
                   </Button>
-                </Grid>
-              </CardContent>
-              <CardContent style={{ paddingTop: 0 }}>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  type="submit"
-                  color="primary"
-                >
-                  Login
-                </Button>
+                </div>
+              )}
+              <TextField
+                label="Email Address"
+                name="email"
+                margin="normal"
+                fullWidth
+                required
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+              <TextField
+                label="Password"
+                name="password"
+                type="password"
+                margin="normal"
+                fullWidth
+                required
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+              <Button
+                className={classes.button + ' ' + classes.submit}
+                variant="contained"
+                type="submit"
+                color="primary"
+                fullWidth
+              >
+                Login
+              </Button>
+              <Grid container justify="center">
+                <div style={{ flexGrow: 1 }}></div>
                 <Button
                   className={classes.button + ' ' + classes.link}
                   component={Link}
                   to="/signup"
+                  size="small"
                 >
                   Don't have an account?
                 </Button>
-              </CardContent>
+                <Hidden xsDown>
+                  <span style={{ lineHeight: '32px' }}>&bull;</span>
+                </Hidden>
+                <Button
+                  className={classes.button + ' ' + classes.link}
+                  component={Link}
+                  to="/forgot"
+                  size="small"
+                >
+                  Forgot your password?
+                </Button>
+                <div style={{ flexGrow: 1 }}></div>
+              </Grid>
             </form>
-          </Card>
-        </Grid>
-        <Grid item xs={12}>
-
-        </Grid>
+          </Paper>
+        </main>
       </Grid>
     );
   }
