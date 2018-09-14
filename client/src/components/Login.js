@@ -140,7 +140,7 @@ class Login extends Component {
 
     if (email && password) {
       this.Auth.login(email, password)
-      .then(user => window.location.reload())
+      .then(() => window.location.reload())
       .catch(err => {
         if (err.response) {
           if (err.response.data.emailNotConfirmed) {

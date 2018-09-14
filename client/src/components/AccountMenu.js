@@ -52,8 +52,6 @@ const styles = {
 };
 
 class AccountMenu extends Component {
-
-
   render() {
     const { classes, user, logout } = this.props;
 
@@ -72,8 +70,7 @@ class AccountMenu extends Component {
               </Link>
             </Grid>
           </ListItem>
-          {
-            user.bio &&
+          { user.bio && (
             <ListItem
               component={Typography}
               variant="body1"
@@ -81,7 +78,7 @@ class AccountMenu extends Component {
             >
               {user.bio}
             </ListItem>
-          }
+          )}
           <Divider />
           <Grid container>
             <Grid className={classes.divideContainer} item xs={6}>

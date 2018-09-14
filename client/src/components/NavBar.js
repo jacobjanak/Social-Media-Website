@@ -61,6 +61,11 @@ const styles = theme => ({
     color: 'white',
     transition: '0.25s',
   },
+  searchAdornment: {
+    color: 'inherit',
+    marginLeft: -16,
+    marginRight: 0,
+  },
   avatar: {
     marginLeft: 2 * theme.spacing.unit,
   },
@@ -147,12 +152,16 @@ class MenuAppBar extends Component {
               className={classes.search}
               placeholder="Search"
               inputProps={{ 'aria-label': 'search' }}
-              style={{ width: searchFocus ? 200 : 120 }}
+              style={{ width: searchFocus ? 180 : 100 }}
               disableUnderline
               onBlur={this.searchBlur}
               onFocus={this.searchFocus}
-              endAdornment={(
-                <InputAdornment position="end" style={{ color: 'inherit' }}>
+
+              startAdornment={(
+                <InputAdornment
+                  className={classes.searchAdornment}
+                  position="start"
+                >
                   <IconButton
                     color="inherit"
                     aria-label="search"

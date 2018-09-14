@@ -29,6 +29,11 @@ const styles = theme => ({
       paddingRight: '5%',
     },
   },
+  button: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+  },
   centerY: {
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -166,6 +171,7 @@ class Contact extends Component {
                   <Spacer half />
                   <Grid container justify="flex-end">
                     <Button
+                      className={classes.button}
                       variant="contained"
                       color="primary"
                       type="submit"

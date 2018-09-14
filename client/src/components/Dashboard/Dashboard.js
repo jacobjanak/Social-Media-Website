@@ -29,6 +29,23 @@ const styles = theme => ({
       paddingRight: '5%',
     },
   },
+  accountPaper: {
+    paddingTop: 2 * theme.spacing.unit,
+    paddingLeft: 2 * theme.spacing.unit,
+    paddingRight: 2 * theme.spacing.unit,
+    paddingBottom: 2 * theme.spacing.unit,
+  },
+  account: {
+    [theme.breakpoints.up('lg')]: {
+      // neutralize the width so that stuff stays centered
+      marginLeft: -220,
+    },
+    width: 220,
+    paddingRight: 4 * theme.spacing.unit,
+    // [theme.breakpoints.down('sm')]: {
+    //   width: '100%',
+    // },
+  },
   businessContainer: {
     // neutralizing the padding from paper
     marginLeft: -(4 * theme.spacing.unit),
@@ -54,15 +71,12 @@ const styles = theme => ({
     alignItems: 'center',
     flexWrap: 'nowrap',
   },
-  noBusiness: {
-
-  },
   grow: {
     flexGrow: 1,
   },
-  title: {
-    // paddingLeft: 4 * theme.spacing.unit,
-    // paddingRight: 4 * theme.spacing.unit,
+  link: {
+    textTransform: 'none',
+    fontWeight: 'normal',
   },
   icon: {
     color: theme.palette.text.secondary,
@@ -70,18 +84,21 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing.unit,
   },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
 });
 
 class Dashboard extends Component {
   state = {
-    businesses: []
+    businesses: [],
+    user: false,
   };
 
   componentDidMount() {
     const { user } = this.props;
+
+    API.getUser()
+    .then(res => this.setState({ user: res.data }))
+    .catch(err => console.log(err))
+
     API.getBusinesses()
     .then(res => this.setState({ businesses: res.data }))
     .catch(err => console.log(err))
@@ -89,17 +106,67 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props;
-    const { businesses } = this.state;
+    const { businesses, user } = this.state;
 
     return (
       <React.Fragment>
+
+        {/* Account side bar */}
+        <Hidden smDown>
+          <div className={classes.account}>
+            <Paper className={classes.accountPaper}>
+              <Grid container justify="center">
+                <Link to={'/profile/' + user.url}>
+                  <UploadedImage
+                    img={user.img}
+                    alt="profile picture"
+                    rounded
+                  />
+                </Link>
+              </Grid>
+              <Typography
+                variant="title"
+                align="center"
+                component={Link}
+                to={'/profile/' + user.url}
+                gutterBottom
+                style={{ marginTop: 16 }}
+              >
+                {user.firstName + ' ' + user.lastName}
+              </Typography>
+              <Button
+                className={classes.link}
+                component={Link}
+                to="/connections"
+                size="small"
+                fullWidth
+                disabled
+              >
+                0 Connections
+              </Button>
+              <Button
+                className={classes.link}
+                component={Link}
+                to="/views"
+                size="small"
+                fullWidth
+                disabled
+              >
+                0 Profile views
+              </Button>
+            </Paper>
+          </div>
+        </Hidden>
+
+        {/* My businesses */}
         <Grid item xs={12} sm={10} md={7} lg={5} xl={4}>
           <Paper className={classes.paper}>
-            <Grid container className={classes.title}>
+            <Grid container>
               <Typography
                 className={classes.grow}
-                variant="display1"
-                color="primary"
+                variant={businesses.length > 0 ? 'headline' : 'display1'}
+                color="textPrimary"
+                align={businesses.length > 0 ? 'default' : 'center'}
                 gutterBottom
               >
                 My Businesses
@@ -156,7 +223,12 @@ class Dashboard extends Component {
               ) : (
                 <Grid className={classes.noBusiness} item xs={12}>
                   <Spacer half />
-                  <Typography variant="headline" align="center" gutterBottom>
+                  <Typography
+                    variant="headline"
+                    align="center"
+                    color="textSecondary"
+                    gutterBottom
+                  >
                     No business yet
                   </Typography>
                   <Spacer half />
@@ -197,6 +269,7 @@ class Dashboard extends Component {
             )}
           </Paper>
         </Grid>
+
         <Hidden xsDown>
           <Spacer />
           <Spacer />
