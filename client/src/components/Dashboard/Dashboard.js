@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import HomeIcon from '@material-ui/icons/Home';
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircle from '@material-ui/icons/AddCircle';
 import AddIcon from '@material-ui/icons/Add';
@@ -17,11 +19,11 @@ import Spacer from '../Spacer';
 import './Dashboard.css';
 
 const styles = theme => ({
+  loading: {
+    marginTop: 8 * theme.spacing.unit,
+  },
   paper: {
-    paddingTop: 4 * theme.spacing.unit,
-    paddingLeft: 4 * theme.spacing.unit,
-    paddingRight: 4 * theme.spacing.unit,
-    paddingBottom: 4 * theme.spacing.unit,
+    padding: 4 * theme.spacing.unit,
     [theme.breakpoints.down('xs')]: {
       borderRadius: 0,
       width: '100%',
@@ -30,10 +32,7 @@ const styles = theme => ({
     },
   },
   accountPaper: {
-    paddingTop: 2 * theme.spacing.unit,
-    paddingLeft: 2 * theme.spacing.unit,
-    paddingRight: 2 * theme.spacing.unit,
-    paddingBottom: 2 * theme.spacing.unit,
+    padding: 2 * theme.spacing.unit,
   },
   account: {
     [theme.breakpoints.up('lg')]: {
@@ -42,9 +41,6 @@ const styles = theme => ({
     },
     width: 220,
     paddingRight: 4 * theme.spacing.unit,
-    // [theme.breakpoints.down('sm')]: {
-    //   width: '100%',
-    // },
   },
   businessContainer: {
     // neutralizing the padding from paper
@@ -71,6 +67,12 @@ const styles = theme => ({
     alignItems: 'center',
     flexWrap: 'nowrap',
   },
+  homeButton: {
+    [theme.breakpoints.up('sm')]: {
+      marginTop: theme.spacing.unit,
+      marginBottom: theme.spacing.unit,
+    },
+  },
   grow: {
     flexGrow: 1,
   },
@@ -88,7 +90,7 @@ const styles = theme => ({
 
 class Dashboard extends Component {
   state = {
-    businesses: [],
+    businesses: false,
     user: false,
   };
 
@@ -108,12 +110,26 @@ class Dashboard extends Component {
     const { classes } = this.props;
     const { businesses, user } = this.state;
 
+    if (!businesses || !user) {
+      return <CircularProgress className={classes.loading} />;
+    }
+
     return (
       <React.Fragment>
 
         {/* Account side bar */}
         <Hidden smDown>
           <div className={classes.account}>
+            <Button
+              className={classes.homeButton}
+              variant="outlined"
+              component={Link}
+              to="/home"
+              fullWidth
+            >
+              <HomeIcon className={classes.leftIcon} />
+              To site home
+            </Button>
             <Paper className={classes.accountPaper}>
               <Grid container justify="center">
                 <Link to={'/profile/' + user.url}>
@@ -267,8 +283,39 @@ class Dashboard extends Component {
                 <Spacer />
               </Hidden>
             )}
+
+            {/* <Hidden smUp>
+              <Grid container justify="center">
+                <Button
+                  className={classes.homeButton}
+                  variant="outlined"
+                  size="small"
+                  component={Link}
+                  to="/home"
+                  fullWidth
+                >
+                  <HomeIcon className={classes.leftIcon} />
+                  To site home
+                </Button>
+              </Grid>
+            </Hidden> */}
           </Paper>
         </Grid>
+
+        {/* <Hidden mdUp xsDown>
+          <Grid container justify="center">
+            <Button
+              className={classes.homeButton}
+              variant="outlined"
+              size="small"
+              component={Link}
+              to="/home"
+            >
+              <HomeIcon className={classes.leftIcon} />
+              To site home
+            </Button>
+          </Grid>
+        </Hidden> */}
 
         <Hidden xsDown>
           <Spacer />
