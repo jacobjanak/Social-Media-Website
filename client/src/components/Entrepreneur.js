@@ -81,18 +81,10 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit / 2,
   },
-  previewContainer: {
-    width: 200,
-    height: 200,
-    marginBottom: 2 * theme.spacing.unit,
-    overflow: 'hidden',
-  },
-  preview: {
-    minWidth: '100%',
-    minHeight: '100%',
-    width: '100%',
-    margin: '50% 0 0 50%',
-    transform: 'translate(-50%, -50%)',
+  subtext: {
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'center',
+    },
   },
   error: {
     marginTop: 2 * theme.spacing.unit,
@@ -231,19 +223,14 @@ class Entrepreneur extends Component {
         <Paper className={classes.paper}>
           <form onSubmit={this.handleSubmit} ref={this.form}>
             <Grid container>
+
               <Grid item xs={12}>
                 <Typography
                   variant="display1"
                   align="center"
                   color="textPrimary"
-                  gutterBottom
                 >
                   Edit Profile
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="subheading" align="center">
-                  A valid profile is required to access the full site
                 </Typography>
               </Grid>
               { errors.length > 0 && (
@@ -255,9 +242,11 @@ class Entrepreneur extends Component {
                   ))}
                 </div>
               )}
-              <Spacer half />
-              <Grid container className={classes.flex}>
+              <Hidden smUp>
+                <Spacer half />
+              </Hidden>
 
+              <Grid container className={classes.flex}>
                 {/* Picture */}
                 <div className={classes.avatar}>
                   <UploadedImage
@@ -283,21 +272,6 @@ class Entrepreneur extends Component {
                     </Button>
                   </label>
                 </div>
-
-                {/* <div className={classes.avatar + ' avatar-upload'}>
-                  <div className="avatar-edit">
-                    <input
-                      id="imageUpload"
-                      type="file"
-                      accept=".png, .jpg, .jpeg"
-                      onChange={this.handleUpload}
-                    />
-                    <label htmlFor="imageUpload"></label>
-                  </div>
-                  <div className="avatar-preview">
-                    <div style={{ backgroundImage: profilePic }}></div>
-                  </div>
-                </div> */}
 
                 {/* Name */}
                 <div className={classes.names}>
@@ -407,7 +381,7 @@ class Entrepreneur extends Component {
                 <Typography variant="headline">
                   Personal Data
                 </Typography>
-                <Typography variant="body1">
+                <Typography className={classes.subtext} variant="body1">
                   Your personal data is never displayed publicly.
                 </Typography>
               </Grid>

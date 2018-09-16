@@ -7,9 +7,11 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Hidden from '@material-ui/core/Hidden';
 import UploadedImage from './UploadedImage';
 import Footer from './Footer';
 import Spacer from './Spacer';
+import validateProfile from '../utils/validateProfile';
 
 const styles = theme => ({
   paper: {
@@ -83,36 +85,43 @@ class Search extends Component {
               Users
             </Typography>
             { users.map((user, i) => (
-              <React.Fragment key={i}>
-                <Divider />
-                <Grid container className={classes.item} justify="center">
-                  <Link to={'/profile/' + user.url}>
-                    <UploadedImage
-                      className={classes.itemImg}
-                      img={user.img}
-                      rounded
-                    />
-                  </Link>
-                  <div className={classes.itemInfo}>
-                    <Typography
-                      variant="headline"
-                      color="primary"
-                      component={Link}
-                      to={'/profile/' + user.url}
-                      gutterBottom
-                    >
-                      {user.firstName + ' ' + user.lastName}
-                    </Typography>
-                    <Typography variant="body1">
-                      {user.bio}
-                    </Typography>
-                  </div>
-                </Grid>
-              </React.Fragment>
+              validateProfile(user) && (
+                <React.Fragment key={i}>
+                  <Divider />
+                  <Grid container className={classes.item} justify="center">
+                    <Link to={'/profile/' + user.url}>
+                      <UploadedImage
+                        className={classes.itemImg}
+                        img={user.img}
+                        rounded
+                      />
+                    </Link>
+                    <div className={classes.itemInfo}>
+                      <Typography
+                        variant="headline"
+                        color="primary"
+                        component={Link}
+                        to={'/profile/' + user.url}
+                        gutterBottom
+                      >
+                        {user.firstName + ' ' + user.lastName}
+                      </Typography>
+                      <Typography variant="body1">
+                        {user.bio}
+                      </Typography>
+                    </div>
+                  </Grid>
+                </React.Fragment>
+              )
             ))}
-            <Spacer />
+            <Hidden smUp>
+              <Spacer />
+            </Hidden>
           </Paper>
         </Grid>
+        <Hidden xsDown>
+          <Spacer />
+        </Hidden>
         <Footer />
       </React.Fragment>
     );
