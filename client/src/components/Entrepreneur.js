@@ -15,12 +15,14 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
+import ContainedTextField from './ContainedTextField';
 import LocationForm from './LocationForm';
 import Spacer from './Spacer';
 import './Temp.css';
 
 // data
-import education from '../data/education';
+import genders from '../data/genders';
+import educations from '../data/educations';
 import ethnicities from '../data/ethnicities';
 
 const styles = theme => ({
@@ -28,7 +30,6 @@ const styles = theme => ({
     paddingTop: 4 * theme.spacing.unit,
     paddingLeft: 8 * theme.spacing.unit,
     paddingRight: 8 * theme.spacing.unit,
-    paddingBottom: 4 * theme.spacing.unit,
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       paddingLeft: '5%',
@@ -88,6 +89,7 @@ class Entrepreneur extends Component {
       birthday: '',
       interests: '',
       bio: '',
+      summary: '',
       education: '',
       ethnicity: '',
       img: '',
@@ -121,6 +123,7 @@ class Entrepreneur extends Component {
       birthday,
       interests,
       bio,
+      summary,
       education,
       ethnicity,
       img,
@@ -149,6 +152,7 @@ class Entrepreneur extends Component {
         birthday,
         interests,
         bio,
+        summary,
         education,
         ethnicity,
         img,
@@ -159,12 +163,7 @@ class Entrepreneur extends Component {
         country,
       })
       .then(res => this.props.history.push('/profile/' + res.data.url))
-      .catch(err => {
-        console.log(err)
-        console.log(err.err)
-        console.log(err.data)
-        console.log(err.res)
-      })
+      .catch(err => {})
     } else {
       this.setState({ errors })
     }
@@ -188,6 +187,19 @@ class Entrepreneur extends Component {
 
   handleChange = event => {
     const { name, value } = event.target;
+
+    if (name === 'bio') {
+      if (value.length > 120) {
+        return this.setState({ [name]: value.substring(0, 120) })
+      }
+    }
+
+    if (name === 'summary') {
+      if (value.length > 1000) {
+        return this.setState({ [name]: value.substring(0, 1000) })
+      }
+    }
+
     this.setState({ [name]: value })
   };
 
@@ -209,7 +221,7 @@ class Entrepreneur extends Component {
                 <Typography
                   variant="display1"
                   align="center"
-                  color="primary"
+                  color="textPrimary"
                   gutterBottom
                 >
                   Edit Profile
@@ -276,10 +288,72 @@ class Entrepreneur extends Component {
               </Grid>
               <Spacer half />
 
+              {/* Public information begins */}
+              <Grid item xs={12}>
+                <Typography variant="headline">
+                  Public Information
+                </Typography>
+              </Grid>
+
+              {/* Location */}
+              <Grid item xs={12}>
+                <LocationForm
+                  city={this.state.city}
+                  state={this.state.state}
+                  country={this.state.country}
+                  changeState={this.changeState}
+                />
+              </Grid>
+
+              {/* Bio */}
+              <Grid item xs={12}>
+                <ContainedTextField
+                  label="Headline *"
+                  placeholder=""
+                  name="bio"
+                  maxCharacters="120"
+                  fullWidth
+                  required
+                  value={this.state.bio}
+                  onChange={this.handleChange}
+                  labelProps={{
+                    style: {
+                      marginTop: 8,
+                      fontSize: '0.75em',
+                    }
+                  }}
+                />
+              </Grid>
+
+              {/* Summary */}
+              <Grid item xs={12}>
+                <ContainedTextField
+                  label="Summary *"
+                  placeholder="Full professional summary"
+                  name="summary"
+                  rows="6"
+                  maxCharacters="1000"
+                  fullWidth
+                  required
+                  value={this.state.summary}
+                  onChange={this.handleChange}
+                  labelProps={{
+                    style: {
+                      marginTop: 8,
+                      fontSize: '0.75em',
+                    }
+                  }}
+                />
+              </Grid>
+              <Spacer half />
+
               {/* Personal information begins */}
               <Grid item xs={12}>
                 <Typography variant="headline">
-                  Personal Information
+                  Personal Data
+                </Typography>
+                <Typography variant="body1">
+                  Your personal data is kept private
                 </Typography>
               </Grid>
 
@@ -290,8 +364,11 @@ class Entrepreneur extends Component {
                   component="fieldset"
                   margin="normal"
                   required
+                  style={{ marginBottom: 0 }}
                 >
-                  <FormLabel component="legend">Gender</FormLabel>
+                  <FormLabel component="legend" style={{ fontSize: '0.75em' }}>
+                    Gender
+                  </FormLabel>
                   <RadioGroup
                     className={classes.group}
                     aria-label="Gender"
@@ -300,21 +377,14 @@ class Entrepreneur extends Component {
                     value={this.state.gender}
                     onChange={this.handleChange}
                   >
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio required />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio required />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio required />}
-                      label="Other"
-                    />
+                    { genders.map((gender, i) => (
+                      <FormControlLabel
+                        value={gender}
+                        control={<Radio required />}
+                        label={gender}
+                        key={i}
+                      />
+                    ))}
                   </RadioGroup>
                 </FormControl>
               </Grid>
@@ -330,7 +400,10 @@ class Entrepreneur extends Component {
                   value={this.state.birthday}
                   onChange={this.handleChange}
                   InputLabelProps={{ shrink: true }}
-                  style={{ width: '100%' }}
+                  style={{
+                    width: '100%',
+                    marginTop: 0
+                  }}
                 />
               </Grid>
 
@@ -351,7 +424,7 @@ class Entrepreneur extends Component {
                     }}
                   >
                     <option value="" disabled>None</option>
-                    {education.map((level, i) => (
+                    {educations.map((level, i) => (
                       <option value={level} key={i}>
                         {level}
                       </option>
@@ -385,6 +458,7 @@ class Entrepreneur extends Component {
                   </Select>
                 </FormControl>
               </Grid>
+              <Spacer half />
 
               {/* Interests */}
               {/*
@@ -405,38 +479,6 @@ class Entrepreneur extends Component {
               </Grid>
               */}
 
-              {/* Bio */}
-              <Grid item xs={12}>
-                <TextField
-                  label="Bio"
-                  placeholder="Write a short intro for yourself. Max 255 characters."
-                  name="bio"
-                  margin="dense"
-                  fullWidth
-                  value={this.state.bio}
-                  onChange={this.handleChange}
-                />
-              </Grid>
-              <Spacer />
-
-              {/* Location */}
-              <Grid item xs={12}>
-                <Typography variant="headline" margin="normal">
-                  Address
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <LocationForm
-                  street={this.state.street}
-                  zip={this.state.zip}
-                  city={this.state.city}
-                  state={this.state.state}
-                  country={this.state.country}
-                  changeState={this.changeState}
-                />
-              </Grid>
-              <Spacer half />
-
               {/* Submit button */}
               <Grid container justify="flex-end">
                 <Button
@@ -445,9 +487,10 @@ class Entrepreneur extends Component {
                   color="primary"
                   type="submit"
                 >
-                  Update
+                  Update Profile
                 </Button>
               </Grid>
+              <Spacer />
 
             </Grid>
           </form>

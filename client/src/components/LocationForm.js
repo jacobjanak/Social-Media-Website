@@ -169,7 +169,7 @@ class LocationForm extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, street, zip, city, state, country } = this.props;
 
     const autosuggestProps = {
       renderInputComponent,
@@ -180,13 +180,25 @@ class LocationForm extends Component {
       renderSuggestion,
     };
 
-    const fields = [
-      { value: 'street', label: 'Street address' },
-      { value: 'city', label: 'City' },
-      { value: 'zip', label: 'Zip code' },
-      { value: 'state', label: 'State' },
-      { value: 'country', label: 'Country' }
-    ].reduce((map, field) => {
+    const fields = [];
+
+    if (street || street === '') {
+      fields.push({ label: 'Street address', value: 'street' })
+    }
+    if (zip || zip === '') {
+      fields.push({ label: 'Zip code', value: 'zip' })
+    }
+    if (city || city === '') {
+      fields.push({ label: 'City', value: 'city' })
+    }
+    if (state || state === '') {
+      fields.push({ label: 'State', value: 'state' })
+    }
+    if (country || country === '') {
+      fields.push({ label: 'Country', value: 'country' })
+    }
+
+    const inputs = fields.reduce((map, field) => {
       map[field.value] = (
         <Autosuggest
           {...autosuggestProps}
@@ -237,19 +249,19 @@ class LocationForm extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          {fields.street}
+          {inputs.street}
         </Grid>
         <Grid item xs={12}>
-          {fields.zip}
+          {inputs.zip}
         </Grid>
         <Grid item xs={12}>
-          {fields.city}
+          {inputs.city}
         </Grid>
         <Grid item xs={12}>
-          {fields.state}
+          {inputs.state}
         </Grid>
         <Grid item xs={12}>
-          {fields.country}
+          {inputs.country}
         </Grid>
       </Grid>
     );

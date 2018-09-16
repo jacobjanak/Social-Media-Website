@@ -120,16 +120,6 @@ class Dashboard extends Component {
         {/* Account side bar */}
         <Hidden smDown>
           <div className={classes.account}>
-            <Button
-              className={classes.homeButton}
-              variant="outlined"
-              component={Link}
-              to="/home"
-              fullWidth
-            >
-              <HomeIcon className={classes.leftIcon} />
-              To site home
-            </Button>
             <Paper className={classes.accountPaper}>
               <Grid container justify="center">
                 <Link to={'/profile/' + user.url}>
@@ -143,13 +133,20 @@ class Dashboard extends Component {
               <Typography
                 variant="title"
                 align="center"
-                component={Link}
-                to={'/profile/' + user.url}
                 gutterBottom
                 style={{ marginTop: 16 }}
               >
                 {user.firstName + ' ' + user.lastName}
               </Typography>
+              <Button
+                className={classes.link}
+                component={Link}
+                to={'/profile/' + user.url}
+                size="small"
+                fullWidth
+              >
+                View your profile &#xbb;
+              </Button>
               <Button
                 className={classes.link}
                 component={Link}
@@ -171,6 +168,18 @@ class Dashboard extends Component {
                 0 Profile views
               </Button>
             </Paper>
+            {/*
+            <Button
+              className={classes.homeButton}
+              variant="outlined"
+              component={Link}
+              to="/home"
+              fullWidth
+            >
+              <HomeIcon className={classes.leftIcon} />
+              To site home
+            </Button>
+            */}
           </div>
         </Hidden>
 
@@ -185,7 +194,7 @@ class Dashboard extends Component {
                 align={businesses.length > 0 ? 'default' : 'center'}
                 gutterBottom
               >
-                My Businesses
+                Your Businesses
               </Typography>
               { businesses.length > 0 && (
                 <Hidden xsDown>
@@ -240,9 +249,8 @@ class Dashboard extends Component {
                 <Grid className={classes.noBusiness} item xs={12}>
                   <Spacer half />
                   <Typography
-                    variant="headline"
+                    variant="title"
                     align="center"
-                    color="textSecondary"
                     gutterBottom
                   >
                     No business yet

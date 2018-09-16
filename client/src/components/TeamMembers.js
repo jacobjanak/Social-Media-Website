@@ -14,6 +14,10 @@ const styles = theme => ({
     paddingLeft: 2 * theme.spacing.unit,
     paddingRight: 2 * theme.spacing.unit,
     paddingBottom: 2 * theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: '10%',
+      paddingRight: '10%',
+    },
   },
   button: {
     paddingTop: 2 * theme.spacing.unit,

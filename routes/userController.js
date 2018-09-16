@@ -117,6 +117,7 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
     if (req.body.birthday) user.birthday = req.body.birthday;
     if (req.body.interests) user.interests = req.body.interests;
     if (req.body.bio) user.bio = req.body.bio;
+    if (req.body.summary) user.summary = req.body.summary;
     if (req.body.education) user.education = req.body.education;
     if (req.body.ethnicity) user.ethnicity = req.body.ethnicity;
     if (req.body.street) user.street = req.body.street;

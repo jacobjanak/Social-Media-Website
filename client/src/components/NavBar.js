@@ -116,7 +116,14 @@ class MenuAppBar extends Component {
     this.setState({ open: bool })
   };
 
-  searchBlur = () => this.setState({ searchFocus: false });
+  searchBlur = () => {
+    // the width changes when the focus is removed
+    // which makes it impossible to click the search button
+    // a 50ms timeout fixes this issue
+    setTimeout(() => {
+      this.setState({ searchFocus: false })
+    }, 50)
+  };
 
   searchFocus = () => this.setState({ searchFocus: true });
 

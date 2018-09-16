@@ -26,7 +26,7 @@ const styles = theme => ({
     float: 'left',
     paddingLeft: 4 * theme.spacing.unit,
     paddingRight: 4 * theme.spacing.unit,
-    width: 421,
+    width: 420,
     [theme.breakpoints.down('sm')]: {
       marginBottom: 2 * theme.spacing.unit,
       marginRight: '50%',

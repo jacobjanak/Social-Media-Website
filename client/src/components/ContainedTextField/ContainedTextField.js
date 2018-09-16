@@ -25,20 +25,34 @@ class ContainedTextField extends Component {
   onFocus = () => this.setState({ focused: true });
 
   render() {
-    const { classes, labelProps, rows } = this.props;
+    const { classes, labelProps, rows, maxCharacters } = this.props;
     const { focused } = this.state;
 
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Typography
-            className={focused ? 'primaryDark' : ''}
-            variant="subheading"
-            color="textSecondary"
-            {...labelProps}
-          >
-            { this.props.label }
-          </Typography>
+          <Grid container>
+            <Typography
+              className={focused ? 'primaryDark' : ''}
+              variant="subheading"
+              color="textSecondary"
+              {...labelProps}
+            >
+              { this.props.label }
+            </Typography>
+            { maxCharacters && (
+              <React.Fragment>
+                <div style={{ flexGrow: 1 }}></div>
+                <Typography
+                  variant="subheading"
+                  color="textSecondary"
+                  {...labelProps}
+                >
+                  {this.props.value.length}/{maxCharacters} characters
+                </Typography>
+              </React.Fragment>
+            )}
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -48,6 +62,7 @@ class ContainedTextField extends Component {
             onBlur={this.onBlur}
             {...this.props}
             label=""
+            InputProps={{ maxLength: maxCharacters }}
             style={{ paddingRight: rows ? 'inherit' : 0 }}
           />
         </Grid>

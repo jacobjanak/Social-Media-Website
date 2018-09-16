@@ -1,4 +1,5 @@
-import education from '../data/education.json';
+import genders from '../data/genders.json';
+import educations from '../data/educations.json';
 import ethnicities from '../data/ethnicities.json';
 
 const validateProfile = (user, returnBool = true) => {
@@ -17,7 +18,7 @@ const validateProfile = (user, returnBool = true) => {
   }
 
   if (!user.gender
-    || !['male', 'female', 'other'].includes(user.gender)) {
+    || !genders.includes(user.gender)) {
     errors.push("Invalid gender")
   }
 
@@ -26,7 +27,7 @@ const validateProfile = (user, returnBool = true) => {
   }
 
   if (!user.education
-    || !education.includes(user.education)) {
+    || !educations.includes(user.education)) {
     errors.push("Invalid education")
   }
 

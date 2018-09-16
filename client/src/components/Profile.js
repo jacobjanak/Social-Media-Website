@@ -47,7 +47,6 @@ const styles = theme => ({
     },
   },
   header: {
-    // flexDirection: 'row-reverse',
     alignItems: 'flex-end',
   },
   nameContainer: {
@@ -80,6 +79,10 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
+  },
+  summary: {
+    paddingLeft: 3 * theme.spacing.unit,
+    whiteSpace: 'pre-line',
   },
   business: {
     marginTop: 4 * theme.spacing.unit,
@@ -222,6 +225,24 @@ class Profile extends Component {
             <Divider />
             <Spacer half />
 
+            {/* Summary */}
+            { user.summary && (
+              <React.Fragment>
+                <Grid item xs={12}>
+                  <Typography variant="headline" gutterBottom>
+                    Summary
+                  </Typography>
+                  <Typography
+                    className={classes.summary}
+                    variant="body1"
+                    gutterBottom
+                  >
+                    { user.summary }
+                  </Typography>
+                </Grid>
+                <Spacer half />
+              </React.Fragment>
+            )}
 
             {/* Info */}
             <Grid container justify="center">

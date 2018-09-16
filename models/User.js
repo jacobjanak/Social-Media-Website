@@ -57,6 +57,9 @@ const UserSchema = new Schema({
   bio: {
     type: String,
   },
+  summary: {
+    type: String,
+  },
   education: {
     type: String,
   },

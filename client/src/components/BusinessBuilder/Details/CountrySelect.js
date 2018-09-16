@@ -10,8 +10,8 @@ import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import countries from '../../../data/countries.json';
 
 const suggestions = countries.map(country => ({
-  value: country.name,
-  label: country.name,
+  value: country,
+  label: country,
 }));
 
 const styles = theme => ({

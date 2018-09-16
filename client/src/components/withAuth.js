@@ -7,7 +7,9 @@ function withAuth(AuthComponent, props) {
   const Auth = new AuthService();
 
   return class AuthWrapped extends Component {
-    state = { user: false };
+    state = {
+      user: false
+    };
 
     componentWillMount() {
       const user = Auth.user();
