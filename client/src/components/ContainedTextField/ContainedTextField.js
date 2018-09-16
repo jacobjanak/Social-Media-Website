@@ -9,10 +9,10 @@ const styles = theme => ({
   root: {
     border: '1px solid rgba(0, 0, 0, 0.42)',
     borderRadius: 4,
+    marginTop: 0,
     paddingTop: theme.spacing.unit,
     paddingLeft: 2 * theme.spacing.unit,
     paddingRight: 2 * theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
   },
 });
 
@@ -25,7 +25,7 @@ class ContainedTextField extends Component {
   onFocus = () => this.setState({ focused: true });
 
   render() {
-    const { classes, labelProps, rows, maxCharacters } = this.props;
+    const { classes, labelProps, rows, maxCharacters, margin } = this.props;
     const { focused } = this.state;
 
     return (
@@ -63,7 +63,10 @@ class ContainedTextField extends Component {
             {...this.props}
             label=""
             InputProps={{ maxLength: maxCharacters }}
-            style={{ paddingRight: rows ? 'inherit' : 0 }}
+            style={{
+              marginBottom: margin === 'normal' ? 8 : 4,
+              paddingRight: rows ? 'inherit' : 0,
+            }}
           />
         </Grid>
       </Grid>

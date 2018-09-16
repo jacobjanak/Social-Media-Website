@@ -84,7 +84,7 @@ class App extends Component {
                     <Route exact path="/(login|confirm)/" component={withoutAuth(Login)} />
                     <Route exact path="/forgot" component={withoutAuth(Forgot)} />
                     <Route path="/reset" component={withoutAuth(Reset)} />
-                    <Route exact path="/welcome" component={withoutAuth(Welcome)} />
+                    <Route exact path="/welcome" component={Welcome} />
                     <Route exact path="/contact" component={Contact} />
                     <Route exact path="/team" component={Team} />
                     <Route exact path="/team/:person" component={Team} />

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
 import { withStyles } from '@material-ui/core/styles';
 import API from '../API';
 import Grid from '@material-ui/core/Grid';
@@ -14,16 +15,24 @@ import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 import Hidden from '@material-ui/core/Hidden';
+import DropDown from './DropDown';
 import ContainedTextField from './ContainedTextField';
+import UploadedImage from './UploadedImage';
 import LocationForm from './LocationForm';
 import Spacer from './Spacer';
-import './Temp.css';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 // data
-import genders from '../data/genders';
-import educations from '../data/educations';
-import ethnicities from '../data/ethnicities';
+import countries from '../data/countries.json';
+import states from '../data/states.json';
+import genders from '../data/genders.json';
+import educations from '../data/educations.json';
+import ethnicities from '../data/ethnicities.json';
+import incomes from '../data/incomes.json';
+import maritalStatuses from '../data/maritalStatuses.json';
+import children from '../data/children.json';
 
 const styles = theme => ({
   paper: {
@@ -47,6 +56,7 @@ const styles = theme => ({
   },
   flex: {
     flexDirection: 'row-reverse',
+    alignItems: 'flex-end',
   },
   names: {
     flexGrow: 1,
@@ -55,10 +65,21 @@ const styles = theme => ({
     },
   },
   avatar: {
+    position: 'relative',
     marginLeft: 4 * theme.spacing.unit,
     [theme.breakpoints.down('xs')]: {
       margin: 'auto'
     },
+  },
+  upload: {
+    position: 'absolute',
+    bottom: -12,
+    right: -4,
+  },
+  country: {
+    // this replicates margin="dense"
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit / 2,
   },
   previewContainer: {
     width: 200,
@@ -82,7 +103,10 @@ const styles = theme => ({
 class Entrepreneur extends Component {
   constructor() {
     super()
+    this.form = React.createRef();
     this.state = {
+      img: '',
+      imgPreview: '',
       firstName: '',
       lastName: '',
       gender: '',
@@ -92,8 +116,10 @@ class Entrepreneur extends Component {
       summary: '',
       education: '',
       ethnicity: '',
-      img: '',
-      imgPreview: '',
+      income: '',
+      maritalStatus: '',
+      children: '',
+
       // address
       street: '',
       zip: '',
@@ -107,34 +133,20 @@ class Entrepreneur extends Component {
 
   componentDidMount() {
     API.getUser()
-    .then(res => this.setState({ ...res.data, imgPreview: res.data.img }))
-    .catch(res => {
-      console.log(res.data)
-      console.log(res.data.err)
+    .then(res => {
+      this.setState({
+        ...res.data,
+        imgPreview: res.data.img,
+      })
     })
+    .catch(res => console.log(res.data))
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    const {
-      firstName,
-      lastName,
-      gender,
-      birthday,
-      interests,
-      bio,
-      summary,
-      education,
-      ethnicity,
-      img,
-      street,
-      zip,
-      city,
-      state,
-      country,
-    } = this.state;
-
+    const { zip } = this.state;
     const errors = [];
+
     if (zip) {
       if (!Number(zip) || zip.indexOf('e') >= 0) {
         errors.push("Zip code must only contain numbers")
@@ -146,21 +158,24 @@ class Entrepreneur extends Component {
 
     if (errors.length === 0) {
       API.editUser({
-        firstName,
-        lastName,
-        gender,
-        birthday,
-        interests,
-        bio,
-        summary,
-        education,
-        ethnicity,
-        img,
-        street,
-        zip,
-        city,
-        state,
-        country,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        gender: this.state.gender,
+        birthday: this.state.birthday,
+        interests: this.state.interests,
+        bio: this.state.bio,
+        summary: this.state.summary,
+        education: this.state.education,
+        ethnicity: this.state.ethnicity,
+        income: this.state.income,
+        maritalStatus: this.state.maritalStatus,
+        children: this.state.children,
+        img: this.state.img,
+        street: this.state.street,
+        zip: this.state.zip,
+        city: this.state.city,
+        state: this.state.state,
+        country: this.state.country,
       })
       .then(res => this.props.history.push('/profile/' + res.data.url))
       .catch(err => {})
@@ -175,14 +190,16 @@ class Entrepreneur extends Component {
 
   handleUpload = event => {
     const { name, files } = event.target;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      this.setState({
-        img: files[0],
-        imgPreview: reader.result
-      });
+    if (files[0]) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.setState({
+          img: files[0],
+          imgPreview: reader.result
+        });
+      }
+      reader.readAsDataURL(files[0])
     }
-    reader.readAsDataURL(files[0])
   };
 
   handleChange = event => {
@@ -207,15 +224,12 @@ class Entrepreneur extends Component {
     const { classes } = this.props;
     const { imgPreview, errors } = this.state;
 
-    const profilePic = `url(${this.state.imgPreview || '/img/user/default.jpg'})`;
+    const profilePic = this.state.imgPreview || '/img/user/default.jpg';
 
     return (
       <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
-        {/* <Hidden xsDown>
-          <Spacer half />
-        </Hidden> */}
         <Paper className={classes.paper}>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit} ref={this.form}>
             <Grid container>
               <Grid item xs={12}>
                 <Typography
@@ -242,10 +256,35 @@ class Entrepreneur extends Component {
                 </div>
               )}
               <Spacer half />
-
-              {/* Picture */}
               <Grid container className={classes.flex}>
-                <div className={classes.avatar + ' avatar-upload'}>
+
+                {/* Picture */}
+                <div className={classes.avatar}>
+                  <UploadedImage
+                    img={profilePic}
+                    alt="Profile picture"
+                    rounded
+                  />
+                  <input
+                    accept=".png, .jpg, .jpeg"
+                    id="profile-picture"
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={this.handleUpload}
+                  />
+                  <label className={classes.upload} htmlFor="profile-picture">
+                    <Button
+                      variant="fab"
+                      component="span"
+                      aria-label="edit"
+                      mini
+                    >
+                      <PhotoCameraIcon style={{ fontSize: 18 }} />
+                    </Button>
+                  </label>
+                </div>
+
+                {/* <div className={classes.avatar + ' avatar-upload'}>
                   <div className="avatar-edit">
                     <input
                       id="imageUpload"
@@ -258,10 +297,10 @@ class Entrepreneur extends Component {
                   <div className="avatar-preview">
                     <div style={{ backgroundImage: profilePic }}></div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Name */}
-                <div className={classes.names} style={{ alignItems: 'flex-end' }}>
+                <div className={classes.names}>
                   <Grid item xs={12}>
                     <TextField
                       label="First name"
@@ -286,55 +325,30 @@ class Entrepreneur extends Component {
                   </Grid>
                 </div>
               </Grid>
-              <Spacer half />
-
-              {/* Public information begins */}
-              <Grid item xs={12}>
-                <Typography variant="headline">
-                  Public Information
-                </Typography>
-              </Grid>
-
-              {/* Location */}
-              <Grid item xs={12}>
-                <LocationForm
-                  city={this.state.city}
-                  state={this.state.state}
-                  country={this.state.country}
-                  changeState={this.changeState}
-                />
-              </Grid>
 
               {/* Bio */}
               <Grid item xs={12}>
-                <ContainedTextField
-                  label="Headline *"
-                  placeholder=""
+                <TextField
+                  label="Headline"
                   name="bio"
-                  maxCharacters="120"
+                  margin="dense"
                   fullWidth
-                  required
+                  multiline
                   value={this.state.bio}
                   onChange={this.handleChange}
-                  labelProps={{
-                    style: {
-                      marginTop: 8,
-                      fontSize: '0.75em',
-                    }
-                  }}
                 />
               </Grid>
 
               {/* Summary */}
               <Grid item xs={12}>
                 <ContainedTextField
-                  label="Summary *"
+                  label="Summary"
                   placeholder="Full professional summary"
                   name="summary"
-                  rows="6"
+                  margin="dense"
+                  rows="4"
                   maxCharacters="1000"
                   fullWidth
-                  required
                   value={this.state.summary}
                   onChange={this.handleChange}
                   labelProps={{
@@ -345,7 +359,48 @@ class Entrepreneur extends Component {
                   }}
                 />
               </Grid>
-              <Spacer half />
+              <Spacer />
+
+              {/* Address begins */}
+              <Grid item xs={12}>
+                <Typography variant="headline">
+                  Location
+                </Typography>
+              </Grid>
+
+              {/* City */}
+              <Grid item xs={12}>
+                <LocationForm
+                  city={this.state.city}
+                  changeState={this.changeState}
+                />
+              </Grid>
+
+              {/* State */}
+              { this.state.country.includes('United States of America') && (
+                <Grid item xs={12}>
+                  <DropDown
+                    label="State"
+                    name="state"
+                    value={this.state.state}
+                    options={states}
+                    handleChange={this.handleChange}
+                  />
+                </Grid>
+              )}
+
+              {/* Country */}
+              <Grid item xs={12}>
+                <DropDown
+                  label="Country"
+                  name="country"
+                  value={this.state.country}
+                  options={countries}
+                  handleChange={this.handleChange}
+                  required
+                />
+              </Grid>
+              <Spacer />
 
               {/* Personal information begins */}
               <Grid item xs={12}>
@@ -353,7 +408,7 @@ class Entrepreneur extends Component {
                   Personal Data
                 </Typography>
                 <Typography variant="body1">
-                  Your personal data is kept private
+                  Your personal data is never displayed publicly.
                 </Typography>
               </Grid>
 
@@ -409,56 +464,64 @@ class Entrepreneur extends Component {
 
               {/* Education */}
               <Grid item xs={12}>
-                <FormControl className={classes.formControl} margin="dense">
-                  <InputLabel htmlFor="education" shrink>
-                    Education *
-                  </InputLabel>
-                  <Select
-                    native
-                    required
-                    value={this.state.education}
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: 'education',
-                      id: 'education',
-                    }}
-                  >
-                    <option value="" disabled>None</option>
-                    {educations.map((level, i) => (
-                      <option value={level} key={i}>
-                        {level}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
+                <DropDown
+                  label="Education"
+                  name="education"
+                  value={this.state.education}
+                  options={educations}
+                  handleChange={this.handleChange}
+                  required
+                />
               </Grid>
 
               {/* Ethnicity */}
               <Grid item xs={12}>
-                <FormControl className={classes.formControl} margin="dense">
-                  <InputLabel htmlFor="ethnicity" shrink>
-                    Race or ethnicity *
-                  </InputLabel>
-                  <Select
-                    native
-                    required
-                    value={this.state.ethnicity}
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: 'ethnicity',
-                      id: 'ethnicity',
-                    }}
-                  >
-                    <option value="" disabled>None</option>
-                    {ethnicities.map((ethnicity, i) => (
-                      <option value={ethnicity} key={i}>
-                        {ethnicity}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
+                <DropDown
+                  label="Race or ethnicity"
+                  name="ethnicity"
+                  value={this.state.ethnicity}
+                  options={ethnicities}
+                  handleChange={this.handleChange}
+                  required
+                />
               </Grid>
-              <Spacer half />
+
+              {/* Income level */}
+              <Grid item xs={12}>
+                <DropDown
+                  label="Annual income"
+                  name="income"
+                  value={this.state.income}
+                  options={incomes}
+                  handleChange={this.handleChange}
+                  required
+                />
+              </Grid>
+
+              {/* Marital status */}
+              <Grid item xs={12}>
+                <DropDown
+                  label="Marital statuses"
+                  name="maritalStatus"
+                  value={this.state.maritalStatus}
+                  options={maritalStatuses}
+                  handleChange={this.handleChange}
+                  required
+                />
+              </Grid>
+
+              {/* Children */}
+              <Grid item xs={12}>
+                <DropDown
+                  label="Children"
+                  name="children"
+                  value={this.state.children}
+                  options={children}
+                  handleChange={this.handleChange}
+                  required
+                />
+              </Grid>
+              <Spacer />
 
               {/* Interests */}
               {/*

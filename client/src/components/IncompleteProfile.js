@@ -7,29 +7,32 @@ import Button from '@material-ui/core/Button';
 import Spacer from './Spacer';
 
 const styles = theme => ({
+  root: {
+    width: 600,
+    maxWidth: '100%',
+    paddingTop: 8 * theme.spacing.unit,
+    paddingLeft: 4 * theme.spacing.unit,
+    paddingRight: 4 * theme.spacing.unit,
+  },
   button: {
     [theme.breakpoints.only('xs')]: {
       width: '100%',
     },
   },
-})
+});
 
-class Welcome extends Component {
+class IncompleteProfile extends Component {
   render() {
     const { classes } = this.props;
 
     return (
-      <Grid item xs={11} sm={10} md={8} lg={6} xl={4}>
-        <Spacer />
-        <Typography variant="display1" color="primary" gutterBottom>
-          Welcome!
-        </Typography>
-        <Typography variant="subheading">
-          Thank you for joining InnovationsCity
+      <div className={classes.root}>
+        <Typography variant="display1" color="primary">
+          Complete your profile
         </Typography>
         <Spacer half />
         <Typography variant="subheading">
-          An activation email has been sent to your email address. Please check your inbox or spam folder and activate your account in order to access your InnovationsCity account.
+          A valid profile is required for full access to the Innovations City website. This page will go away once all required fields are complete.
         </Typography>
         <Spacer half />
         <Button
@@ -37,14 +40,13 @@ class Welcome extends Component {
           component={Link}
           variant="contained"
           color="primary"
-          to="/"
+          to="/profile/edit"
         >
-          Back to Home
+          Go to Edit Profile
         </Button>
-        <Spacer />
-      </Grid>
+      </div>
     );
   }
 }
 
-export default withStyles(styles)(Welcome);
+export default withStyles(styles)(IncompleteProfile);

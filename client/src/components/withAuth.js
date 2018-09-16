@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AuthService from './AuthService';
 import API from '../API';
+import IncompleteProfile from './IncompleteProfile';
 import validateProfile from '../utils/validateProfile';
 
 function withAuth(AuthComponent, props) {
@@ -16,14 +17,7 @@ function withAuth(AuthComponent, props) {
 
       if (user) {
         API.getUser(user.id)
-        .then(res => {
-          if (window.location.pathname === '/profile/edit'
-            || validateProfile(res.data)) {
-            this.setState({ user: res.data })
-          } else {
-            this.props.history.replace('/profile/edit')
-          }
-        })
+        .then(res => this.setState({ user: res.data }))
       } else {
         this.props.history.replace('/');
       }
@@ -33,19 +27,14 @@ function withAuth(AuthComponent, props) {
       const { history, match } = this.props;
       const { user } = this.state;
 
-      //NOTE: seems like this could replace all the state stuff?
-      // const user = Auth.user();
-      // if (user) {
-      //   return <AuthComponent history={history} user={user} />;
-      // } else {
-      //   this.props.history.replace('/signup');
-      //   return null;
-      // }
-
-      if (user) {
-        return <AuthComponent history={history} match={match} user={user} {...props} />;
-      } else {
+      if (!user) {
         return null;
+      }
+      if (window.location.pathname !== '/profile/edit' && !validateProfile(user)) {
+        return <IncompleteProfile />
+      }
+      else {
+        return <AuthComponent history={history} match={match} user={user} {...props} />;
       }
     }
   };

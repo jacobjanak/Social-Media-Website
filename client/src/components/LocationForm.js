@@ -127,7 +127,11 @@ class LocationForm extends Component {
           state.zip = el.long_name;
         }
         else if (el.types.includes('country')) {
-          state.country = el.long_name;
+          if (el.long_name === 'United States') {
+            state.country = 'United States of America'
+          } else {
+            state.country = el.long_name;
+          }
         }
       })
 
@@ -207,6 +211,7 @@ class LocationForm extends Component {
             label: field.label,
             value: this.props[field.value],
             type: field.value === 'zip' ? 'number' : 'text',
+            autoComplete: "new-password",
             onChange: this.handleChange(field.value),
             onFocus: () => this.setFocus(field.value),
             onBlur: () => this.setFocus(''),
@@ -248,21 +253,31 @@ class LocationForm extends Component {
 
     return (
       <Grid container>
-        <Grid item xs={12}>
-          {inputs.street}
-        </Grid>
-        <Grid item xs={12}>
-          {inputs.zip}
-        </Grid>
-        <Grid item xs={12}>
-          {inputs.city}
-        </Grid>
-        <Grid item xs={12}>
-          {inputs.state}
-        </Grid>
-        <Grid item xs={12}>
-          {inputs.country}
-        </Grid>
+        { inputs.street && (
+          <Grid item xs={12}>
+            {inputs.street}
+          </Grid>
+        )}
+        { inputs.zip && (
+          <Grid item xs={12}>
+            {inputs.zip}
+          </Grid>
+        )}
+        { inputs.city && (
+          <Grid item xs={12}>
+            {inputs.city}
+          </Grid>
+        )}
+        { inputs.state && (
+          <Grid item xs={12}>
+            {inputs.state}
+          </Grid>
+        )}
+        { inputs.country && (
+          <Grid item xs={12}>
+            {inputs.country}
+          </Grid>
+        )}
       </Grid>
     );
   }

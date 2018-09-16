@@ -2,6 +2,12 @@ import genders from '../data/genders.json';
 import educations from '../data/educations.json';
 import ethnicities from '../data/ethnicities.json';
 
+import countries from '../data/countries.json';
+import states from '../data/states.json';
+import incomes from '../data/incomes.json';
+import maritalStatuses from '../data/maritalStatuses.json';
+import children from '../data/children.json';
+
 const validateProfile = (user, returnBool = true) => {
   const errors = [];
 
@@ -36,6 +42,31 @@ const validateProfile = (user, returnBool = true) => {
     errors.push("Invalid race/ethnicity")
   }
 
+  if (!user.country
+    || !countries.includes(user.country)) {
+    errors.push("Invalid country")
+  }
+
+  if (!user.state
+    || !states.includes(user.state)) {
+    errors.push("Invalid state")
+  }
+
+  if (!user.income
+    || !incomes.includes(user.income)) {
+    errors.push("Invalid income level")
+  }
+
+  if (!user.maritalStatus
+    || !maritalStatuses.includes(user.maritalStatus)) {
+    errors.push("Invalid marital status")
+  }
+
+  if (!user.children
+    || !children.includes(user.children)) {
+    errors.push("Invalid children selections")
+  }
+
   // if (!Number(user.zip) || user.zip.indexOf('e') >= 0) {
   //   errors.push("Zip code must only contain numbers")
   // }
@@ -43,7 +74,6 @@ const validateProfile = (user, returnBool = true) => {
   //   errors.push("Zip code must be exactly 5 numbers")
   // }
 
-  console.log(errors)
   if (errors.length > 0) return false;
   else return true;
 };

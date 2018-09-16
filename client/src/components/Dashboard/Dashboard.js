@@ -249,11 +249,11 @@ class Dashboard extends Component {
                 <Grid className={classes.noBusiness} item xs={12}>
                   <Spacer half />
                   <Typography
-                    variant="title"
+                    variant="subheading"
                     align="center"
                     gutterBottom
                   >
-                    No business yet
+                    No businesses yet.
                   </Typography>
                   <Spacer half />
                   <Grid container justify="center">

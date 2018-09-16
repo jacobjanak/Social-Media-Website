@@ -66,6 +66,16 @@ const UserSchema = new Schema({
   ethnicity: {
     type: String,
   },
+  income: {
+    type: String,
+  },
+  maritalStatus: {
+    type: String,
+  },
+  children: {
+    type: String,
+  },
+  // address
   street: {
     type: String,
   },
@@ -80,6 +90,7 @@ const UserSchema = new Schema({
   },
   country: {
     type: String,
+    default: 'United States of America',
   },
   role: {
     entrepreneur: {

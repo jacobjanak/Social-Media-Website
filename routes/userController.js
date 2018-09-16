@@ -110,21 +110,34 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
 
   db.User.findById(req.user.id)
   .then(user => {
-    if (req.body.firstName) user.firstName = req.body.firstName;
-    if (req.body.lastName) user.lastName = req.body.lastName;
-    if (req.body.img) user.img = req.body.img;
-    if (req.body.gender) user.gender = req.body.gender;
-    if (req.body.birthday) user.birthday = req.body.birthday;
-    if (req.body.interests) user.interests = req.body.interests;
-    if (req.body.bio) user.bio = req.body.bio;
-    if (req.body.summary) user.summary = req.body.summary;
-    if (req.body.education) user.education = req.body.education;
-    if (req.body.ethnicity) user.ethnicity = req.body.ethnicity;
-    if (req.body.street) user.street = req.body.street;
-    if (req.body.zip) user.zip = req.body.zip;
-    if (req.body.city) user.city = req.body.city;
-    if (req.body.state) user.state = req.body.state;
-    if (req.body.country) user.country = req.body.country;
+    if (!user) {
+      return res.status(404).json({ message: "User not found" })
+    }
+
+    const paths = db.User.schema.paths;
+    for (let k in paths) {
+      const value = req.body[k];
+
+      if (paths[k].instance === 'String') {
+        if (value) {
+          user[k] = value;
+        }
+      }
+      else if (paths[k].instance === 'Array') {
+        if (value && value.constructor === Array) {
+          const arr = JSON.parse(value)
+          if (arr) {
+            user[k] = arr;
+          }
+        }
+      }
+      else if (paths[k].instance === 'Number') {
+        if (value && Number(value)) {
+          user[k] = value;
+        }
+      }
+    }
+
     user.save()
     .then(user => res.json(user))
     .catch(err => res.status(404).json({ err: err }))

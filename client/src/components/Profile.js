@@ -306,12 +306,8 @@ class Profile extends Component {
                 ))}
               </React.Fragment>
             )}
-
-            <Hidden mdUp>
-              <Spacer />
-            </Hidden>
           </Paper>
-          <Hidden smDown>
+          <Hidden xsDown>
             <Spacer />
           </Hidden>
         </Grid>
