@@ -15,6 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import UploadedImage from './UploadedImage';
+import SocialIcons from './SocialIcons';
 import Footer from './Footer';
 import Spacer from './Spacer';
 
@@ -63,13 +64,16 @@ const styles = theme => ({
       textAlign: 'center',
     },
   },
-  actionContainer: {
-    width: 132,
-    alignSelf: 'flex-start',
-    [theme.breakpoints.down('xl')]: { // used to be sm
-      width: '100%',
-      marginTop: 4 * theme.spacing.unit,
+  socialContainer: {
+    marginTop: theme.spacing.unit,
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: -8,
     },
+  },
+  actionContainer: {
+    alignSelf: 'flex-start',
+    width: '100%',
+    marginTop: 2 * theme.spacing.unit,
   },
   actionButton: {
     marginBottom: 2 * theme.spacing.unit,
@@ -165,7 +169,7 @@ class Profile extends Component {
             <Grid container className={classes.header} justify="center">
 
               {/* Profile picture */}
-              <UploadedImage img={user.img} large rounded border />
+              <UploadedImage img={user.img} large rounded />
 
               {/* Name and bio */}
               <div className={classes.nameContainer}>
@@ -179,6 +183,9 @@ class Profile extends Component {
                 <Typography variant="body1">
                   {user.bio}
                 </Typography>
+                <div className={classes.socialContainer}>
+                  <SocialIcons links={user} />
+                </div>
               </div>
 
               {/* Actions */}

@@ -23,15 +23,18 @@ const styles = theme => ({
     marginTop: 8 * theme.spacing.unit,
   },
   paper: {
+    marginTop: 4 * theme.spacing.unit,
     padding: 4 * theme.spacing.unit,
     [theme.breakpoints.down('xs')]: {
       borderRadius: 0,
       width: '100%',
+      marginTop: 0,
       paddingLeft: '5%',
       paddingRight: '5%',
     },
   },
   accountPaper: {
+    marginTop: 4 * theme.spacing.unit,
     padding: 2 * theme.spacing.unit,
   },
   account: {

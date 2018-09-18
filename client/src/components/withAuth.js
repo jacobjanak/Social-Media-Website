@@ -27,10 +27,12 @@ function withAuth(AuthComponent, props) {
       const { history, match } = this.props;
       const { user } = this.state;
 
+      const errors = validateProfile(user);
+
       if (!user) {
         return null;
       }
-      if (window.location.pathname !== '/profile/edit' && !validateProfile(user)) {
+      if (window.location.pathname !== '/profile/edit' && errors.length > 0) {
         return <IncompleteProfile />
       }
       else {

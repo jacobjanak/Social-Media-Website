@@ -85,7 +85,7 @@ class Search extends Component {
               Users
             </Typography>
             { users.map((user, i) => (
-              validateProfile(user) && (
+              validateProfile(user).length === 0 && (
                 <React.Fragment key={i}>
                   <Divider />
                   <Grid container className={classes.item} justify="center">

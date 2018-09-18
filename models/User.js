@@ -75,6 +75,19 @@ const UserSchema = new Schema({
   children: {
     type: String,
   },
+  // social media
+  linkedin: {
+    type: String
+  },
+  twitter: {
+    type: String
+  },
+  facebook: {
+    type: String
+  },
+  instagram: {
+    type: String
+  },
   // address
   street: {
     type: String,
@@ -103,6 +116,10 @@ const UserSchema = new Schema({
     }
   },
   createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
     type: Date,
     default: Date.now
   },

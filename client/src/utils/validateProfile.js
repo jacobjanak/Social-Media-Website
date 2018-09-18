@@ -1,7 +1,7 @@
+import validateCharLimits from './validateCharLimits';
 import genders from '../data/genders.json';
 import educations from '../data/educations.json';
 import ethnicities from '../data/ethnicities.json';
-
 import countries from '../data/countries.json';
 import states from '../data/states.json';
 import incomes from '../data/incomes.json';
@@ -10,6 +10,10 @@ import children from '../data/children.json';
 
 const validateProfile = (user, returnBool = true) => {
   const errors = [];
+
+  // if (!validateCharLimits(user, true)) {
+  //   errors.push("")
+  // }
 
   if (!user.firstName
     || user.firstName.length < 0
@@ -30,6 +34,27 @@ const validateProfile = (user, returnBool = true) => {
 
   if (!user.birthday) {
     errors.push("Birthday is required")
+  }
+
+  if (user.linkedin) {
+    if (!user.linkedin.includes('linkedin.com')) {
+      errors.push("LinkedIn URL is invalid")
+    }
+  }
+  if (user.twitter) {
+    if (!user.twitter.includes('twitter.com')) {
+      errors.push("Twitter URL is invalid")
+    }
+  }
+  if (user.facebook) {
+    if (!user.facebook.includes('facebook.com')) {
+      errors.push("Facebook URL is invalid")
+    }
+  }
+  if (user.instagram) {
+    if (!user.instagram.includes('instagram.com')) {
+      errors.push("Instagram URL is invalid")
+    }
   }
 
   if (!user.education
@@ -74,8 +99,7 @@ const validateProfile = (user, returnBool = true) => {
   //   errors.push("Zip code must be exactly 5 numbers")
   // }
 
-  if (errors.length > 0) return false;
-  else return true;
+  return errors;
 };
 
 export default validateProfile;

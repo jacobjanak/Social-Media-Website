@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import validateCharLimits from '../utils/validateCharLimits';
 import AuthService from './AuthService';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -13,8 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Hidden from '@material-ui/core/Hidden';
+import LoadingButton from './LoadingButton';
 import Spacer from './Spacer';
 
 const styles = theme => ({
@@ -30,17 +31,6 @@ const styles = theme => ({
   },
   link: {
     textTransform: 'none',
-  },
-  buttonWrapper: {
-    position: 'relative',
-    display: 'inline',
-  },
-  buttonProgress: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
   },
   error: {
     marginTop: 2 * theme.spacing.unit,
@@ -120,7 +110,10 @@ class SignUp extends Component {
 
   handleChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value, error: false });
+
+    if (validateCharLimits.user({ [name]: value })) {
+      this.setState({ [name]: value, error: false });
+    }
   }
 
   render() {
@@ -237,23 +230,13 @@ class SignUp extends Component {
             </CardContent>
             */}
             <CardContent>
-              <div className={classes.buttonWrapper}>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  type="submit"
-                  color="primary"
-                  disabled={loading}
-                >
-                  Sign Up
-                </Button>
-                { loading && (
-                  <CircularProgress
-                    className={classes.buttonProgress}
-                    size={24}
-                  />
-                )}
-              </div>
+              <LoadingButton
+                className={classes.button}
+                variant="contained"
+                type="submit"
+                color="primary"
+                loading={loading}
+              />
               <Button
                 className={classes.button + ' ' + classes.link}
                 component={Link}

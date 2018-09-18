@@ -56,7 +56,7 @@ const styles = theme => ({
     textTransform: 'none',
   },
   search: {
-    marginRight: theme.spacing.unit,
+    marginRight: 2 * theme.spacing.unit,
     borderBottom: '1px solid rgba(255, 255, 254, 1)',
     color: 'white',
     transition: '0.25s',
@@ -163,13 +163,15 @@ class MenuAppBar extends Component {
               placeholder="Search"
               name="search"
               value={this.state.search}
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{
+                'aria-label': 'search',
+                autoComplete: 'off',
+              }}
               style={{ width: searchFocus ? 180 : 100 }}
               disableUnderline
               onChange={this.handleChange}
               onBlur={this.searchBlur}
               onFocus={this.searchFocus}
-
               startAdornment={(
                 <InputAdornment
                   className={classes.searchAdornment}

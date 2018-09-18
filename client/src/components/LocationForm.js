@@ -164,7 +164,9 @@ class LocationForm extends Component {
   handleChange = name => (event, { newValue }) => {
     // runs when a letter is typed or option is clicked
     if (newValue.label) {
-      this.props.changeState({ [name]: newValue.label }, () => { //NOTEL did it work?
+      this.props.changeState({
+        [name]: newValue.label
+      }, () => {
         this.getPlaceData(newValue.id)
       })
     } else {

@@ -10,6 +10,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
@@ -17,11 +18,15 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import Hidden from '@material-ui/core/Hidden';
+import Loading from './Loading';
 import DropDown from './DropDown';
 import ContainedTextField from './ContainedTextField';
 import UploadedImage from './UploadedImage';
 import LocationForm from './LocationForm';
+import LoadingButton from './LoadingButton';
 import Spacer from './Spacer';
+import validateCharLimits from '../utils/validateCharLimits';
+import validateProfile from '../utils/validateProfile';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 // data
@@ -86,6 +91,20 @@ const styles = theme => ({
       textAlign: 'center',
     },
   },
+  icon: {
+    color: theme.palette.text.secondary,
+    paddingRight: 4,
+    paddingBottom: 4,
+    marginBottom: 8,
+    fontSize: 18,
+  },
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
   error: {
     marginTop: 2 * theme.spacing.unit,
     color: theme.palette.error.main,
@@ -111,13 +130,18 @@ class Entrepreneur extends Component {
       income: '',
       maritalStatus: '',
       children: '',
-
+      // social media
+      linkedin: '',
+      twitter: '',
+      facebook: '',
+      instagram: '',
       // address
       street: '',
       zip: '',
       city: '',
       state: '',
       country: '',
+      loading: false,
       error: false,
       errors: [],
     };
@@ -126,9 +150,17 @@ class Entrepreneur extends Component {
   componentDidMount() {
     API.getUser()
     .then(res => {
+      const user = res.data;
+
+      // no point in showing 20 errors if they just made their account
+      const errors = user.createdAt !== user.updatedAt
+        ? validateProfile(user)
+        : [];
+
       this.setState({
-        ...res.data,
-        imgPreview: res.data.img,
+        ...user,
+        errors,
+        imgPreview: user.img,
       })
     })
     .catch(res => console.log(res.data))
@@ -149,28 +181,36 @@ class Entrepreneur extends Component {
     }
 
     if (errors.length === 0) {
-      API.editUser({
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        gender: this.state.gender,
-        birthday: this.state.birthday,
-        interests: this.state.interests,
-        bio: this.state.bio,
-        summary: this.state.summary,
-        education: this.state.education,
-        ethnicity: this.state.ethnicity,
-        income: this.state.income,
-        maritalStatus: this.state.maritalStatus,
-        children: this.state.children,
-        img: this.state.img,
-        street: this.state.street,
-        zip: this.state.zip,
-        city: this.state.city,
-        state: this.state.state,
-        country: this.state.country,
+      this.setState({ loading: true }, () => {
+        API.editUser({
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          gender: this.state.gender,
+          birthday: this.state.birthday,
+          interests: this.state.interests,
+          bio: this.state.bio,
+          summary: this.state.summary,
+          education: this.state.education,
+          ethnicity: this.state.ethnicity,
+          income: this.state.income,
+          maritalStatus: this.state.maritalStatus,
+          children: this.state.children,
+          img: this.state.img,
+          // social media
+          linkedin: this.state.linkedin,
+          twitter: this.state.twitter,
+          facebook: this.state.facebook,
+          instagram: this.state.instagram,
+          // address
+          street: this.state.street,
+          zip: this.state.zip,
+          city: this.state.city,
+          state: this.state.state,
+          country: this.state.country,
+        })
+        .then(res => this.props.history.push('/profile/' + res.data.url))
+        .catch(err => this.setState({ loading: false }))
       })
-      .then(res => this.props.history.push('/profile/' + res.data.url))
-      .catch(err => {})
     } else {
       this.setState({ errors })
     }
@@ -197,24 +237,19 @@ class Entrepreneur extends Component {
   handleChange = event => {
     const { name, value } = event.target;
 
-    if (name === 'bio') {
-      if (value.length > 120) {
-        return this.setState({ [name]: value.substring(0, 120) })
-      }
+    if (validateCharLimits.user({ [name]: value })) {
+      this.setState({ [name]: value })
     }
-
-    if (name === 'summary') {
-      if (value.length > 1000) {
-        return this.setState({ [name]: value.substring(0, 1000) })
-      }
-    }
-
-    this.setState({ [name]: value })
   };
 
   render() {
     const { classes } = this.props;
-    const { imgPreview, errors } = this.state;
+    const { imgPreview, loading, errors } = this.state;
+
+    // email is the best way of checking if the user data has loaded
+    if (!this.state.email) {
+      return <Loading />;
+    }
 
     const profilePic = this.state.imgPreview || '/img/user/default.jpg';
 
@@ -313,6 +348,40 @@ class Entrepreneur extends Component {
                 />
               </Grid>
 
+              {/* Address begins */}
+              <Grid item xs={12}>
+                <DropDown
+                  label="Country"
+                  name="country"
+                  value={this.state.country}
+                  options={countries}
+                  handleChange={this.handleChange}
+                  required
+                />
+              </Grid>
+              { this.state.country.includes('United States of America') && (
+                <Grid item xs={12}>
+                  <DropDown
+                    label="State"
+                    name="state"
+                    value={this.state.state}
+                    options={states}
+                    handleChange={this.handleChange}
+                  />
+                </Grid>
+              )}
+              <Grid item xs={12}>
+                <TextField
+                  label="City"
+                  name="city"
+                  margin="dense"
+                  fullWidth
+                  value={this.state.city}
+                  onChange={this.handleChange}
+                />
+              </Grid>
+
+
               {/* Summary */}
               <Grid item xs={12}>
                 <ContainedTextField
@@ -335,46 +404,90 @@ class Entrepreneur extends Component {
               </Grid>
               <Spacer />
 
-              {/* Address begins */}
+              {/* Social media */}
               <Grid item xs={12}>
                 <Typography variant="headline">
-                  Location
+                  Social media links
                 </Typography>
               </Grid>
-
-              {/* City */}
               <Grid item xs={12}>
-                <LocationForm
-                  city={this.state.city}
-                  changeState={this.changeState}
+                <TextField
+                  label="LinkedIn URL"
+                  name="linkedin"
+                  margin="dense"
+                  fullWidth
+                  value={this.state.linkedin}
+                  onChange={this.handleChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Icon className={classes.icon} aria-label="LinkedIn">
+                          <span className="fa fa-linkedin"></span>
+                        </Icon>
+                      </InputAdornment>
+                    )
+                  }}
                 />
               </Grid>
-
-              {/* State */}
-              { this.state.country.includes('United States of America') && (
-                <Grid item xs={12}>
-                  <DropDown
-                    label="State"
-                    name="state"
-                    value={this.state.state}
-                    options={states}
-                    handleChange={this.handleChange}
-                  />
-                </Grid>
-              )}
-
-              {/* Country */}
               <Grid item xs={12}>
-                <DropDown
-                  label="Country"
-                  name="country"
-                  value={this.state.country}
-                  options={countries}
-                  handleChange={this.handleChange}
-                  required
+                <TextField
+                  label="Twitter URL"
+                  name="twitter"
+                  margin="dense"
+                  fullWidth
+                  value={this.state.twitter}
+                  onChange={this.handleChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Icon className={classes.icon} aria-label="Twitter">
+                          <span className="fa fa-twitter"></span>
+                        </Icon>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Facebook URL"
+                  name="facebook"
+                  margin="dense"
+                  fullWidth
+                  value={this.state.facebook}
+                  onChange={this.handleChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Icon className={classes.icon} aria-label="Facebook">
+                          <span className="fa fa-facebook"></span>
+                        </Icon>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Instagram URL"
+                  name="instagram"
+                  margin="dense"
+                  fullWidth
+                  value={this.state.instagram}
+                  onChange={this.handleChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Icon className={classes.icon} aria-label="Instagram">
+                          <span className="fa fa-instagram"></span>
+                        </Icon>
+                      </InputAdornment>
+                    )
+                  }}
                 />
               </Grid>
               <Spacer />
+
 
               {/* Personal information begins */}
               <Grid item xs={12}>
@@ -518,14 +631,14 @@ class Entrepreneur extends Component {
 
               {/* Submit button */}
               <Grid container justify="flex-end">
-                <Button
-                  className={classes.submit}
+                <LoadingButton
                   variant="contained"
                   color="primary"
                   type="submit"
+                  loading={loading}
                 >
                   Update Profile
-                </Button>
+                </LoadingButton>
               </Grid>
               <Spacer />
 

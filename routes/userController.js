@@ -118,8 +118,14 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
     for (let k in paths) {
       const value = req.body[k];
 
+      if (k === 'twitter') {
+        console.log('69696969')
+      }
+
+      console.log(value)
+
       if (paths[k].instance === 'String') {
-        if (value) {
+        if (value || value === '') {
           user[k] = value;
         }
       }
@@ -137,6 +143,8 @@ router.post('/edit', isAuthenticated, upload.single('img'), (req, res) => {
         }
       }
     }
+
+    user.updatedAt = new Date();
 
     user.save()
     .then(user => res.json(user))
