@@ -495,7 +495,7 @@ class Entrepreneur extends Component {
                   Personal Data
                 </Typography>
                 <Typography className={classes.subtext} variant="body1">
-                  Your personal data is never displayed publicly.
+                  Your personal data is used when calculating your business's market score and is never shared publicly.
                 </Typography>
               </Grid>
 
@@ -557,7 +557,6 @@ class Entrepreneur extends Component {
                   value={this.state.education}
                   options={educations}
                   handleChange={this.handleChange}
-                  required
                 />
               </Grid>
 
@@ -569,7 +568,6 @@ class Entrepreneur extends Component {
                   value={this.state.ethnicity}
                   options={ethnicities}
                   handleChange={this.handleChange}
-                  required
                 />
               </Grid>
 
@@ -581,7 +579,6 @@ class Entrepreneur extends Component {
                   value={this.state.income}
                   options={incomes}
                   handleChange={this.handleChange}
-                  required
                 />
               </Grid>
 
@@ -593,7 +590,6 @@ class Entrepreneur extends Component {
                   value={this.state.maritalStatus}
                   options={maritalStatuses}
                   handleChange={this.handleChange}
-                  required
                 />
               </Grid>
 
@@ -605,7 +601,6 @@ class Entrepreneur extends Component {
                   value={this.state.children}
                   options={children}
                   handleChange={this.handleChange}
-                  required
                 />
               </Grid>
               <Spacer />

@@ -29,7 +29,9 @@ class DropDown extends Component {
             id: name,
           }}
         >
-          <option value="" disabled>None</option>
+          {this.props.required && (
+            <option value="" disabled>None</option>
+          )}
           {options.map((el, i) => (
             <option value={el} key={i}>
               {el}

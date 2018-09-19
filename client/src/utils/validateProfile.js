@@ -27,6 +27,16 @@ const validateProfile = (user, returnBool = true) => {
     errors.push("Last name is not between 1 and 40 characters.")
   }
 
+  if (!user.country
+    || !countries.includes(user.country)) {
+    errors.push("Invalid country")
+  }
+
+  if (!user.state
+    || !states.includes(user.state)) {
+    errors.push("Invalid state")
+  }
+
   if (!user.gender
     || !genders.includes(user.gender)) {
     errors.push("Invalid gender")
@@ -59,37 +69,27 @@ const validateProfile = (user, returnBool = true) => {
 
   if (!user.education
     || !educations.includes(user.education)) {
-    errors.push("Invalid education")
+    // errors.push("Invalid education")
   }
 
   if (!user.ethnicity
     || !ethnicities.includes(user.ethnicity)) {
-    errors.push("Invalid race/ethnicity")
-  }
-
-  if (!user.country
-    || !countries.includes(user.country)) {
-    errors.push("Invalid country")
-  }
-
-  if (!user.state
-    || !states.includes(user.state)) {
-    errors.push("Invalid state")
+    // errors.push("Invalid race/ethnicity")
   }
 
   if (!user.income
     || !incomes.includes(user.income)) {
-    errors.push("Invalid income level")
+    // errors.push("Invalid income level")
   }
 
   if (!user.maritalStatus
     || !maritalStatuses.includes(user.maritalStatus)) {
-    errors.push("Invalid marital status")
+    // errors.push("Invalid marital status")
   }
 
   if (!user.children
     || !children.includes(user.children)) {
-    errors.push("Invalid children selections")
+    // errors.push("Invalid children selections")
   }
 
   // if (!Number(user.zip) || user.zip.indexOf('e') >= 0) {
