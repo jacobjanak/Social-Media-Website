@@ -237,7 +237,7 @@ class Entrepreneur extends Component {
   handleChange = event => {
     const { name, value } = event.target;
 
-    if (validateCharLimits.user({ [name]: value })) {
+    if (validateCharLimits.user({ [name]: value }).length === 0) {
       this.setState({ [name]: value })
     }
   };
@@ -343,6 +343,7 @@ class Entrepreneur extends Component {
                   margin="dense"
                   fullWidth
                   multiline
+                  required
                   value={this.state.bio}
                   onChange={this.handleChange}
                 />
@@ -505,7 +506,6 @@ class Entrepreneur extends Component {
                   className={classes.formControl}
                   component="fieldset"
                   margin="normal"
-                  required
                   style={{ marginBottom: 0 }}
                 >
                   <FormLabel component="legend" style={{ fontSize: '0.75em' }}>
@@ -515,18 +515,22 @@ class Entrepreneur extends Component {
                     className={classes.group}
                     aria-label="Gender"
                     name="gender"
-                    required
                     value={this.state.gender}
                     onChange={this.handleChange}
                   >
                     { genders.map((gender, i) => (
                       <FormControlLabel
                         value={gender}
-                        control={<Radio required />}
+                        control={<Radio />}
                         label={gender}
                         key={i}
                       />
                     ))}
+                    <FormControlLabel
+                      value=""
+                      control={<Radio />}
+                      label="Unspecified"
+                    />
                   </RadioGroup>
                 </FormControl>
               </Grid>
@@ -538,7 +542,6 @@ class Entrepreneur extends Component {
                   name="birthday"
                   type="date"
                   margin="dense"
-                  required
                   value={this.state.birthday}
                   onChange={this.handleChange}
                   InputLabelProps={{ shrink: true }}

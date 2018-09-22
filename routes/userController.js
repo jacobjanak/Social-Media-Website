@@ -79,7 +79,7 @@ router.post('/login', (req, res) => {
             lastName: user.lastName,
             img: user.img
           }, process.env.SECRET, {
-            expiresIn: 12960000
+            expiresIn: 1296000000
           });
 
           res.json({
