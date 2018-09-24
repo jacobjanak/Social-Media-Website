@@ -24,7 +24,7 @@ const API = {
   createBusiness: business => axios.post('/business/create', toFormData(business), { 'Content-Type': 'multipart/form-data' }),
   editBusiness: business => axios.post('/business/edit', toFormData(business), { 'Content-Type': 'multipart/form-data' }),
   getBusiness: key => axios.get('/business/' + key),
-  getBusinesses: (user = '') => axios.get('/business/' + user),
+  getBusinesses: (user = '') => axios.get('/business/user/' + user),
   resendConfirmation: email => axios.post('/email/confirm', { email }),
   confirmEmail: key => axios.post('/user/confirm', { key }),
   resetPassword: email => axios.post('/email/reset-password', { email }),

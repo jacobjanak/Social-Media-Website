@@ -236,7 +236,9 @@ class SignUp extends Component {
                 type="submit"
                 color="primary"
                 loading={loading}
-              />
+              >
+                Sign Up
+              </LoadingButton>
               <Button
                 className={classes.button + ' ' + classes.link}
                 component={Link}

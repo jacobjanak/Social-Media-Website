@@ -10,6 +10,7 @@ import ForumIcon from '@material-ui/icons/ForumOutlined';
 import StoreIcon from '@material-ui/icons/StoreOutlined';
 import Background from './Background';
 import CallToAction from './CallToAction';
+import Subscribe from './Subscribe';
 import TeamMembers from './TeamMembers';
 import NavBar from './NavBar';
 import Footer from './Footer';
@@ -282,7 +283,13 @@ class Home extends Component {
         </Grid>
         <Spacer />
 
-        {/* Third page starts */}
+        {/* Second 'page', subscribe to newsletter, starts */}
+        <Grid container justify="center">
+          <Subscribe />
+        </Grid>
+        <Spacer />
+
+        {/* Third 'page' starts */}
         <Grid container justify="center">
           <Grid item xs={12}>
             <Typography

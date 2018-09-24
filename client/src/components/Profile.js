@@ -28,6 +28,12 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SchoolIcon from '@material-ui/icons/School';
 
 const styles = theme => ({
+  root: {
+    width: 600,
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+  },
   loading: {
     marginTop: 8 * theme.spacing.unit,
   },
@@ -36,10 +42,6 @@ const styles = theme => ({
     paddingLeft: 8 * theme.spacing.unit,
     paddingRight: 8 * theme.spacing.unit,
     paddingBottom: 4 * theme.spacing.unit,
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: 4 * theme.spacing.unit,
-      paddingRight: 4 * theme.spacing.unit,
-    },
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       paddingLeft: '5%',
@@ -77,9 +79,6 @@ const styles = theme => ({
   },
   actionButton: {
     marginBottom: 2 * theme.spacing.unit,
-    [theme.breakpoints.up('md')]: {
-      // width: '100%',
-    },
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
@@ -162,7 +161,7 @@ class Profile extends Component {
 
     return (
       <React.Fragment>
-        <Grid item xs={12} sm={10} md={7} lg={6}>
+        <div className={classes.root}>
           <Paper className={classes.paper}>
 
             {/* Header */}
@@ -317,7 +316,7 @@ class Profile extends Component {
           <Hidden xsDown>
             <Spacer />
           </Hidden>
-        </Grid>
+        </div>
         <Footer />
       </React.Fragment>
     )

@@ -6,18 +6,21 @@ const upload = require('../utils/upload');
 const isAuthenticated = exjwt({ secret: process.env.SECRET });
 
 // get all businesses associated with the logged in user
-router.get('/', isAuthenticated, (req, res) => {
+router.get('/user/', isAuthenticated, (req, res) => {
   db.Business.find({ owner: req.user.id })
   .then(businesses => res.json(businesses || []))
   .catch(err => res.status(404).json({ err: err, message: "Unable to retrieve businesses" }))
 })
 
-router.get('/:userId', (req, res) => {
+// get all businesses associated with a particular user
+router.get('/user/:userId', (req, res) => {
+  console.log('hi')
   db.Business.find({ owner: req.params.userId })
   .then(businesses => res.json(businesses || []))
   .catch(err => res.status(404).json({ err: err, message: "Unable to retrieve businesses" }))
 })
 
+// get business by key - must be after all other GET requests
 router.get('/:key', (req, res) => {
   db.Business.findOne({ url: req.params.key })
   .then(data => {
@@ -84,11 +87,9 @@ router.post('/edit', isAuthenticated, upload.single('logo'), (req, res) => {
     if (!business) {
       return res.status(404).json({ message: "Business not found" })
     }
-
     const paths = db.Business.schema.paths;
     for (let k in paths) {
       const value = req.body[k];
-
       if (paths[k].instance === 'String') {
         if (value) {
           business[k] = value;
@@ -106,7 +107,6 @@ router.post('/edit', isAuthenticated, upload.single('logo'), (req, res) => {
         }
       }
     }
-
     return business.save();
   })
   .then(business => res.json(business))

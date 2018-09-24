@@ -194,7 +194,7 @@ class Dashboard extends Component {
                 className={classes.grow}
                 variant={businesses.length > 0 ? 'headline' : 'display1'}
                 color="textPrimary"
-                align={businesses.length > 0 ? 'default' : 'center'}
+                align={businesses.length > 0 ? 'inherit' : 'center'}
                 gutterBottom
               >
                 Your Businesses

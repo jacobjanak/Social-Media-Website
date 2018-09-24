@@ -57,7 +57,7 @@ const styles = theme => ({
   },
   search: {
     marginRight: 2 * theme.spacing.unit,
-    borderBottom: '1px solid rgba(255, 255, 254, 1)',
+    borderBottom: '1px solid rgba(255, 255, 255, 1)',
     color: 'white',
     transition: '0.25s',
   },
